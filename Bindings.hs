@@ -30,9 +30,9 @@ centeringMarks :: [Element]
 centeringMarks = concatMap (mark 12) [30, 40 .. 70] ++
                  concatMap (mark  8) [35, 45 .. 65] ++
                  concatMap (mark  4) [30 .. 70] ++
-                 concat [ line (0, y) (12, y) | y <- [30, 40 .. 200] ] ++
-                 concat [ line (0, y) ( 8, y) | y <- [35, 45 .. 195] ] ++
-                 concat [ line (0, y) ( 4, y) | y <- [30     .. 200] ]
+                 concat [ line (0, y) (12, y) | y <- [30, 40 .. 140] ] ++
+                 concat [ line (0, y) ( 8, y) | y <- [35, 45 .. 135] ] ++
+                 concat [ line (0, y) ( 4, y) | y <- [30     .. 140] ]
   where
   mark h x = concat
     [ line (pageCenter - x, 0) (pageCenter - x, h)
@@ -49,7 +49,8 @@ base2 = 270
 
 toePiece :: Double -> [Element]
 toePiece bsl = concat
-  [ target (pageCenter - (42 / 2), base - 41.5)
+  [ text (10, base1 - 20) $ "Pivot BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
+  , target (pageCenter - (42 / 2), base - 41.5)
   , target (pageCenter + (42 / 2), base - 41.5)
   , target (pageCenter - (35 / 2), base)
   , target (pageCenter + (35 / 2), base)
@@ -59,7 +60,8 @@ toePiece bsl = concat
 
 heelPiece :: Double -> [Element]
 heelPiece bsl = concat
-  [ target (pageCenter - (21 / 2), base)
+  [ text (10, base2 + 20) $ "Pivot BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
+  , target (pageCenter - (21 / 2), base)
   , target (pageCenter + (21 / 2), base)
   , target (pageCenter - (29 / 2), base + 32)
   , target (pageCenter + (29 / 2), base + 32)
@@ -100,9 +102,13 @@ line a b = [Line a b]
 circle :: (Double, Double) -> Double -> [Element]
 circle a b = [Circle a b]
 
+text :: (Double, Double) -> String -> [Element]
+text a b = [Text a b]
+
 data Element
   = Line (Double, Double) (Double, Double)  -- ^ (x1, y1) (x2, y2)
   | Circle (Double, Double) Double          -- ^ (x, y) r
+  | Text (Double, Double) String
 
 render :: Element -> String
 render = \case
@@ -120,6 +126,14 @@ render = \case
     , ("r", show r)
     , ("style", "fill:none;stroke:#000000;stroke-width:0.1;")
     ]
+
+  Text (x, y) msg -> xml True "text"
+    [ ("x", show x)
+    , ("y", show y)
+    , ("font-family", "Arial")
+    , ("fill", "black")
+    , ("font-size", "8")
+    ] ++ msg ++ "</text>"
 
 xml :: Bool -> String -> [(String, String)] -> String
 xml open element attributes =
