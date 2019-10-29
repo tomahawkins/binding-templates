@@ -25,28 +25,28 @@ bindings are supported.
 
 # Templates for a Given BSL
 
-**Look Pivot**:
+**Look Pivot** (choose your BSL):
 
-- [BSL 240](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_240.svg)
-- [BSL 241](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_241.svg)
-- [BSL 242](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_242.svg)
-- [BSL 243](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_243.svg)
-- [BSL 244](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_244.svg)
-- [BSL 245](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_245.svg)
-- [BSL 246](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_246.svg)
-- [BSL 247](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_247.svg)
-- [BSL 248](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_248.svg)
-- [BSL 249](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_249.svg)
-- [BSL 250](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_250.svg)
-- [BSL 251](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_251.svg)
-- [BSL 252](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_252.svg)
-- [BSL 253](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_253.svg)
-- [BSL 254](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_254.svg)
-- [BSL 255](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_255.svg)
-- [BSL 256](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_256.svg)
-- [BSL 257](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_257.svg)
-- [BSL 258](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_258.svg)
-- [BSL 259](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_259.svg)
+- [240](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_240.svg)
+  [241](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_241.svg)
+  [242](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_242.svg)
+  [243](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_243.svg)
+  [244](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_244.svg)
+  [245](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_245.svg)
+  [246](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_246.svg)
+  [247](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_247.svg)
+  [248](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_248.svg)
+  [249](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_249.svg)
+- [250](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_250.svg)
+  [251](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_251.svg)
+  [252](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_252.svg)
+  [253](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_253.svg)
+  [254](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_254.svg)
+  [255](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_255.svg)
+  [256](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_256.svg)
+  [257](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_257.svg)
+  [258](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_258.svg)
+  [259](https://github.com/tomahawkins/binding-templates/blob/master/pivot/pivot_bsl_259.svg)
 
 # Links
 
