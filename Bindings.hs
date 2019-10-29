@@ -1,22 +1,44 @@
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Main (main) where
 
-import Control.Monad (forM_)
-
 main :: IO ()
-main = forM_ [240 .. 360 :: Int] $ \ bsl ->
-  writeFile ("pivot/pivot_bsl_" ++ show bsl ++ ".svg") $ svg $ pivot $ fromIntegral bsl
+main = flip mapM_ [240 .. 360 :: Int] $ \ bsl ->
+  writeFile ("pivot/pivot_bsl_" ++ show bsl ++ ".svg") $ svg $ template pivot $ fromIntegral bsl
 
-pivot :: Double -> [Element]
-pivot bsl = concat
+-- | Bindings spec.
+data Bindings = Bindings { toePiece, heelPiece :: Piece }
+
+data Piece = Piece
+  { innerHoles :: (Double, Double -> Double)
+    -- ^ (Width of inner holes, distance from midsole given BSL)
+  , outerHoles :: (Double, Double)
+    -- ^ (Width of outer holes, distance from inner holes)
+  }
+
+-- | Pivot bindings spec.
+pivot :: Bindings
+pivot = Bindings
+  { toePiece = Piece
+    { innerHoles = (35, \ bsl -> (bsl - 240) / 2 + 106.5)
+    , outerHoles = (42, 41.5)
+    }
+  , heelPiece = Piece
+    { innerHoles = (21, \ bsl -> (bsl - 240) / 2 + 38.5)
+    , outerHoles = (29, 32)
+    }
+  }
+
+-- | Generate a template from a bindings spec and BSL.
+template :: Bindings -> Double -> Elements
+template bindings bsl = mconcat
   [ centerLines
   , centeringMarks
-  , toePiece bsl
-  , heelPiece bsl
+  , toePiece' (toePiece bindings) bsl
+  , heelPiece' (heelPiece bindings) bsl
   ]
 
-centerLines :: [Element]
-centerLines = concat
+centerLines :: Elements
+centerLines = mconcat
   [ line (pageCenter, 0) (pageCenter, pageHeight)
   , line (10, base1) (pageWidth - 10, base1)
   , crosshairs (10,  base1)
@@ -26,15 +48,17 @@ centerLines = concat
   , crosshairs (pageWidth - 10, base2)
   ]
 
-centeringMarks :: [Element]
-centeringMarks = concatMap (mark 12) [30, 40 .. 70] ++
-                 concatMap (mark  8) [35, 45 .. 65] ++
-                 concatMap (mark  4) [30 .. 70] ++
-                 concat [ line (0, y) (12, y) | y <- [30, 40 .. 140] ] ++
-                 concat [ line (0, y) ( 8, y) | y <- [35, 45 .. 135] ] ++
-                 concat [ line (0, y) ( 4, y) | y <- [30     .. 140] ]
+centeringMarks :: Elements
+centeringMarks = mconcat
+  [ mconcat $ map (mark 12) [30, 40 .. 70]
+  , mconcat $ map (mark  8) [35, 45 .. 65]
+  , mconcat $ map (mark  4) [30 .. 70]
+  , mconcat [ line (0, y) (12, y) | y <- [30, 40 .. 140] ]
+  , mconcat [ line (0, y) ( 8, y) | y <- [35, 45 .. 135] ]
+  , mconcat [ line (0, y) ( 4, y) | y <- [30     .. 140] ]
+  ]
   where
-  mark h x = concat
+  mark h x = mconcat
     [ line (pageCenter - x, 0) (pageCenter - x, h)
     , line (pageCenter + x, 0) (pageCenter + x, h)
     , line (pageCenter - x, pageHeight) (pageCenter - x, pageHeight - h)
@@ -47,44 +71,53 @@ pageCenter = pageWidth / 2
 base1 = 250
 base2 = 270
 
-toePiece :: Double -> [Element]
-toePiece bsl = concat
-  [ text (10, base1 - 20) $ "Pivot BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
-  , target (pageCenter - (42 / 2), base - 41.5)
-  , target (pageCenter + (42 / 2), base - 41.5)
-  , target (pageCenter - (35 / 2), base)
-  , target (pageCenter + (35 / 2), base)
+toePiece' :: Piece -> Double -> Elements
+toePiece' piece bsl = mconcat
+  [ text (10, base1 - 20) $ "BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
+  , target (pageCenter - (outerX / 2), base - outerY)
+  , target (pageCenter + (outerX / 2), base - outerY)
+  , target (pageCenter - (innerX / 2), base)
+  , target (pageCenter + (innerX / 2), base)
   ]
   where
-  base = base1 - ((bsl - 240) / 2 + 106.5)
+  base = base1 - innerY bsl
+  (innerX, innerY) = innerHoles piece
+  (outerX, outerY) = outerHoles piece
 
-heelPiece :: Double -> [Element]
-heelPiece bsl = concat
-  [ text (10, base2 + 20) $ "Pivot BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
-  , target (pageCenter - (21 / 2), base)
-  , target (pageCenter + (21 / 2), base)
-  , target (pageCenter - (29 / 2), base + 32)
-  , target (pageCenter + (29 / 2), base + 32)
+heelPiece' :: Piece -> Double -> Elements
+heelPiece' piece bsl = mconcat
+  [ text (10, base2 + 20) $ "BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
+  , target (pageCenter - (innerX / 2), base)
+  , target (pageCenter + (innerX / 2), base)
+  , target (pageCenter - (outerX / 2), base + outerY)
+  , target (pageCenter + (outerX / 2), base + outerY)
   ]
   where
-  base = base2 + ((bsl - 240) / 2 + 38.5)
+  base = base2 + innerY bsl
+  (innerX, innerY) = innerHoles piece
+  (outerX, outerY) = outerHoles piece
 
-target :: (Double, Double) -> [Element]
-target (x, y) = circle (x, y) 2.5 ++ crosshairs (x, y)
+target :: (Double, Double) -> Elements
+target (x, y) = circle (x, y) 2.5 <> crosshairs (x, y)
 
-crosshairs :: (Double, Double) -> [Element]
-crosshairs (x, y) = concat
+crosshairs :: (Double, Double) -> Elements
+crosshairs (x, y) = mconcat
   [ line (x - 5, y) (x + 5, y)
   , line (x, y - 5) (x, y + 5)
   ]
 
 
-svg :: [Element] -> String
-svg elements = unlines $
+
+-- | SVG support.
+
+newtype Elements = Elements [String] deriving (Semigroup, Monoid)
+
+svg :: Elements -> String
+svg (Elements elements) = unlines $
   [ "<?xml version=\"1.0\"?>"
   , "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\""
   , "\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">"
-  , xml True "svg"
+  , tag True "svg"
     [ ("xmlns", "http://www.w3.org/2000/svg")
     , ("version", "1.2")
     , ("width", show pageWidth ++ "mm")
@@ -92,51 +125,44 @@ svg elements = unlines $
     , ("viewBox", "0 0 " ++ show pageWidth ++ " " ++ show pageHeight)
     ]
   ] ++
-  map (("  " ++) . render) elements ++
+  map ("  " ++) elements ++
   [ "</svg>"
   ]
 
-line :: (Double, Double) -> (Double, Double) -> [Element]
-line a b = [Line a b]
-
-circle :: (Double, Double) -> Double -> [Element]
-circle a b = [Circle a b]
-
-text :: (Double, Double) -> String -> [Element]
-text a b = [Text a b]
-
-data Element
-  = Line (Double, Double) (Double, Double)  -- ^ (x1, y1) (x2, y2)
-  | Circle (Double, Double) Double          -- ^ (x, y) r
-  | Text (Double, Double) String
-
-render :: Element -> String
-render = \case
-  Line (x1, y1) (x2, y2) -> xml False "line"
+line :: (Double, Double) -> (Double, Double) -> Elements
+line (x1, y1) (x2, y2) = Elements
+  [ tag False "line"
     [ ("x1", show x1)
     , ("y1", show y1)
     , ("x2", show x2)
     , ("y2", show y2)
     , ("style", "stroke:#000000;stroke-width:0.1;")
     ]
+  ]
 
-  Circle (cx, cy) r -> xml False "circle"
+circle :: (Double, Double) -> Double -> Elements
+circle (cx, cy) r = Elements
+  [ tag False "circle"
     [ ("cx", show cx)
     , ("cy", show cy)
     , ("r", show r)
     , ("style", "fill:none;stroke:#000000;stroke-width:0.1;")
     ]
+  ]
 
-  Text (x, y) msg -> xml True "text"
+text :: (Double, Double) -> String -> Elements
+text (x, y) msg = Elements
+  [ tag True "text"
     [ ("x", show x)
     , ("y", show y)
     , ("font-family", "Arial")
     , ("fill", "black")
-    , ("font-size", "8")
+    , ("font-size", "6")
     ] ++ msg ++ "</text>"
+  ]
 
-xml :: Bool -> String -> [(String, String)] -> String
-xml open element attributes =
+tag :: Bool -> String -> [(String, String)] -> String
+tag open element attributes =
   "<" ++ element ++
   concat [ " " ++ name ++ "=" ++ show value | (name, value) <- attributes ] ++
   (if open then " >" else " />")

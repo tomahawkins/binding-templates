@@ -347,7 +347,7 @@
   <line x1="0.0" y1="138.0" x2="4.0" y2="138.0" style="stroke:#000000;stroke-width:0.1;" />
   <line x1="0.0" y1="139.0" x2="4.0" y2="139.0" style="stroke:#000000;stroke-width:0.1;" />
   <line x1="0.0" y1="140.0" x2="4.0" y2="140.0" style="stroke:#000000;stroke-width:0.1;" />
-  <text x="10.0" y="230.0" font-family="Arial" fill="black" font-size="8" >Pivot BSL: 282 mm</text>
+  <text x="10.0" y="230.0" font-family="Arial" fill="black" font-size="6" >BSL: 282 mm</text>
   <circle cx="69.0" cy="81.0" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
   <line x1="64.0" y1="81.0" x2="74.0" y2="81.0" style="stroke:#000000;stroke-width:0.1;" />
   <line x1="69.0" y1="76.0" x2="69.0" y2="86.0" style="stroke:#000000;stroke-width:0.1;" />
@@ -360,7 +360,7 @@
   <circle cx="107.5" cy="122.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
   <line x1="102.5" y1="122.5" x2="112.5" y2="122.5" style="stroke:#000000;stroke-width:0.1;" />
   <line x1="107.5" y1="117.5" x2="107.5" y2="127.5" style="stroke:#000000;stroke-width:0.1;" />
-  <text x="10.0" y="290.0" font-family="Arial" fill="black" font-size="8" >Pivot BSL: 282 mm</text>
+  <text x="10.0" y="290.0" font-family="Arial" fill="black" font-size="6" >BSL: 282 mm</text>
   <circle cx="79.5" cy="329.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
   <line x1="74.5" y1="329.5" x2="84.5" y2="329.5" style="stroke:#000000;stroke-width:0.1;" />
   <line x1="79.5" y1="324.5" x2="79.5" y2="334.5" style="stroke:#000000;stroke-width:0.1;" />
