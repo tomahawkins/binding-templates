@@ -151,6 +151,7 @@ bindings are supported.
 
 # Links
 
-- [TGR forum thread on binding templates](https://www.tetongravity.com/forums/showthread.php/153971-Binding-Mount-Paper-Templates)
+- [TGR thread on binding templates](https://www.tetongravity.com/forums/showthread.php/153971-Binding-Mount-Paper-Templates)
 - https://www.bindingfreedom.com/paper-tempaltes/
+- [TGR thread on mounting methods and pullout strength](https://www.tetongravity.com/forums/archive/index.php/t-216051.html)
 
