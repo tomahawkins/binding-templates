@@ -1,6 +1,6 @@
 # Binding Templates
 
-This is a little Haskell program to generate ski binding
+This is a Haskell program to generate ski binding
 mounting templates in SVG given a boot sole length (BSL).
 Currently [Look Pivot](http://www.look-bindings.com/en-ca/products/bindings/open/allmountain-free-expert)
 bindings are supported.
@@ -8,22 +8,30 @@ bindings are supported.
 **USE AT YOUR OWN RISK**
 
 
-# How to Use
+# Instructions
 
-1. Print the desired template.  Using a caliper, check that 
-   the print scaling is correct.  Measurement marks are in millimeters.
-2. Join the two sheets of the template together by aligning the
+1. Print the template that matches your BSL.
+   Verify the correct print scaling.
+   Measurement marks are in millimeters.
+2. Join the two template sheets together by aligning the
    horizontal midsole marks.  It helps to cut out the center of
-   the two crosshairs on one of the pages.
-3. Place the template on the ski, aligning the midsole mark with the
-   center mark on the ski and center the template by using the
-   edge measurement marks on each end.  It helps to trim up to
-   the edge measurement marks and to cut holes for the ski center marks.
-4. With the template aligned and taped to the ski, mark the
+   the two crosshairs on one page.
+3. Using masking tape, mark the desired midsole locations
+   on both skis.  Put the skis together to verify 
+   the midsole mark is the same.
+4. Place two pieces of masking tape on the middle of each ski
+   at the approximate locations of the paper edge of the template.
+   Using a marking gauage or calipers, mark the centerline
+   of the ski on the masking tape.
+5. Place the template on the ski, aligning the midsole marks
+   and the centerline.
+   It helps to cut two holes on the midsole line so you can 
+   see the midsole line on the ski through the template.
+6. With the template aligned and taped to the ski, mark the
    holes for drilling with a centerpunch.
 
 
-# Templates for a Given BSL
+# Templates
 
 **Look Pivot** (choose your BSL):
 
