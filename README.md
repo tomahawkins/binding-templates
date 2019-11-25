@@ -21,7 +21,7 @@ bindings are supported.
    the midsole mark is the same.
 4. Place two pieces of masking tape on the middle of each ski
    at the approximate locations of the paper edge of the template.
-   Using a marking gauage or calipers, mark the centerline
+   Using a marking gauge or calipers, mark the centerline
    of the ski on the masking tape.
 5. Place the template on the ski, aligning the midsole marks
    and the centerline.
