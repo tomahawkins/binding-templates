@@ -7,51 +7,33 @@ main = flip mapM_ [240 .. 360 :: Int] $ \ bsl ->
     template pivot (fromIntegral bsl)
     -- <> template pivot2 (fromIntegral bsl)
 
--- | Bindings spec.
-data Bindings = Bindings { toePiece, heelPiece :: Piece }
-
-data Piece = Piece
-  { innerHoles :: (Double, Double -> Double)
-    -- ^ (Width of inner holes, distance from midsole given BSL)
-  , outerHoles :: (Double, Double)
-    -- ^ (Width of outer holes, distance from inner holes)
-  }
+-- | A binding spec is a list of holes given a BSL.
+newtype Bindings = Bindings (Double -> [(Double, Double)])
 
 -- | Pivot bindings spec.
 pivot :: Bindings
-pivot = Bindings
-  { toePiece = Piece
-    { innerHoles = (35, \ bsl -> bsl / 2 - 16.5)   -- Orig: (bsl - 240) / 2 + 106.5
-    , outerHoles = (42, 41.5)
-    }
-  , heelPiece = Piece
-    { innerHoles = (21, \ bsl -> (bsl - 240) / 2 + 38)  -- Orig: 38.5
-    , outerHoles = (29, 32)
-    }
-  }
+pivot = Bindings $ \ bsl -> symetric
+  [ (35 / 2, bsl / 2 - 16.5)
+  , (42 / 2, bsl / 2 - 16.5 + 41.5)
+  , (21 / 2, -((bsl - 240) / 2 + 38))
+  , (29 / 2, -((bsl - 240) / 2 + 38 + 32))
+  ]
 
-{-
-pivot2 :: Bindings
-pivot2 = Bindings
-  { toePiece = Piece
-    { innerHoles = (35, \ bsl -> bsl / 2 - 16.5)   -- Orig: (bsl - 240) / 2 + 106.5
-    , outerHoles = (42, 41.5)
-    }
-  , heelPiece = Piece
-    { innerHoles = (21, \ bsl -> bsl / 2 - 82) -- Orig: (bsl - 240) / 2 + 38.5)
-    , outerHoles = (29, 32)
-    }
-  }
--}
+symetric :: [(Double, Double)] -> [(Double, Double)]
+symetric = concatMap $ \ (x, y) -> [(x, y), (-x, y)]
 
 -- | Generate a template from a bindings spec and BSL.
 template :: Bindings -> Double -> Elements
-template bindings bsl = mconcat
+template (Bindings holes) bsl = mconcat $
   [ centerLines
   , centeringMarks
-  , piece (base1 -) (toePiece bindings) bsl
-  , piece (base2 +) (heelPiece bindings) bsl
-  ]
+  , text (40, base1 - 40) $ "BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
+  , text (40, base2 + 40) $ "BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
+  ] ++ map hole (holes bsl)
+  where
+  hole (x, y)
+    | y >= 0    = target (pageCenter + x, base1 - y) 
+    | otherwise = target (pageCenter + x, base2 - y)
 
 centerLines :: Elements
 centerLines = mconcat
@@ -89,21 +71,6 @@ pageHeight = 510
 pageCenter = pageWidth / 2
 base1 = 250
 base2 = 270
-
-piece :: (Double -> Double) -> Piece -> Double -> Elements
-piece offset piece bsl = mconcat
-  [ text (40, offset 40) $ "BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
-  , target (pageCenter - (outerX / 2), offset outerYFromMS)
-  , target (pageCenter + (outerX / 2), offset outerYFromMS)
-  , target (pageCenter - (innerX / 2), offset innerYFromMS)
-  , target (pageCenter + (innerX / 2), offset innerYFromMS)
-  ]
-  where
-  innerYFromMS = innerY bsl
-  outerYFromMS = innerYFromMS + outerY
-
-  (innerX, innerY) = innerHoles piece
-  (outerX, outerY) = outerHoles piece
 
 target :: (Double, Double) -> Elements
 target (x, y) = circle (x, y) 2.5 <> crosshairs (x, y)

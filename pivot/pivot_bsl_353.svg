@@ -938,29 +938,29 @@
   <line x1="0.0" y1="569.0" x2="4.0" y2="569.0" style="stroke:#000000;stroke-width:0.1;" />
   <line x1="0.0" y1="570.0" x2="4.0" y2="570.0" style="stroke:#000000;stroke-width:0.1;" />
   <text x="40.0" y="210.0" font-family="Arial" fill="black" font-size="6" >BSL: 353 mm</text>
-  <circle cx="69.0" cy="48.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
-  <line x1="64.0" y1="48.5" x2="74.0" y2="48.5" style="stroke:#000000;stroke-width:0.1;" />
-  <line x1="69.0" y1="43.5" x2="69.0" y2="53.5" style="stroke:#000000;stroke-width:0.1;" />
-  <circle cx="111.0" cy="48.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
-  <line x1="106.0" y1="48.5" x2="116.0" y2="48.5" style="stroke:#000000;stroke-width:0.1;" />
-  <line x1="111.0" y1="43.5" x2="111.0" y2="53.5" style="stroke:#000000;stroke-width:0.1;" />
-  <circle cx="72.5" cy="90.0" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
-  <line x1="67.5" y1="90.0" x2="77.5" y2="90.0" style="stroke:#000000;stroke-width:0.1;" />
-  <line x1="72.5" y1="85.0" x2="72.5" y2="95.0" style="stroke:#000000;stroke-width:0.1;" />
+  <text x="40.0" y="310.0" font-family="Arial" fill="black" font-size="6" >BSL: 353 mm</text>
   <circle cx="107.5" cy="90.0" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
   <line x1="102.5" y1="90.0" x2="112.5" y2="90.0" style="stroke:#000000;stroke-width:0.1;" />
   <line x1="107.5" y1="85.0" x2="107.5" y2="95.0" style="stroke:#000000;stroke-width:0.1;" />
-  <text x="40.0" y="310.0" font-family="Arial" fill="black" font-size="6" >BSL: 353 mm</text>
-  <circle cx="75.5" cy="396.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
-  <line x1="70.5" y1="396.5" x2="80.5" y2="396.5" style="stroke:#000000;stroke-width:0.1;" />
-  <line x1="75.5" y1="391.5" x2="75.5" y2="401.5" style="stroke:#000000;stroke-width:0.1;" />
-  <circle cx="104.5" cy="396.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
-  <line x1="99.5" y1="396.5" x2="109.5" y2="396.5" style="stroke:#000000;stroke-width:0.1;" />
-  <line x1="104.5" y1="391.5" x2="104.5" y2="401.5" style="stroke:#000000;stroke-width:0.1;" />
-  <circle cx="79.5" cy="364.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
-  <line x1="74.5" y1="364.5" x2="84.5" y2="364.5" style="stroke:#000000;stroke-width:0.1;" />
-  <line x1="79.5" y1="359.5" x2="79.5" y2="369.5" style="stroke:#000000;stroke-width:0.1;" />
+  <circle cx="72.5" cy="90.0" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
+  <line x1="67.5" y1="90.0" x2="77.5" y2="90.0" style="stroke:#000000;stroke-width:0.1;" />
+  <line x1="72.5" y1="85.0" x2="72.5" y2="95.0" style="stroke:#000000;stroke-width:0.1;" />
+  <circle cx="111.0" cy="48.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
+  <line x1="106.0" y1="48.5" x2="116.0" y2="48.5" style="stroke:#000000;stroke-width:0.1;" />
+  <line x1="111.0" y1="43.5" x2="111.0" y2="53.5" style="stroke:#000000;stroke-width:0.1;" />
+  <circle cx="69.0" cy="48.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
+  <line x1="64.0" y1="48.5" x2="74.0" y2="48.5" style="stroke:#000000;stroke-width:0.1;" />
+  <line x1="69.0" y1="43.5" x2="69.0" y2="53.5" style="stroke:#000000;stroke-width:0.1;" />
   <circle cx="100.5" cy="364.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
   <line x1="95.5" y1="364.5" x2="105.5" y2="364.5" style="stroke:#000000;stroke-width:0.1;" />
   <line x1="100.5" y1="359.5" x2="100.5" y2="369.5" style="stroke:#000000;stroke-width:0.1;" />
+  <circle cx="79.5" cy="364.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
+  <line x1="74.5" y1="364.5" x2="84.5" y2="364.5" style="stroke:#000000;stroke-width:0.1;" />
+  <line x1="79.5" y1="359.5" x2="79.5" y2="369.5" style="stroke:#000000;stroke-width:0.1;" />
+  <circle cx="104.5" cy="396.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
+  <line x1="99.5" y1="396.5" x2="109.5" y2="396.5" style="stroke:#000000;stroke-width:0.1;" />
+  <line x1="104.5" y1="391.5" x2="104.5" y2="401.5" style="stroke:#000000;stroke-width:0.1;" />
+  <circle cx="75.5" cy="396.5" r="2.5" style="fill:none;stroke:#000000;stroke-width:0.1;" />
+  <line x1="70.5" y1="396.5" x2="80.5" y2="396.5" style="stroke:#000000;stroke-width:0.1;" />
+  <line x1="75.5" y1="391.5" x2="75.5" y2="401.5" style="stroke:#000000;stroke-width:0.1;" />
 </svg>
