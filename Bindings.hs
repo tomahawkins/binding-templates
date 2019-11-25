@@ -3,7 +3,9 @@ module Main (main) where
 
 main :: IO ()
 main = flip mapM_ [240 .. 360 :: Int] $ \ bsl ->
-  writeFile ("pivot/pivot_bsl_" ++ show bsl ++ ".svg") $ svg $ template pivot $ fromIntegral bsl
+  writeFile ("pivot/pivot_bsl_" ++ show bsl ++ ".svg") $ svg $
+    template pivot (fromIntegral bsl)
+    -- <> template pivot2 (fromIntegral bsl)
 
 -- | Bindings spec.
 data Bindings = Bindings { toePiece, heelPiece :: Piece }
@@ -19,22 +21,36 @@ data Piece = Piece
 pivot :: Bindings
 pivot = Bindings
   { toePiece = Piece
-    { innerHoles = (35, \ bsl -> (bsl - 240) / 2 + 106.5)
+    { innerHoles = (35, \ bsl -> bsl / 2 - 16.5)   -- Orig: (bsl - 240) / 2 + 106.5
     , outerHoles = (42, 41.5)
     }
   , heelPiece = Piece
-    { innerHoles = (21, \ bsl -> (bsl - 240) / 2 + 38.5)
+    { innerHoles = (21, \ bsl -> (bsl - 240) / 2 + 38)  -- Orig: 38.5
     , outerHoles = (29, 32)
     }
   }
+
+{-
+pivot2 :: Bindings
+pivot2 = Bindings
+  { toePiece = Piece
+    { innerHoles = (35, \ bsl -> bsl / 2 - 16.5)   -- Orig: (bsl - 240) / 2 + 106.5
+    , outerHoles = (42, 41.5)
+    }
+  , heelPiece = Piece
+    { innerHoles = (21, \ bsl -> bsl / 2 - 82) -- Orig: (bsl - 240) / 2 + 38.5)
+    , outerHoles = (29, 32)
+    }
+  }
+-}
 
 -- | Generate a template from a bindings spec and BSL.
 template :: Bindings -> Double -> Elements
 template bindings bsl = mconcat
   [ centerLines
   , centeringMarks
-  , toePiece' (toePiece bindings) bsl
-  , heelPiece' (heelPiece bindings) bsl
+  , piece (base1 -) (toePiece bindings) bsl
+  , piece (base2 +) (heelPiece bindings) bsl
   ]
 
 centerLines :: Elements
@@ -49,13 +65,16 @@ centerLines = mconcat
   ]
 
 centeringMarks :: Elements
-centeringMarks = mconcat
+centeringMarks = mconcat $
   [ mconcat $ map (mark 12) [30, 40 .. 70]
   , mconcat $ map (mark  8) [35, 45 .. 65]
   , mconcat $ map (mark  4) [30 .. 70]
-  , mconcat [ line (0, y) (12, y) | y <- [30, 40 .. 140] ]
-  , mconcat [ line (0, y) ( 8, y) | y <- [35, 45 .. 135] ]
-  , mconcat [ line (0, y) ( 4, y) | y <- [30     .. 140] ]
+  , mconcat [ line (0, y) (12, y) | y <- map (base1 -) [0, 10 .. 300] ]
+  , mconcat [ line (0, y) ( 8, y) | y <- map (base1 -) [5, 15 .. 295] ]
+  , mconcat [ line (0, y) ( 4, y) | y <- map (base1 -) [0     .. 300] ]
+  , mconcat [ line (0, y) (12, y) | y <- map (base2 +) [0, 10 .. 300] ]
+  , mconcat [ line (0, y) ( 8, y) | y <- map (base2 +) [5, 15 .. 295] ]
+  , mconcat [ line (0, y) ( 4, y) | y <- map (base2 +) [0     .. 300] ]
   ]
   where
   mark h x = mconcat
@@ -71,29 +90,18 @@ pageCenter = pageWidth / 2
 base1 = 250
 base2 = 270
 
-toePiece' :: Piece -> Double -> Elements
-toePiece' piece bsl = mconcat
-  [ text (10, base1 - 20) $ "BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
-  , target (pageCenter - (outerX / 2), base - outerY)
-  , target (pageCenter + (outerX / 2), base - outerY)
-  , target (pageCenter - (innerX / 2), base)
-  , target (pageCenter + (innerX / 2), base)
+piece :: (Double -> Double) -> Piece -> Double -> Elements
+piece offset piece bsl = mconcat
+  [ text (40, offset 40) $ "BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
+  , target (pageCenter - (outerX / 2), offset outerYFromMS)
+  , target (pageCenter + (outerX / 2), offset outerYFromMS)
+  , target (pageCenter - (innerX / 2), offset innerYFromMS)
+  , target (pageCenter + (innerX / 2), offset innerYFromMS)
   ]
   where
-  base = base1 - innerY bsl
-  (innerX, innerY) = innerHoles piece
-  (outerX, outerY) = outerHoles piece
+  innerYFromMS = innerY bsl
+  outerYFromMS = innerYFromMS + outerY
 
-heelPiece' :: Piece -> Double -> Elements
-heelPiece' piece bsl = mconcat
-  [ text (10, base2 + 20) $ "BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
-  , target (pageCenter - (innerX / 2), base)
-  , target (pageCenter + (innerX / 2), base)
-  , target (pageCenter - (outerX / 2), base + outerY)
-  , target (pageCenter + (outerX / 2), base + outerY)
-  ]
-  where
-  base = base2 + innerY bsl
   (innerX, innerY) = innerHoles piece
   (outerX, outerY) = outerHoles piece
 
