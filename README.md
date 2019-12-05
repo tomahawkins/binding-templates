@@ -29,7 +29,7 @@ bindings are supported.
    It helps to cut two holes on the midsole line so you can 
    see the midsole line on the ski through the template.
 6. With the template aligned and taped to the ski, mark the
-   holes for drilling with a centerpunch.
+   holes for drilling with a center punch.
 
 
 # Templates
@@ -165,13 +165,11 @@ bindings are supported.
 
 # Links
 
-- [TGR thread on binding templates](https://www.tetongravity.com/forums/showthread.php/153971-Binding-Mount-Paper-Templates)
-- https://www.bindingfreedom.com/paper-tempaltes/
-- [TGR thread on mounting methods and pullout strength](https://www.tetongravity.com/forums/archive/index.php/t-216051.html)
-
-# Links
-
-- [TGR thread on binding templates](https://www.tetongravity.com/forums/showthread.php/153971-Binding-Mount-Paper-Templates)
-- https://www.bindingfreedom.com/paper-tempaltes/
-- [TGR thread on mounting methods and pullout strength](https://www.tetongravity.com/forums/archive/index.php/t-216051.html)
+- [TGR thread on binding templates](https://www.tetongravity.com/forums/showthread.php/153971-Binding-Mount-Paper-Templates).
+- https://www.bindingfreedom.com/ for mounting tools and other binding templates.
+- [TGR thread on mounting methods and pullout strength](https://www.tetongravity.com/forums/archive/index.php/t-216051.html).
+- An [optical center punch](https://www.leevalley.com/en-us/shop/tools/hand-tools/marking-and-measuring/marking-tools/45502-veritas-optical-center-punch)
+  for precision hand drilling.
+- A recommended [marking guage](https://www.leevalley.com/en-us/shop/tools/hand-tools/marking-and-measuring/marking-gauges/75849-veritas-micro-adjust-wheel-marking-gauge)
+  for finding the ski's centerline.
 
