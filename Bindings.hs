@@ -2,21 +2,35 @@
 module Main (main) where
 
 main :: IO ()
-main = flip mapM_ [240 .. 360 :: Int] $ \ bsl ->
-  writeFile ("pivot/pivot_bsl_" ++ show bsl ++ ".svg") $ svg $
-    template pivot (fromIntegral bsl)
-    -- <> template pivot2 (fromIntegral bsl)
+main = flip mapM_ [280 .. 340 :: Int] $ \ bsl -> do
+  writeFile ("pivot/pivot_bsl_" ++ show bsl ++ ".svg") $ svg $ template pivot (fromIntegral bsl)
+  writeFile ("spx/spx_bsl_" ++ show bsl ++ ".svg") $ svg $ template spx (fromIntegral bsl)
 
 -- | A binding spec is a list of holes given a BSL.
 newtype Bindings = Bindings (Double -> [(Double, Double)])
 
+instance Semigroup Bindings where
+  Bindings a <> Bindings b = Bindings $ \ bsl -> a bsl <> b bsl
+
 -- | Pivot bindings spec.
 pivot :: Bindings
-pivot = Bindings $ \ bsl -> symetric
+pivot = lookToe <> Bindings (\ bsl -> symetric
+  [ (21 / 2, -((bsl - 240) / 2 + 38))
+  , (29 / 2, -((bsl - 240) / 2 + 38 + 32))
+  ])
+
+-- | SPX bindings spec.
+spx :: Bindings
+spx = lookToe <> Bindings (\ bsl -> symetric
+  [ (42 / 2, -(bsl / 2 - 26))
+  , (42 / 2, -(bsl / 2 - 26 + 105))
+  ])
+
+-- | Spec for the common LOOK toe piece.
+lookToe :: Bindings
+lookToe = Bindings $ \ bsl -> symetric
   [ (35 / 2, bsl / 2 - 16.5)
   , (42 / 2, bsl / 2 - 16.5 + 41.5)
-  , (21 / 2, -((bsl - 240) / 2 + 38))
-  , (29 / 2, -((bsl - 240) / 2 + 38 + 32))
   ]
 
 symetric :: [(Double, Double)] -> [(Double, Double)]
@@ -66,11 +80,11 @@ centeringMarks = mconcat $
     , line (pageCenter + x, pageHeight) (pageCenter + x, pageHeight - h)
     ]
 
-pageWidth = 180
-pageHeight = 510
+pageWidth = 190
+pageHeight = 518
 pageCenter = pageWidth / 2
-base1 = 250
-base2 = 270
+base1 = 255
+base2 = 265
 
 target :: (Double, Double) -> Elements
 target (x, y) = circle (x, y) 2.5 <> crosshairs (x, y)
