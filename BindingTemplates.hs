@@ -1,10 +1,14 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
 module Main (main) where
 
 main :: IO ()
-main = flip mapM_ [280 .. 340 :: Int] $ \ bsl -> do
+main = flip mapM_ bslRange $ \ bsl -> do
   writeFile ("pivot/pivot_bsl_" ++ show bsl ++ ".svg") $ svg $ template pivot (fromIntegral bsl)
   writeFile ("spx/spx_bsl_" ++ show bsl ++ ".svg") $ svg $ template spx (fromIntegral bsl)
+
+bslRange :: [Int]
+bslRange = [280 .. 340]
 
 -- | A binding spec is a list of holes given a BSL.
 newtype Bindings = Bindings (Double -> [(Double, Double)])
@@ -40,18 +44,20 @@ symetric = concatMap $ \ (x, y) -> [(x, y), (-x, y)]
 template :: Bindings -> Double -> Elements
 template (Bindings holes) bsl = mconcat $
   [ centerLines
-  , centeringMarks
-  , text (40, base1 - 40) $ "BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
-  , text (40, base2 + 40) $ "BSL: " ++ show (fromIntegral (round bsl) :: Int) ++ " mm"
+  , text (60, base1 - 30) $ "BSL: " ++ show (round bsl :: Int) ++ " mm"
+  , text (60, base2 + 30) $ "BSL: " ++ show (round bsl :: Int) ++ " mm"
   ] ++ map hole (holes bsl)
   where
   hole (x, y)
-    | y >= 0    = target (pageCenter + x, base1 - y) 
-    | otherwise = target (pageCenter + x, base2 - y)
+    | y >= 0    = target (pageCenter1 + x, base1 - y) 
+               <> target (pageCenter2 + x, base1 - y) 
+    | otherwise = target (pageCenter1 + x, base2 - y)
+               <> target (pageCenter2 + x, base2 - y)
 
 centerLines :: Elements
 centerLines = mconcat
-  [ line (pageCenter, 0) (pageCenter, pageHeight)
+  [ line (pageCenter1, 0) (pageCenter1, pageHeight)
+  , line (pageCenter2, 0) (pageCenter2, pageHeight)
   , line (10, base1) (pageWidth - 10, base1)
   , crosshairs (10,  base1)
   , crosshairs (pageWidth - 10, base1)
@@ -60,30 +66,25 @@ centerLines = mconcat
   , crosshairs (pageWidth - 10, base2)
   ]
 
-centeringMarks :: Elements
-centeringMarks = mconcat $
-  [ mconcat $ map (mark 12) [30, 40 .. 70]
-  , mconcat $ map (mark  8) [35, 45 .. 65]
-  , mconcat $ map (mark  4) [30 .. 70]
-  , mconcat [ line (0, y) (12, y) | y <- map (base1 -) [0, 10 .. 300] ]
-  , mconcat [ line (0, y) ( 8, y) | y <- map (base1 -) [5, 15 .. 295] ]
-  , mconcat [ line (0, y) ( 4, y) | y <- map (base1 -) [0     .. 300] ]
-  , mconcat [ line (0, y) (12, y) | y <- map (base2 +) [0, 10 .. 300] ]
-  , mconcat [ line (0, y) ( 8, y) | y <- map (base2 +) [5, 15 .. 295] ]
-  , mconcat [ line (0, y) ( 4, y) | y <- map (base2 +) [0     .. 300] ]
-  ]
-  where
-  mark h x = mconcat
-    [ line (pageCenter - x, 0) (pageCenter - x, h)
-    , line (pageCenter + x, 0) (pageCenter + x, h)
-    , line (pageCenter - x, pageHeight) (pageCenter - x, pageHeight - h)
-    , line (pageCenter + x, pageHeight) (pageCenter + x, pageHeight - h)
-    ]
-
+pageWidth :: Double
 pageWidth = 190
+
+pageHeight :: Double
 pageHeight = 518
+
+pageCenter :: Double
 pageCenter = pageWidth / 2
+
+pageCenter1 :: Double
+pageCenter1 = pageCenter / 2
+
+pageCenter2 :: Double
+pageCenter2 = pageCenter / 2 + pageCenter
+
+base1 :: Double
 base1 = 255
+
+base2 :: Double
 base2 = 265
 
 target :: (Double, Double) -> Elements
