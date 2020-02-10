@@ -13,9 +13,9 @@ bindings are supported.
 
 1. Print the template that matches your BSL.
    Verify the correct print scaling.
-   Measurement marks are in millimeters.
+   From crosshair to crosshair on the midsole mark is 190 mm.
 2. Join the two template sheets together by aligning the
-   horizontal midsole marks.  It helps to cut out the center of
+   midsole marks of each page.  It helps to cut out the center of
    the two crosshairs on one page.
 3. Using masking tape, mark the desired midsole locations
    on both skis.  Put the skis together to verify 
