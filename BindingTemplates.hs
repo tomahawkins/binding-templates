@@ -6,6 +6,7 @@ main :: IO ()
 main = flip mapM_ bslRange $ \ bsl -> do
   writeFile ("pivot/pivot_bsl_" ++ show bsl ++ ".svg") $ svg $ template pivot (fromIntegral bsl)
   writeFile ("spx/spx_bsl_" ++ show bsl ++ ".svg") $ svg $ template spx (fromIntegral bsl)
+  writeFile ("shift/shift_bsl_" ++ show bsl ++ ".svg") $ svg $ template shift (fromIntegral bsl)
 
 bslRange :: [Int]
 bslRange = [280 .. 340]
@@ -19,8 +20,8 @@ instance Semigroup Bindings where
 -- | Pivot bindings spec.
 pivot :: Bindings
 pivot = lookToe <> Bindings (\ bsl -> symetric
-  [ (21 / 2, -((bsl - 240) / 2 + 38))
-  , (29 / 2, -((bsl - 240) / 2 + 38 + 32))
+  [ (21 / 2, -(bsl / 2 - 82))
+  , (29 / 2, -(bsl / 2 - 82 + 32))
   ])
 
 -- | SPX bindings spec.
@@ -35,6 +36,20 @@ lookToe :: Bindings
 lookToe = Bindings $ \ bsl -> symetric
   [ (35 / 2, bsl / 2 - 16.5)
   , (42 / 2, bsl / 2 - 16.5 + 41.5)
+  ]
+
+-- | Salomon Shift bindings spec.
+shift :: Bindings
+shift = Bindings $ \ bsl ->
+  -- Toe.
+  [ (0,      bsl / 2 - 20 + 65) ] <> symetric
+  [ (40 / 2, bsl / 2 - 20)
+  , (30 / 2, bsl / 2 - 20 - 70)
+  ] <>
+  -- Heel.
+  symetric
+  [ (36 / 2, -(bsl / 2 - 15))
+  , (36 / 2, -(bsl / 2 - 15 + 68))
   ]
 
 symetric :: [(Double, Double)] -> [(Double, Double)]
