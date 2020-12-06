@@ -5,25 +5,21 @@
 module Main (main) where
 
 
+import Control.Monad (forM_)
 import Data.Text (Text, pack, unpack)
 import qualified Data.Text as T
 
 
 -- | Generate binding templates for pivot, spx, and shift bindings over a range of BSLs.
 main :: IO ()
-main = flip mapM_ [280 .. 340] $ \ bsl -> do
-  writeFile ("pivot/pivot_bsl_" <> show bsl <> ".svg") $ render pivot bsl
-  writeFile ("spx/spx_bsl_" <> show bsl <> ".svg") $ render spx bsl
-  writeFile ("shift/shift_bsl_" <> show bsl <> ".svg") $ render shift bsl
-
-  where
-
-  render :: BindingSpec -> Int -> String
-  render binding bsl = unpack $ svg $ template binding $ fromIntegral bsl
+main = forM_ [280 .. 340 :: Int] $ \ bsl ->
+  forM_ [pivot, spx, shift] $ \ binding@(BindingSpec name _ _) ->
+    writeFile (unpack name <> "/" <> unpack name <> "_bsl_" <> show bsl <> ".svg") $
+      unpack $ svg $ template binding $ fromIntegral bsl
 
 
--- | Binding spec is the hole locations for the toe and heel piece.
-data BindingSpec = BindingSpec ToePiece HeelPiece
+-- | Binding spec is the name of the binding and the hole locations for the toe and heel piece.
+data BindingSpec = BindingSpec Text ToePiece HeelPiece
 
 
 -- | Spec for the toe piece.  X axis is position of the toe edge of the boot.
@@ -44,7 +40,7 @@ type Point = (Double, Double)
 
 -- | Look Pivot bindings spec.
 pivot :: BindingSpec
-pivot = BindingSpec lookToe $ HeelPiece $ symetric
+pivot = BindingSpec "pivot" lookToe $ HeelPiece $ symetric
   [ (21 / 2, 82)
   , (29 / 2, 82 - 32)
   ]
@@ -52,7 +48,7 @@ pivot = BindingSpec lookToe $ HeelPiece $ symetric
 
 -- | Look SPX bindings spec.
 spx :: BindingSpec
-spx = BindingSpec lookToe $ HeelPiece $ symetric
+spx = BindingSpec "spx" lookToe $ HeelPiece $ symetric
   [ (42 / 2, 26)
   , (42 / 2, 26 - 105)
   ]
@@ -68,7 +64,7 @@ lookToe = ToePiece $ symetric
 
 -- | Salomon Shift bindings spec.
 shift :: BindingSpec
-shift = BindingSpec toePiece heelPiece
+shift = BindingSpec "shift" toePiece heelPiece
 
   where
 
@@ -88,9 +84,68 @@ symetric :: [(Double, Double)] -> [(Double, Double)]
 symetric = concatMap $ \ (x, y) -> [(x, y), (-x, y)]
 
 
+
+
+-- | A drawing is collection of SVG elements.
+newtype Drawing = Drawing [Text] deriving (Semigroup, Monoid)
+
+
+-- | Draws a line between two points.
+line :: Point -> Point -> Drawing
+line (x1, y1) (x2, y2) = Drawing
+  [ tag False "line"
+    [ ("x1", showT x1)
+    , ("y1", showT y1)
+    , ("x2", showT x2)
+    , ("y2", showT y2)
+    , ("style", "stroke:#000000;stroke-width:0.1;")
+    ]
+  ]
+
+
+-- | Draws a circle given a center point and a radius.
+circle :: Point -> Double -> Drawing
+circle (cx, cy) r = Drawing
+  [ tag False "circle"
+    [ ("cx", showT cx)
+    , ("cy", showT cy)
+    , ("r", showT r)
+    , ("style", "fill:none;stroke:#000000;stroke-width:0.1;")
+    ]
+  ]
+
+
+-- | Draws text at a point.
+text :: Point -> Text -> Drawing
+text (x, y) msg = Drawing
+  [ tag True "text"
+    [ ("x", showT x)
+    , ("y", showT y)
+    , ("font-family", "Arial")
+    , ("fill", "black")
+    , ("font-size", "6")
+    ] <> msg <> "</text>"
+  ]
+
+
+-- | Draws a crosshair.
+crosshairs :: Point -> Drawing
+crosshairs (x, y) = mconcat
+  [ line (x - 5, y) (x + 5, y)
+  , line (x, y - 5) (x, y + 5)
+  ]
+
+
+-- | Draws a target: crosshair with a circle.
+target :: Point -> Drawing
+target (x, y) = circle (x, y) 2.5 <> crosshairs (x, y)
+
+
+
+
 -- | Generate a template from a bindings spec and BSL.
 template :: BindingSpec -> Double -> Drawing
-template (BindingSpec (ToePiece toeHoles) (HeelPiece heelHoles)) bsl = mconcat $
+template (BindingSpec _name (ToePiece toeHoles) (HeelPiece heelHoles)) bsl = mconcat $
   [ centerLines
   , text (60, base1 - 30) $ "BSL: " <> showT (round bsl :: Int) <> " mm"
   , text (60, base2 + 30) $ "BSL: " <> showT (round bsl :: Int) <> " mm"
@@ -151,59 +206,6 @@ base2 :: Double
 base2 = 265
 
 
--- | A drawing is collection of SVG elements.
-newtype Drawing = Drawing [Text] deriving (Semigroup, Monoid)
-
-
--- | Draws a line between two points.
-line :: Point -> Point -> Drawing
-line (x1, y1) (x2, y2) = Drawing
-  [ tag False "line"
-    [ ("x1", showT x1)
-    , ("y1", showT y1)
-    , ("x2", showT x2)
-    , ("y2", showT y2)
-    , ("style", "stroke:#000000;stroke-width:0.1;")
-    ]
-  ]
-
-
--- | Draws a circle given a center point and a radius.
-circle :: Point -> Double -> Drawing
-circle (cx, cy) r = Drawing
-  [ tag False "circle"
-    [ ("cx", showT cx)
-    , ("cy", showT cy)
-    , ("r", showT r)
-    , ("style", "fill:none;stroke:#000000;stroke-width:0.1;")
-    ]
-  ]
-
-
--- | Draws text at a point.
-text :: Point -> Text -> Drawing
-text (x, y) msg = Drawing
-  [ tag True "text"
-    [ ("x", showT x)
-    , ("y", showT y)
-    , ("font-family", "Arial")
-    , ("fill", "black")
-    , ("font-size", "6")
-    ] <> msg <> "</text>"
-  ]
-
-
--- | Draws a target: crosshair with a circle.
-target :: Point -> Drawing
-target (x, y) = circle (x, y) 2.5 <> crosshairs (x, y)
-
-
--- | Draws a crosshair.
-crosshairs :: Point -> Drawing
-crosshairs (x, y) = mconcat
-  [ line (x - 5, y) (x + 5, y)
-  , line (x, y - 5) (x, y + 5)
-  ]
 
 
 -- | Converts Drawing to an SVG file.
