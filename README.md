@@ -7,6 +7,7 @@ Currently
 [Look SPX](http://www.look-bindings.com/en-ca/products/bindings/open/allmountain-free-expert), and
 [Salomon Shift](https://www.salomon.com/en-us/shop/product/n-s-lab-shift-mnc.html)
 bindings are supported.
+Marker Jester and Tyrolia templates are provided, but not verified.
 
 **USE AT YOUR OWN RISK**
 
