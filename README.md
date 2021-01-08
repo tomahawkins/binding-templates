@@ -2,17 +2,14 @@
 
 This is a Haskell program to generate ski binding
 mounting templates in SVG given a boot sole length (BSL).
-Currently
-[Look Pivot](http://www.look-bindings.com/en-ca/products/bindings/open/allmountain-free-expert),
-[Look SPX](http://www.look-bindings.com/en-ca/products/bindings/open/allmountain-free-expert), and
-[Salomon Shift](https://www.salomon.com/en-us/shop/product/n-s-lab-shift-mnc.html)
-bindings are supported.
-Marker Jester and Tyrolia templates are provided, but not verified.
+Currently bindings supported include Look Pivot and SPX, Salomon Shift, and 
+Marker Jester, Griffon, and Squire.
+Tyrolia templates are provided, but have not been verified.
 
 **USE AT YOUR OWN RISK**
 
 
-# Instructions
+# Recommended Instructions
 
 1. Print the template that matches your BSL.
    Verify the correct print scaling.

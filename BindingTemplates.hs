@@ -79,7 +79,7 @@ shift = BindingSpec "shift" toePiece heelPiece
     ]
 
 
--- | Marker Jester binding spec.
+-- | Marker Jester, Griffon, and Squire binding spec.
 jester :: BindingSpec
 jester = BindingSpec "jester" toePiece heelPiece
 
