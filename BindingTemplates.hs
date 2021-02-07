@@ -12,14 +12,19 @@ import qualified Data.Text as T
 
 -- | Generate binding templates for pivot, spx, and shift bindings over a range of BSLs.
 main :: IO ()
-main = forM_ [280 .. 340 :: Int] $ \ bsl ->
-  forM_ [pivot, spx, shift, jester, tyrolia] $ \ binding@(BindingSpec name _ _) ->
-    writeFile (unpack name <> "/" <> unpack name <> "_bsl_" <> show bsl <> ".svg") $
-      unpack $ svg $ template binding $ fromIntegral bsl
+main = do
+  forM_ [280 .. 340 :: Int] $ \ bsl ->
+    forM_ [pivot, spx, shift, jester, tyrolia] $ \ binding@(BindingSpec name _ _) ->
+      writeFile (unpack name <> "/" <> unpack name <> "_bsl_" <> show bsl <> ".svg") $
+        unpack $ svg $ template binding $ fromIntegral bsl
+  writeFile "r22.svg" $ unpack $ svg $ template r22 undefined
 
 
--- | Binding spec is the name of the binding and the hole locations for the toe and heel piece.
-data BindingSpec = BindingSpec Text ToePiece HeelPiece
+-- | Binding spec is the name of the binding and the hole locations for the toe and heel piece
+--   or a single plate.
+data BindingSpec
+  = BindingSpec Text ToePiece HeelPiece
+  | BindingSpecPlate Text [Hole]
 
 
 -- | Spec for the toe piece.  X axis is position of the toe edge of the boot.
@@ -59,6 +64,16 @@ lookToe :: ToePiece
 lookToe = ToePiece $ symetric
   [ (35 / 2, - 16.5)
   , (42 / 2, - 16.5 + 41.5)
+  ]
+
+
+-- | Look R22 racing plate.
+r22 :: BindingSpec
+r22 = BindingSpecPlate "r22" $ symetric
+  [ (12 / 2, 163)
+  , (35 / 2, 98)
+  , (35 / 2, -52)
+  , (35 / 2, -(52 + 120))
   ]
 
 
@@ -179,11 +194,18 @@ target (x, y) = circle (x, y) 2.5 <> crosshairs (x, y)
 
 -- | Generate a template from a bindings spec and BSL.
 template :: BindingSpec -> Double -> Drawing
-template (BindingSpec _name (ToePiece toeHoles) (HeelPiece heelHoles)) bsl = mconcat $
-  [ centerLines
-  , text (60, base1 - 30) $ "BSL: " <> showT (round bsl :: Int) <> " mm"
-  , text (60, base2 + 30) $ "BSL: " <> showT (round bsl :: Int) <> " mm"
-  ] <> (toeHole <$> toeHoles) <> (heelHole <$> heelHoles)
+template spec bsl = case spec of
+
+  BindingSpec _name (ToePiece toeHoles) (HeelPiece heelHoles) -> mconcat $
+    [ centerLines
+    , text (60, base1 - 30) $ "BSL: " <> showT (round bsl :: Int) <> " mm"
+    , text (60, base2 + 30) $ "BSL: " <> showT (round bsl :: Int) <> " mm"
+    ] <> (toeHole <$> toeHoles) <> (heelHole <$> heelHoles)
+
+  BindingSpecPlate _name holes -> mconcat $
+    [ centerLines
+    ] <> (hole <$> holes)
+    
 
   where
 
