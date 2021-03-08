@@ -14,7 +14,7 @@ import qualified Data.Text as T
 main :: IO ()
 main = do
   forM_ [280 .. 340 :: Int] $ \ bsl ->
-    forM_ [pivot, spx, shift, jester, tyrolia] $ \ binding@(BindingSpec name _ _) ->
+    forM_ [pivot, spx, rockerace, shift, jester, tyrolia] $ \ binding@(BindingSpec name _ _) ->
       writeFile (unpack name <> "/" <> unpack name <> "_bsl_" <> show bsl <> ".svg") $
         unpack $ svg $ template binding $ fromIntegral bsl
   writeFile "r22.svg" $ unpack $ svg $ template r22 undefined
@@ -56,6 +56,14 @@ spx :: BindingSpec
 spx = BindingSpec "spx" lookToe $ HeelPiece $ symetric
   [ (42 / 2, 26)
   , (42 / 2, 26 - 105)
+  ]
+
+
+-- | Look Rockerace binding spec.
+rockerace :: BindingSpec
+rockerace = BindingSpec "rockerace" lookToe $ HeelPiece $ symetric
+  [ (41.5 / 2, 61)
+  , (41.5 / 2, 61 - 40)
   ]
 
 
