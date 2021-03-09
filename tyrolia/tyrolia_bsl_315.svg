@@ -14,10 +14,10 @@
   <line x1="10.0" y1="260.0" x2="10.0" y2="270.0" stroke="black" stroke-width="0.1" />
   <line x1="175.0" y1="265.0" x2="185.0" y2="265.0" stroke="black" stroke-width="0.1" />
   <line x1="180.0" y1="260.0" x2="180.0" y2="270.0" stroke="black" stroke-width="0.1" />
-  <line x1="10.0" y1="97.5" x2="180.0" y2="97.5" stroke="black" stroke-width="0.1" stroke-dasharray="5 5" />
-  <line x1="10.0" y1="422.5" x2="180.0" y2="422.5" stroke="black" stroke-width="0.1" stroke-dasharray="5 5" />
-  <text x="60.0" y="225.0" font-family="Arial" fill="black" font-size="6" >BSL: 315 mm</text>
-  <text x="60.0" y="295.0" font-family="Arial" fill="black" font-size="6" >BSL: 315 mm</text>
+  <line x1="10.0" y1="97.5" x2="180.0" y2="97.5" stroke="black" stroke-width="0.1" stroke-dasharray="4 4" />
+  <line x1="10.0" y1="422.5" x2="180.0" y2="422.5" stroke="black" stroke-width="0.1" stroke-dasharray="4 4" />
+  <text x="60.0" y="225.0" font-family="Roboto" fill="black" font-size="6" >BSL: 315 mm</text>
+  <text x="60.0" y="295.0" font-family="Roboto" fill="black" font-size="6" >BSL: 315 mm</text>
   <circle cx="67.5" cy="52.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
   <line x1="62.5" y1="52.0" x2="72.5" y2="52.0" stroke="black" stroke-width="0.1" />
   <line x1="67.5" y1="47.0" x2="67.5" y2="57.0" stroke="black" stroke-width="0.1" />

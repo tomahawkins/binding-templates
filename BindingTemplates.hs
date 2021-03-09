@@ -171,7 +171,7 @@ dashedLine (x1, y1) (x2, y2) = Drawing
     , ("y2", showT y2)
     , ("stroke", "black")
     , ("stroke-width", "0.1")
-    , ("stroke-dasharray", "5 5")
+    , ("stroke-dasharray", "4 4")
     ]
   ]
 
@@ -196,7 +196,7 @@ text (x, y) msg = Drawing
   [ tag True "text"
     [ ("x", showT x)
     , ("y", showT y)
-    , ("font-family", "Arial")
+    , ("font-family", "Roboto")
     , ("fill", "black")
     , ("font-size", "6")
     ] <> msg <> "</text>"
