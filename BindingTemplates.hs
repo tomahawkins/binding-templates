@@ -155,7 +155,8 @@ line (x1, y1) (x2, y2) = Drawing
     , ("y1", showT y1)
     , ("x2", showT x2)
     , ("y2", showT y2)
-    , ("style", "stroke:#000000;stroke-width:0.1;")
+    , ("stroke", "black")
+    , ("stroke-width", "0.1")
     ]
   ]
 
@@ -167,7 +168,9 @@ circle (cx, cy) r = Drawing
     [ ("cx", showT cx)
     , ("cy", showT cy)
     , ("r", showT r)
-    , ("style", "fill:none;stroke:#000000;stroke-width:0.1;")
+    , ("fill", "none")
+    , ("stroke", "black")
+    , ("stroke-width", "0.1")
     ]
   ]
 
