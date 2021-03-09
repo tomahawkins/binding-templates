@@ -161,6 +161,21 @@ line (x1, y1) (x2, y2) = Drawing
   ]
 
 
+-- | Dashed line between two points.
+dashedLine :: Point -> Point -> Drawing
+dashedLine (x1, y1) (x2, y2) = Drawing
+  [ tag False "line"
+    [ ("x1", showT x1)
+    , ("y1", showT y1)
+    , ("x2", showT x2)
+    , ("y2", showT y2)
+    , ("stroke", "black")
+    , ("stroke-width", "0.1")
+    , ("stroke-dasharray", "5 5")
+    ]
+  ]
+
+
 -- | Draws a circle given a center point and a radius.
 circle :: Point -> Double -> Drawing
 circle (cx, cy) r = Drawing
@@ -209,6 +224,10 @@ template spec bsl = case spec of
 
   BindingSpec _name (ToePiece toeHoles) (HeelPiece heelHoles) -> mconcat $
     [ centerLines
+    -- Boot toe edge.
+    , dashedLine (leftMargin, base1 - bsl / 2) (rightMargin, base1 - bsl / 2)
+    -- Boot heel edge.
+    , dashedLine (leftMargin, base2 + bsl / 2) (rightMargin, base2 + bsl / 2)
     , text (60, base1 - 30) $ "BSL: " <> showT (round bsl :: Int) <> " mm"
     , text (60, base2 + 30) $ "BSL: " <> showT (round bsl :: Int) <> " mm"
     ] <> (toeHole <$> toeHoles) <> (heelHole <$> heelHoles)
@@ -237,15 +256,19 @@ template spec bsl = case spec of
 -- | Draws X and Y centerling lines for the template,
 --   which align with the mid sole mark and the mid line on the skis.
 centerLines :: Drawing
-centerLines = mconcat
+centerLines = mconcat $
+  -- Center lines.
   [ line (pageCenter1, 0) (pageCenter1, pageHeight)
   , line (pageCenter2, 0) (pageCenter2, pageHeight)
-  , line (10, base1) (pageWidth - 10, base1)
-  , crosshairs (10,  base1)
-  , crosshairs (pageWidth - 10, base1)
-  , line (10, base2) (pageWidth - 10, base2)
-  , crosshairs (10,  base2)
-  , crosshairs (pageWidth - 10, base2)
+  ] <>
+
+  -- Mid sole lines.
+  [ line (leftMargin, base1) (rightMargin, base1)
+  , crosshairs (leftMargin,  base1)
+  , crosshairs (rightMargin, base1)
+  , line (leftMargin, base2) (rightMargin, base2)
+  , crosshairs (leftMargin,  base2)
+  , crosshairs (rightMargin, base2)
   ]
 
 
@@ -272,6 +295,11 @@ base1 = 255
 base2 :: Double
 base2 = 265
 
+leftMargin :: Double
+leftMargin = 10
+
+rightMargin :: Double
+rightMargin = pageWidth - 10
 
 
 
