@@ -13,7 +13,7 @@ import qualified Data.Text as T
 -- | Generate binding templates for pivot, spx, and shift bindings over a range of BSLs.
 main :: IO ()
 main = do
-  forM_ [280 .. 340 :: Int] $ \ bsl ->
+  forM_ [270 .. 340 :: Int] $ \ bsl ->
     forM_ [pivot, spx, rockerace, shift, jester, tyrolia] $ \ binding@(BindingSpec name _ _) ->
       writeFile (unpack name <> "/" <> unpack name <> "_bsl_" <> show bsl <> ".svg") $
         unpack $ svg $ template binding $ fromIntegral bsl
