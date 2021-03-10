@@ -14,7 +14,7 @@ import qualified Data.Text as T
 main :: IO ()
 main = do
   forM_ [270 .. 340 :: Int] $ \ bsl ->
-    forM_ [pivot, spx, rockerace, shift, jester, tyrolia] $ \ binding@(BindingSpec name _ _) ->
+    forM_ [pivot, spx, rockerace, shift, royal, tyrolia] $ \ binding@(BindingSpec name _ _) ->
       writeFile (unpack name <> "/" <> unpack name <> "_bsl_" <> show bsl <> ".svg") $
         unpack $ svg $ template binding $ fromIntegral bsl
   writeFile "r22.svg" $ unpack $ svg $ template r22 undefined
@@ -102,9 +102,9 @@ shift = BindingSpec "shift" toePiece heelPiece
     ]
 
 
--- | Marker Jester, Griffon, and Squire binding spec.
-jester :: BindingSpec
-jester = BindingSpec "jester" toePiece heelPiece
+-- | Marker Royal family (Jester, Griffon, Squire) binding spec.
+royal :: BindingSpec
+royal = BindingSpec "royal" toePiece heelPiece
 
   where
 
