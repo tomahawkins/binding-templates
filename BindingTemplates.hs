@@ -1,5 +1,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE LambdaCase #-}
 
 
 module Main (main) where
@@ -13,26 +14,62 @@ import qualified Data.Text as T
 -- | Generate binding templates for pivot, spx, and shift bindings over a range of BSLs.
 main :: IO ()
 main = do
+  generateTemplateLibrary
+  customExample
+
+
+-- | An example of a custom placement for a remount.
+customExample :: IO ()
+customExample = writeFile "custom-example.svg" $ unpack $ svg $ template
+  [ PlaceToe  royalToe  334 0        -- Marker Griffons mounted on the line with 334 BSL.
+  , PlaceHeel royalHeel 334 0
+  , PlaceToe  lookToe   334 (-1.25)  -- Remounted with Look Pivots mounted back 1.25 mm
+  , PlaceHeel pivotHeel 334 (-1.25)  -- to maximize toe binding hole separation.
+  ]
+
+
+-- | Generate all templates over a range of BSLs with a mount point of 0.
+generateTemplateLibrary :: IO ()
+generateTemplateLibrary = do
   forM_ [270 .. 340 :: Int] $ \ bsl ->
-    forM_ [pivot, spx, rockerace, shift, royal, tyrolia] $ \ binding@(BindingSpec name _ _) ->
+    forM_ templateLibrary $ \ (name, toe, heel) ->
       writeFile (unpack name <> "/" <> unpack name <> "_bsl_" <> show bsl <> ".svg") $
-        unpack $ svg $ template binding $ fromIntegral bsl
-  writeFile "r22.svg" $ unpack $ svg $ template r22 undefined
+        unpack $ svg $ template
+          [ PlaceToe toe (fromIntegral bsl) 0
+          , PlaceHeel heel (fromIntegral bsl) 0
+          ]
+  writeFile "r22.svg" $ unpack $ svg $ template [PlacePlate r22 0]
 
 
--- | Binding spec is the name of the binding and the hole locations for the toe and heel piece
---   or a single plate.
-data BindingSpec
-  = BindingSpec Text ToePiece HeelPiece
-  | BindingSpecPlate Text [Hole]
+-- | Library of all the templates.
+templateLibrary :: [(Text, ToeBinding, HeelBinding)]
+templateLibrary = 
+  [ ("pivot", lookToe, pivotHeel)
+  , ("spx", lookToe, spxHeel)
+  , ("rockerace", lookToe, rockeraceHeel)
+  , ("shift", shiftToe, shiftHeel)
+  , ("royal", royalToe, royalHeel)
+  , ("tyrolia", tyroliaToe, tyroliaHeel)
+  ]
+
+
+-- | Placement of either a binding or a plate.
+data Placement
+  = PlaceToe ToeBinding BSL MountPoint
+  | PlaceHeel HeelBinding BSL MountPoint
+  | PlacePlate Plate MountPoint
 
 
 -- | Spec for the toe piece.  X axis is position of the toe edge of the boot.
-newtype ToePiece = ToePiece [Hole]
+newtype ToeBinding = ToeBinding [Hole]
 
 
 -- | Spec for the heel piece.  X axis is position of the heel edge of the boot.
-newtype HeelPiece = HeelPiece [Hole]
+newtype HeelBinding = HeelBinding [Hole]
+
+
+-- | Spec for a binding plate.
+newtype Plate = Plate [Hole]
 
 
 -- | Coordinates for hole.
@@ -43,41 +80,49 @@ type Hole = Point
 type Point = (Double, Double)
 
 
--- | Look Pivot bindings spec.
-pivot :: BindingSpec
-pivot = BindingSpec "pivot" lookToe $ HeelPiece $ symetric
+-- | Boot sole length in mm.
+type BSL = Double
+
+
+-- | Mount point, + in front of the line, - behind the line, in mm.
+type MountPoint = Double
+
+
+-- | Look Pivot heel.
+pivotHeel :: HeelBinding
+pivotHeel = HeelBinding $ symetric
   [ (21 / 2, 82)
   , (29 / 2, 82 - 32)
   ]
 
 
--- | Look SPX bindings spec.
-spx :: BindingSpec
-spx = BindingSpec "spx" lookToe $ HeelPiece $ symetric
+-- | Look SPX heel.
+spxHeel :: HeelBinding
+spxHeel = HeelBinding $ symetric
   [ (42 / 2, 26)
   , (42 / 2, 26 - 105)
   ]
 
 
--- | Look Rockerace binding spec.
-rockerace :: BindingSpec
-rockerace = BindingSpec "rockerace" lookToe $ HeelPiece $ symetric
+-- | Look Rockerace heel.
+rockeraceHeel :: HeelBinding
+rockeraceHeel = HeelBinding $ symetric
   [ (41.5 / 2, 61)
   , (41.5 / 2, 61 - 40)
   ]
 
 
--- | Spec for the common LOOK toe piece.
-lookToe :: ToePiece
-lookToe = ToePiece $ symetric
+-- | The common LOOK toe.
+lookToe :: ToeBinding
+lookToe = ToeBinding $ symetric
   [ (35 / 2, - 16.5)
   , (42 / 2, - 16.5 + 41.5)
   ]
 
 
 -- | Look R22 racing plate.
-r22 :: BindingSpec
-r22 = BindingSpecPlate "r22" $ symetric
+r22 :: Plate
+r22 = Plate $ symetric
   [ (12 / 2, 163)
   , (35 / 2, 98)
   , (35 / 2, -52)
@@ -85,62 +130,141 @@ r22 = BindingSpecPlate "r22" $ symetric
   ]
 
 
--- | Salomon Shift bindings spec.
-shift :: BindingSpec
-shift = BindingSpec "shift" toePiece heelPiece
-
-  where
-
-  toePiece = ToePiece $ (0, - 20 + 65) : symetric
+-- | Salomon Shift.
+shiftToe :: ToeBinding
+shiftToe = ToeBinding $ (0, - 20 + 65) : symetric
     [ (40 / 2, - 20)
     , (30 / 2, - 20 - 70)
     ]
-  
-  heelPiece = HeelPiece $ symetric
+
+shiftHeel :: HeelBinding
+shiftHeel = HeelBinding $ symetric
     [ (36 / 2, 15)
     , (36 / 2, 15 - 68)
     ]
 
 
--- | Marker Royal family (Jester, Griffon, Squire) binding spec.
-royal :: BindingSpec
-royal = BindingSpec "royal" toePiece heelPiece
-
-  where
-
-  toePiece = ToePiece $ symetric
+-- | Marker Royal family (Jester, Griffon, Squire).
+royalToe :: ToeBinding
+royalToe = ToeBinding $ symetric
     [ (36 / 2, 19)
     , (36 / 2, -12)
     ]
 
-  heelPiece = HeelPiece $ symetric
+royalHeel :: HeelBinding
+royalHeel = HeelBinding $ symetric
     [ (32 / 2, 22)
     , (32 / 2, -58)
     ]
 
 
--- | Tyrolia binding spec.
-tyrolia :: BindingSpec
-tyrolia = BindingSpec "tyrolia" toePiece heelPiece
-
-  where
-
-  toePiece = ToePiece $ symetric
+-- | Tyrolia.
+tyroliaToe :: ToeBinding
+tyroliaToe = ToeBinding $ symetric
     [ (20, 45.5)
     , (20, -9.5)
     ]
 
-  heelPiece = HeelPiece $ symetric
+tyroliaHeel :: HeelBinding
+tyroliaHeel = HeelBinding $ symetric
     [ (10, 16.5)
     , (21.25, -78.5)
     ]
 
 
 -- | Helper for when holes are symetric about the Y axis.
-symetric :: [(Double, Double)] -> [(Double, Double)]
+symetric :: [Hole] -> [Hole]
 symetric = concatMap $ \ (x, y) -> [(x, y), (-x, y)]
 
 
+-- | Generate a template for a set of binding placements.
+template :: [Placement] -> Drawing
+template placements = centerLines <> mconcat (placement <$> placements)
+
+
+-- | Draw the holes for a binding placement.
+placement :: Placement -> Drawing
+placement = \case
+
+  PlaceToe (ToeBinding holes) bsl mount ->
+    bootRefLine mount <>
+    bootRefLine (mount + bsl / 2) <>
+    mconcat ((hole $ mount + bsl / 2) <$> holes)
+
+  PlaceHeel (HeelBinding holes) bsl mount ->
+    bootRefLine mount <>
+    bootRefLine (mount - bsl / 2) <>
+    mconcat ((hole $ mount - bsl / 2) <$> holes)
+
+  PlacePlate (Plate holes) mount -> mconcat $ hole mount <$> holes
+
+
+-- | Draw a dashed line for a boot reference line, e.g. mid sole, toe edge, heel edge.
+bootRefLine :: MountPoint -> Drawing
+bootRefLine mount = dashedLine (leftMargin, base - mount) (rightMargin, base - mount)
+
+  where
+
+  base = if mount >= 0 then base1 else base2
+
+
+-- | Draw a hole with a y bias.
+hole :: Double -> Point -> Drawing
+hole bias (x, y) = target (pageCenter1 + x, base - y') <> target (pageCenter2 + x, base - y') 
+
+  where
+
+  base = if y' >= 0 then base1 else base2
+  y' = y + bias
+
+
+-- | Draws X and Y centerling lines for the template,
+--   which align with the mid sole mark and the mid line on the skis.
+centerLines :: Drawing
+centerLines = mconcat $
+  -- Center lines.
+  [ line (pageCenter1, 0) (pageCenter1, pageHeight)
+  , line (pageCenter2, 0) (pageCenter2, pageHeight)
+  ] <>
+
+  -- Center mount line.
+  [ line (leftMargin, base1) (rightMargin, base1)
+  , crosshairs (leftMargin,  base1)
+  , crosshairs (rightMargin, base1)
+  , line (leftMargin, base2) (rightMargin, base2)
+  , crosshairs (leftMargin,  base2)
+  , crosshairs (rightMargin, base2)
+  ]
+
+
+-- | Page dimensions and parameters.
+
+pageWidth :: Double
+pageWidth = 190
+
+pageHeight :: Double
+pageHeight = 518
+
+pageCenter :: Double
+pageCenter = pageWidth / 2
+
+pageCenter1 :: Double
+pageCenter1 = pageCenter / 2
+
+pageCenter2 :: Double
+pageCenter2 = pageCenter / 2 + pageCenter
+
+base1 :: Double
+base1 = 255
+
+base2 :: Double
+base2 = 265
+
+leftMargin :: Double
+leftMargin = 10
+
+rightMargin :: Double
+rightMargin = pageWidth - 10
 
 
 -- | A drawing is collection of SVG elements.
@@ -191,6 +315,7 @@ circle (cx, cy) r = Drawing
 
 
 -- | Draws text at a point.
+{-
 text :: Point -> Text -> Drawing
 text (x, y) msg = Drawing
   [ tag True "text"
@@ -201,6 +326,7 @@ text (x, y) msg = Drawing
     , ("font-size", "6")
     ] <> msg <> "</text>"
   ]
+  -}
 
 
 -- | Draws a crosshair.
@@ -214,93 +340,6 @@ crosshairs (x, y) = mconcat
 -- | Draws a target: crosshair with a circle.
 target :: Point -> Drawing
 target (x, y) = circle (x, y) 2.5 <> crosshairs (x, y)
-
-
-
-
--- | Generate a template from a bindings spec and BSL.
-template :: BindingSpec -> Double -> Drawing
-template spec bsl = case spec of
-
-  BindingSpec _name (ToePiece toeHoles) (HeelPiece heelHoles) -> mconcat $
-    [ centerLines
-    -- Boot toe edge.
-    , dashedLine (leftMargin, base1 - bsl / 2) (rightMargin, base1 - bsl / 2)
-    -- Boot heel edge.
-    , dashedLine (leftMargin, base2 + bsl / 2) (rightMargin, base2 + bsl / 2)
-    , text (60, base1 - 30) $ "BSL: " <> showT (round bsl :: Int) <> " mm"
-    , text (60, base2 + 30) $ "BSL: " <> showT (round bsl :: Int) <> " mm"
-    ] <> (toeHole <$> toeHoles) <> (heelHole <$> heelHoles)
-
-  BindingSpecPlate _name holes -> mconcat $
-    [ centerLines
-    ] <> (hole <$> holes)
-    
-
-  where
-
-  toeHole :: Point -> Drawing
-  toeHole (x, y) = hole (x, y + bsl / 2)
-
-  heelHole :: Point -> Drawing
-  heelHole (x, y) = hole (x, y - bsl / 2)
-
-  hole :: (Double, Double) -> Drawing
-  hole (x, y)
-    | y >= 0    = target (pageCenter1 + x, base1 - y) 
-               <> target (pageCenter2 + x, base1 - y) 
-    | otherwise = target (pageCenter1 + x, base2 - y)
-               <> target (pageCenter2 + x, base2 - y)
-
-
--- | Draws X and Y centerling lines for the template,
---   which align with the mid sole mark and the mid line on the skis.
-centerLines :: Drawing
-centerLines = mconcat $
-  -- Center lines.
-  [ line (pageCenter1, 0) (pageCenter1, pageHeight)
-  , line (pageCenter2, 0) (pageCenter2, pageHeight)
-  ] <>
-
-  -- Mid sole lines.
-  [ line (leftMargin, base1) (rightMargin, base1)
-  , crosshairs (leftMargin,  base1)
-  , crosshairs (rightMargin, base1)
-  , line (leftMargin, base2) (rightMargin, base2)
-  , crosshairs (leftMargin,  base2)
-  , crosshairs (rightMargin, base2)
-  ]
-
-
--- | Page dimensions and parameters.
-
-pageWidth :: Double
-pageWidth = 190
-
-pageHeight :: Double
-pageHeight = 518
-
-pageCenter :: Double
-pageCenter = pageWidth / 2
-
-pageCenter1 :: Double
-pageCenter1 = pageCenter / 2
-
-pageCenter2 :: Double
-pageCenter2 = pageCenter / 2 + pageCenter
-
-base1 :: Double
-base1 = 255
-
-base2 :: Double
-base2 = 265
-
-leftMargin :: Double
-leftMargin = 10
-
-rightMargin :: Double
-rightMargin = pageWidth - 10
-
 
 
 -- | Converts Drawing to an SVG file.

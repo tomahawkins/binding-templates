@@ -14,10 +14,8 @@
   <line x1="10.0" y1="260.0" x2="10.0" y2="270.0" stroke="black" stroke-width="0.1" />
   <line x1="175.0" y1="265.0" x2="185.0" y2="265.0" stroke="black" stroke-width="0.1" />
   <line x1="180.0" y1="260.0" x2="180.0" y2="270.0" stroke="black" stroke-width="0.1" />
+  <line x1="10.0" y1="255.0" x2="180.0" y2="255.0" stroke="black" stroke-width="0.1" stroke-dasharray="4 4" />
   <line x1="10.0" y1="114.0" x2="180.0" y2="114.0" stroke="black" stroke-width="0.1" stroke-dasharray="4 4" />
-  <line x1="10.0" y1="406.0" x2="180.0" y2="406.0" stroke="black" stroke-width="0.1" stroke-dasharray="4 4" />
-  <text x="60.0" y="225.0" font-family="Roboto" fill="black" font-size="6" >BSL: 282 mm</text>
-  <text x="60.0" y="295.0" font-family="Roboto" fill="black" font-size="6" >BSL: 282 mm</text>
   <circle cx="65.0" cy="130.5" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
   <line x1="60.0" y1="130.5" x2="70.0" y2="130.5" stroke="black" stroke-width="0.1" />
   <line x1="65.0" y1="125.5" x2="65.0" y2="135.5" stroke="black" stroke-width="0.1" />
@@ -42,6 +40,8 @@
   <circle cx="121.5" cy="89.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
   <line x1="116.5" y1="89.0" x2="126.5" y2="89.0" stroke="black" stroke-width="0.1" />
   <line x1="121.5" y1="84.0" x2="121.5" y2="94.0" stroke="black" stroke-width="0.1" />
+  <line x1="10.0" y1="255.0" x2="180.0" y2="255.0" stroke="black" stroke-width="0.1" stroke-dasharray="4 4" />
+  <line x1="10.0" y1="406.0" x2="180.0" y2="406.0" stroke="black" stroke-width="0.1" stroke-dasharray="4 4" />
   <circle cx="68.25" cy="345.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
   <line x1="63.25" y1="345.0" x2="73.25" y2="345.0" stroke="black" stroke-width="0.1" />
   <line x1="68.25" y1="340.0" x2="68.25" y2="350.0" stroke="black" stroke-width="0.1" />
