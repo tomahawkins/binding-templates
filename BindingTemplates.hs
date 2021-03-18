@@ -47,8 +47,10 @@ templateLibrary =
   [ ("pivot", lookToe, pivotHeel)
   , ("spx", lookToe, spxHeel)
   , ("rockerace", lookToe, rockeraceHeel)
-  , ("shift", shiftToe, shiftHeel)
   , ("royal", royalToe, royalHeel)
+  , ("shift", shiftToe, shiftHeel)
+  , ("sth2", sth2Toe, sth2Heel)
+  , ("warden", wardenToe, sth2Heel)
   , ("tyrolia", tyroliaToe, tyroliaHeel)
   ]
 
@@ -144,31 +146,53 @@ shiftHeel = HeelBinding $ symetric
     ]
 
 
+-- | Salomon STH2.
+sth2Toe :: ToeBinding
+sth2Toe = ToeBinding $ symetric
+  [ (42 / 2, - 15 + 30)
+  , (40 / 2, - 15)
+  ]
+
+sth2Heel :: HeelBinding
+sth2Heel = HeelBinding $ symetric
+  [ (32 / 2, 28)
+  , (32 / 2, 28 - 75)
+  ]
+
+
+-- | Salomon Warden toe.
+wardenToe :: ToeBinding
+wardenToe = ToeBinding $ symetric
+  [ (40 / 2, - 15 + 65)
+  , (40 / 2, - 15)
+  ]
+
+
 -- | Marker Royal family (Jester, Griffon, Squire).
 royalToe :: ToeBinding
 royalToe = ToeBinding $ symetric
-    [ (36 / 2, 19)
-    , (36 / 2, -12)
+    [ (36 / 2, - 12 + 31)
+    , (36 / 2, - 12)
     ]
 
 royalHeel :: HeelBinding
 royalHeel = HeelBinding $ symetric
-    [ (32 / 2, 22)
-    , (32 / 2, -58)
+    [ (32 / 2, 25)
+    , (32 / 2, 25 - 80)
     ]
 
 
 -- | Tyrolia.
 tyroliaToe :: ToeBinding
 tyroliaToe = ToeBinding $ symetric
-    [ (20, 45.5)
-    , (20, -9.5)
+    [ (40 / 2, - 15 + 55)
+    , (40 / 2, - 15)
     ]
 
 tyroliaHeel :: HeelBinding
 tyroliaHeel = HeelBinding $ symetric
-    [ (10, 16.5)
-    , (21.25, -78.5)
+    [ (20   / 2, 17)
+    , (42.5 / 2, 17 - 95)
     ]
 
 
