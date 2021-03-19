@@ -48,6 +48,7 @@ point for correctness before drilling into skis.
 
 # Links
 
+- [SkiTalk thread on binding templates](https://www.skitalk.com/threads/alpine-binding-mounting-template-sources.22959/).
 - [TGR thread on binding templates](https://www.tetongravity.com/forums/showthread.php/153971-Binding-Mount-Paper-Templates).
 - https://www.bindingfreedom.com/ for mounting tools and other binding templates.
 - [TGR thread on mounting methods and pullout strength](https://www.tetongravity.com/forums/archive/index.php/t-216051.html).
