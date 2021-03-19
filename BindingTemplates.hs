@@ -21,10 +21,10 @@ main = do
 -- | An example of a custom placement for a remount.
 customExample :: IO ()
 customExample = writeFile "custom-example.svg" $ unpack $ svg $ template
-  [ PlaceToe  royalToe  334 0       -- Marker Griffons mounted on the line with 334 BSL.
-  , PlaceHeel royalHeel 334 0
-  , PlaceToe  lookToe   334 (-1.1)  -- Remounted with Look Pivots mounted back 1.1 mm
-  , PlaceHeel pivotHeel 334 (-1.1)  -- to maximize toe binding hole separation.
+  [ PlaceToe  royalToe       334 0       -- Marker Griffons mounted on the line with 334 BSL.
+  , PlaceHeel royalHeel      334 0
+  , PlaceToe  lookPlasticToe 334 (-1.1)  -- Remounted with Look Pivots mounted back 1.1 mm
+  , PlaceHeel pivotHeel      334 (-1.1)  -- to maximize toe binding hole separation.
   ]
 
 
@@ -33,7 +33,7 @@ generateTemplateLibrary :: IO ()
 generateTemplateLibrary = do
   forM_ [270 .. 340 :: Int] $ \ bsl ->
     forM_ templateLibrary $ \ (name, toe, heel) ->
-      writeFile (unpack name <> "/" <> unpack name <> "_bsl_" <> show bsl <> ".svg") $
+      writeFile (unpack name <> "/" <> unpack name <> "-bsl-" <> show bsl <> ".svg") $
         unpack $ svg $ template
           [ PlaceToe toe (fromIntegral bsl) 0
           , PlaceHeel heel (fromIntegral bsl) 0
@@ -44,9 +44,11 @@ generateTemplateLibrary = do
 -- | Library of all the templates.
 templateLibrary :: [(Text, ToeBinding, HeelBinding)]
 templateLibrary = 
-  [ ("pivot", lookToe, pivotHeel)
-  , ("spx", lookToe, spxHeel)
-  , ("rockerace", lookToe, rockeraceHeel)
+  [ ("pivot-plastic-toe", lookPlasticToe, pivotHeel)
+  , ("pivot-metal-toe", lookMetalToe, pivotHeel)
+  , ("spx", lookPlasticToe, spxHeel)
+  , ("rockerace-plastic-toe", lookPlasticToe, rockeraceHeel)
+  , ("rockerace-metal-toe", lookMetalToe, rockeraceHeel)
   , ("royal", royalToe, royalHeel)
   , ("shift", shiftToe, shiftHeel)
   , ("sth2", sth2Toe, sth2Heel)
@@ -116,11 +118,19 @@ rockeraceHeel = HeelBinding
   ]
 
 
--- | The common LOOK toe.
-lookToe :: ToeBinding
-lookToe = ToeBinding
+-- | Look plastic toe.
+lookPlasticToe :: ToeBinding
+lookPlasticToe = ToeBinding
   [ Pair 35 (- 16.5)
   , Pair 42 (- 16.5 + 41.5)
+  ]
+
+
+-- | Look metal toe.
+lookMetalToe :: ToeBinding
+lookMetalToe = ToeBinding
+  [ Pair 35 (- 12.5)
+  , Pair 42 (- 12.5 + 41.5)
   ]
 
 
