@@ -9,6 +9,7 @@ module Main (main) where
 import Control.Monad (forM_)
 import Data.Text (Text, pack, unpack)
 import qualified Data.Text as T
+import System.Directory (createDirectoryIfMissing)
 
 
 -- | Generate binding templates for pivot, spx, and shift bindings over a range of BSLs.
@@ -32,7 +33,8 @@ customExample = writeFile "custom-example.svg" $ unpack $ svg $ template
 generateTemplateLibrary :: IO ()
 generateTemplateLibrary = do
   forM_ [270 .. 340 :: Int] $ \ bsl ->
-    forM_ templateLibrary $ \ (name, toe, heel) ->
+    forM_ templateLibrary $ \ (name, toe, heel) -> do
+      createDirectoryIfMissing False $ unpack name
       writeFile (unpack name <> "/" <> unpack name <> "-bsl-" <> show bsl <> ".svg") $
         unpack $ svg $ template
           [ PlaceToe toe (fromIntegral bsl) 0
@@ -44,15 +46,15 @@ generateTemplateLibrary = do
 -- | Library of all the templates.
 templateLibrary :: [(Text, ToeBinding, HeelBinding)]
 templateLibrary = 
-  [ ("pivot-plastic-toe", lookPlasticToe, pivotHeel)
-  , ("pivot-metal-toe", lookMetalToe, pivotHeel)
-  , ("spx", lookPlasticToe, spxHeel)
-  , ("rockerace-plastic-toe", lookPlasticToe, rockeraceHeel)
-  , ("rockerace-metal-toe", lookMetalToe, rockeraceHeel)
-  , ("royal", royalToe, royalHeel)
-  , ("shift", shiftToe, shiftHeel)
-  , ("sth2", sth2Toe, sth2Heel)
-  , ("warden", wardenToe, sth2Heel)
+  [ ("look-pivot-plastic-toe", lookPlasticToe, pivotHeel)
+  , ("look-pivot-metal-toe", lookMetalToe, pivotHeel)
+  , ("look-spx", lookPlasticToe, spxHeel)
+  , ("look-rockerace-plastic-toe", lookPlasticToe, rockeraceHeel)
+  , ("look-rockerace-metal-toe", lookMetalToe, rockeraceHeel)
+  , ("marker-royal", royalToe, royalHeel)
+  , ("salomon-shift", shiftToe, shiftHeel)
+  , ("salomon-sth2", sth2Toe, sth2Heel)
+  , ("salomon-warden", wardenToe, sth2Heel)
   , ("tyrolia", tyroliaToe, tyroliaHeel)
   ]
 
