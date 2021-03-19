@@ -75,7 +75,9 @@ newtype Plate = Plate [Hole]
 
 
 -- | Coordinates for hole.
-type Hole = Point
+data Hole
+  = Pair Double Double  -- ^ Pair of holes: width and distance from reference line.
+  | Center Double       -- ^ A single hole in the center, given distance from reference line.
 
 
 -- | Coordinates for a point in mm.
@@ -92,113 +94,108 @@ type MountPoint = Double
 
 -- | Look Pivot heel.
 pivotHeel :: HeelBinding
-pivotHeel = HeelBinding $ symetric
-  [ (21 / 2, 82)
-  , (29 / 2, 82 - 32)
+pivotHeel = HeelBinding
+  [ Pair 21 82
+  , Pair 29 (82 - 32)
   ]
 
 
 -- | Look SPX heel.
 spxHeel :: HeelBinding
-spxHeel = HeelBinding $ symetric
-  [ (42 / 2, 26)
-  , (42 / 2, 26 - 105)
+spxHeel = HeelBinding
+  [ Pair 42 26
+  , Pair 42 (26 - 105)
   ]
 
 
 -- | Look Rockerace heel.
 rockeraceHeel :: HeelBinding
-rockeraceHeel = HeelBinding $ symetric
-  [ (41.5 / 2, 61)
-  , (41.5 / 2, 61 - 40)
+rockeraceHeel = HeelBinding
+  [ Pair 41.5 61
+  , Pair 41.5 (61 - 40)
   ]
 
 
 -- | The common LOOK toe.
 lookToe :: ToeBinding
-lookToe = ToeBinding $ symetric
-  [ (35 / 2, - 16.5)
-  , (42 / 2, - 16.5 + 41.5)
+lookToe = ToeBinding
+  [ Pair 35 (- 16.5)
+  , Pair 42 (- 16.5 + 41.5)
   ]
 
 
 -- | Look R22 racing plate.
 r22 :: Plate
-r22 = Plate $ symetric
-  [ (12 / 2, 163)
-  , (35 / 2, 98)
-  , (35 / 2, -52)
-  , (35 / 2, -(52 + 120))
+r22 = Plate
+  [ Pair 12 163
+  , Pair 35 98
+  , Pair 35 (- 52)
+  , Pair 35 (- (52 + 120))
   ]
 
 
 -- | Salomon Shift.
 shiftToe :: ToeBinding
-shiftToe = ToeBinding $ (0, - 20 + 65) : symetric
-    [ (40 / 2, - 20)
-    , (30 / 2, - 20 - 70)
-    ]
+shiftToe = ToeBinding
+  [ Center (- 20 + 65)
+  , Pair 30 (- 20 - 70)
+  ]
 
 shiftHeel :: HeelBinding
-shiftHeel = HeelBinding $ symetric
-    [ (36 / 2, 15)
-    , (36 / 2, 15 - 68)
-    ]
+shiftHeel = HeelBinding
+  [ Pair 36 15
+  , Pair 36 (15 - 68)
+  ]
 
 
 -- | Salomon STH2.
 sth2Toe :: ToeBinding
-sth2Toe = ToeBinding $ symetric
-  [ (42 / 2, - 15 + 30)
-  , (40 / 2, - 15)
+sth2Toe = ToeBinding
+  [ Pair 42 (- 15 + 30)
+  , Pair 40 (- 15)
   ]
 
 sth2Heel :: HeelBinding
-sth2Heel = HeelBinding $ symetric
-  [ (32 / 2, 28)
-  , (32 / 2, 28 - 75)
+sth2Heel = HeelBinding
+  [ Pair 32 28
+  , Pair 32 (28 - 75)
   ]
 
 
 -- | Salomon Warden toe.
 wardenToe :: ToeBinding
-wardenToe = ToeBinding $ symetric
-  [ (40 / 2, - 15 + 65)
-  , (40 / 2, - 15)
+wardenToe = ToeBinding
+  [ Pair 40 (- 15 + 65)
+  , Pair 40 (- 15)
   ]
 
 
 -- | Marker Royal family (Jester, Griffon, Squire).
 royalToe :: ToeBinding
-royalToe = ToeBinding $ symetric
-    [ (36 / 2, - 12 + 31)
-    , (36 / 2, - 12)
+royalToe = ToeBinding
+    [ Pair 36 (- 12 + 31)
+    , Pair 36 (- 12)
     ]
 
 royalHeel :: HeelBinding
-royalHeel = HeelBinding $ symetric
-    [ (32 / 2, 25)
-    , (32 / 2, 25 - 80)
+royalHeel = HeelBinding
+    [ Pair 32 25
+    , Pair 32 (25 - 80)
     ]
 
 
 -- | Tyrolia.
 tyroliaToe :: ToeBinding
-tyroliaToe = ToeBinding $ symetric
-    [ (40 / 2, - 15 + 55)
-    , (40 / 2, - 15)
+tyroliaToe = ToeBinding
+    [ Pair 40 (- 15 + 55)
+    , Pair 40 (- 15)
     ]
 
 tyroliaHeel :: HeelBinding
-tyroliaHeel = HeelBinding $ symetric
-    [ (20   / 2, 17)
-    , (42.5 / 2, 17 - 95)
+tyroliaHeel = HeelBinding
+    [ Pair 20 17
+    , Pair 42.5 (17 - 95)
     ]
-
-
--- | Helper for when holes are symetric about the Y axis.
-symetric :: [Hole] -> [Hole]
-symetric = concatMap $ \ (x, y) -> [(x, y), (-x, y)]
 
 
 -- | Generate a template for a set of binding placements.
@@ -233,13 +230,19 @@ bootRefLine mount = dashedLine (leftMargin, base - mount) (rightMargin, base - m
 
 
 -- | Draw a hole with a y bias.
-hole :: Double -> Point -> Drawing
-hole bias (x, y) = target (pageCenter1 + x, base - y') <> target (pageCenter2 + x, base - y') 
+hole :: Double -> Hole -> Drawing
+hole bias = \case
+  Pair w y -> target' (w / 2) y <> target' (- w / 2) y
+  Center y -> target' 0 y
 
   where
 
-  base = if y' >= 0 then base1 else base2
-  y' = y + bias
+  target' x y = target (pageCenter1 + x, base - y') <> target (pageCenter2 + x, base - y')
+
+    where
+
+    base = if y' >= 0 then base1 else base2
+    y' = y + bias
 
 
 -- | Draws X and Y centerling lines for the template,
@@ -336,21 +339,6 @@ circle (cx, cy) r = Drawing
     , ("stroke-width", "0.1")
     ]
   ]
-
-
--- | Draws text at a point.
-{-
-text :: Point -> Text -> Drawing
-text (x, y) msg = Drawing
-  [ tag True "text"
-    [ ("x", showT x)
-    , ("y", showT y)
-    , ("font-family", "Roboto")
-    , ("fill", "black")
-    , ("font-size", "6")
-    ] <> msg <> "</text>"
-  ]
-  -}
 
 
 -- | Draws a crosshair.

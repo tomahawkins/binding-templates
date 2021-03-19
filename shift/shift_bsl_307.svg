@@ -22,18 +22,6 @@
   <circle cx="142.5" cy="56.5" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
   <line x1="137.5" y1="56.5" x2="147.5" y2="56.5" stroke="black" stroke-width="0.1" />
   <line x1="142.5" y1="51.5" x2="142.5" y2="61.5" stroke="black" stroke-width="0.1" />
-  <circle cx="67.5" cy="121.5" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="62.5" y1="121.5" x2="72.5" y2="121.5" stroke="black" stroke-width="0.1" />
-  <line x1="67.5" y1="116.5" x2="67.5" y2="126.5" stroke="black" stroke-width="0.1" />
-  <circle cx="162.5" cy="121.5" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="157.5" y1="121.5" x2="167.5" y2="121.5" stroke="black" stroke-width="0.1" />
-  <line x1="162.5" y1="116.5" x2="162.5" y2="126.5" stroke="black" stroke-width="0.1" />
-  <circle cx="27.5" cy="121.5" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="22.5" y1="121.5" x2="32.5" y2="121.5" stroke="black" stroke-width="0.1" />
-  <line x1="27.5" y1="116.5" x2="27.5" y2="126.5" stroke="black" stroke-width="0.1" />
-  <circle cx="122.5" cy="121.5" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="117.5" y1="121.5" x2="127.5" y2="121.5" stroke="black" stroke-width="0.1" />
-  <line x1="122.5" y1="116.5" x2="122.5" y2="126.5" stroke="black" stroke-width="0.1" />
   <circle cx="62.5" cy="191.5" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
   <line x1="57.5" y1="191.5" x2="67.5" y2="191.5" stroke="black" stroke-width="0.1" />
   <line x1="62.5" y1="186.5" x2="62.5" y2="196.5" stroke="black" stroke-width="0.1" />
