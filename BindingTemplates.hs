@@ -22,10 +22,10 @@ main = do
 -- | An example of a custom placement for a remount.
 customExample :: IO ()
 customExample = writeFile "custom-example.svg" $ unpack $ svg $ template
-  [ PlaceToe  royalToe       334 0       -- Marker Griffons mounted on the line with 334 BSL.
-  , PlaceHeel royalHeel      334 0
-  , PlaceToe  lookPlasticToe 334 (-1.1)  -- Remounted with Look Pivots mounted back 1.1 mm
-  , PlaceHeel pivotHeel      334 (-1.1)  -- to maximize toe binding hole separation.
+  [ PlaceToe  royalToe       334 0      -- Marker Griffons mounted on the line with 334 BSL.
+  , PlaceHeel royalHeel      334 (- 3)    
+  , PlaceToe  lookPlasticToe 334 (- 1)  -- Remounted with Look Rockerace 15 back 5 mm
+  , PlaceHeel rockeraceHeel  334 (- 1)  -- to maximize toe binding hole separation.
   ]
 
 
