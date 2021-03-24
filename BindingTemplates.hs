@@ -131,8 +131,8 @@ lookPlasticToe = ToeBinding
 -- | Look metal toe.
 lookMetalToe :: ToeBinding
 lookMetalToe = ToeBinding
-  [ Pair 35 (- 12.5)
-  , Pair 42 (- 12.5 + 41.5)
+  [ Pair 35 (- 13.5)
+  , Pair 42 (- 13.5 + 41.5)
   ]
 
 
