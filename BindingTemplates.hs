@@ -115,8 +115,8 @@ spxHeel = HeelBinding
 -- | Look Rockerace heel.
 rockeraceHeel :: HeelBinding
 rockeraceHeel = HeelBinding
-  [ Pair 42 61
-  , Pair 42 (61 - 38.5)
+  [ Pair 42.5 61
+  , Pair 42.5 (61 - 39)
   ]
 
 
