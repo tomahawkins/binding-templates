@@ -115,8 +115,8 @@ spxHeel = HeelBinding
 -- | Look Rockerace heel.
 rockeraceHeel :: HeelBinding
 rockeraceHeel = HeelBinding
-  [ Pair 42.5 58 
-  , Pair 42.5 (58 - 39)
+  [ Pair 42.5 59 
+  , Pair 42.5 (59 - 39)
   ]
 
 
@@ -131,8 +131,8 @@ lookPlasticToe = ToeBinding
 -- | Look metal toe.
 lookMetalToe :: ToeBinding
 lookMetalToe = ToeBinding
-  [ Pair 35 (- 13.5)
-  , Pair 42 (- 13.5 + 41.5)
+  [ Pair 35 (- 14.5)
+  , Pair 42 (- 14.5 + 41.5)
   ]
 
 
