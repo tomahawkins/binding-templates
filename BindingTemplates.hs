@@ -220,25 +220,12 @@ placement :: Placement -> Drawing
 placement = \case
 
   PlaceToe (ToeBinding holes) bsl mount ->
-    bootRefLine mount <>
-    bootRefLine (mount + bsl / 2) <>
     mconcat ((hole $ mount + bsl / 2) <$> holes)
 
   PlaceHeel (HeelBinding holes) bsl mount ->
-    bootRefLine mount <>
-    bootRefLine (mount - bsl / 2) <>
     mconcat ((hole $ mount - bsl / 2) <$> holes)
 
   PlacePlate (Plate holes) mount -> mconcat $ hole mount <$> holes
-
-
--- | Draw a dashed line for a boot reference line, e.g. mid sole, toe edge, heel edge.
-bootRefLine :: MountPoint -> Drawing
-bootRefLine mount = dashedLine (leftMargin, base - mount) (rightMargin, base - mount)
-
-  where
-
-  base = if mount >= 0 then base1 else base2
 
 
 -- | Draw a hole with a y bias.
@@ -249,11 +236,12 @@ hole bias = \case
 
   where
 
-  target' x y = target (pageCenter1 + x, base - y') <> target (pageCenter2 + x, base - y')
+  target' x y
+    | y' >= 0 = target (pageCenter2 + x, baseToe - y')
+    | otherwise = target (pageCenter1 + x, baseHeel - y') 
 
     where
 
-    base = if y' >= 0 then base1 else base2
     y' = y + bias
 
 
@@ -262,17 +250,14 @@ hole bias = \case
 centerLines :: Drawing
 centerLines = mconcat $
   -- Center lines.
-  [ line (pageCenter1, 0) (pageCenter1, pageHeight)
+  [ dashedLine (pageCenter, 0) (pageCenter, pageHeight)
+  , line (pageCenter1, 0) (pageCenter1, pageHeight)
   , line (pageCenter2, 0) (pageCenter2, pageHeight)
   ] <>
 
-  -- Center mount line.
-  [ line (leftMargin, base1) (rightMargin, base1)
-  , crosshairs (leftMargin,  base1)
-  , crosshairs (rightMargin, base1)
-  , line (leftMargin, base2) (rightMargin, base2)
-  , crosshairs (leftMargin,  base2)
-  , crosshairs (rightMargin, base2)
+  -- Center mount lines.
+  [ line (pageCenter, baseToe) (rightMargin, baseToe)
+  , line (leftMargin, baseHeel) (pageCenter, baseHeel)
   ]
 
 
@@ -282,7 +267,7 @@ pageWidth :: Double
 pageWidth = 190
 
 pageHeight :: Double
-pageHeight = 518
+pageHeight = 259
 
 pageCenter :: Double
 pageCenter = pageWidth / 2
@@ -293,11 +278,11 @@ pageCenter1 = pageCenter / 2
 pageCenter2 :: Double
 pageCenter2 = pageCenter / 2 + pageCenter
 
-base1 :: Double
-base1 = 255
+baseToe :: Double
+baseToe = 255
 
-base2 :: Double
-base2 = 265
+baseHeel :: Double
+baseHeel = 5
 
 leftMargin :: Double
 leftMargin = 10
@@ -353,17 +338,17 @@ circle (cx, cy) r = Drawing
   ]
 
 
--- | Draws a crosshair.
-crosshairs :: Point -> Drawing
-crosshairs (x, y) = mconcat
-  [ line (x - 5, y) (x + 5, y)
-  , line (x, y - 5) (x, y + 5)
-  ]
-
-
--- | Draws a target: crosshair with a circle.
+-- | Draws a target.
 target :: Point -> Drawing
-target (x, y) = circle (x, y) 2.5 <> crosshairs (x, y)
+target (x, y) = mconcat
+  [ circle (x, y) 2.5
+  , line (x - 0.5, y) (x + 0.5, y)
+  , line (x, y - 0.5) (x, y + 0.5)
+  , line (x - 3, y) (x - 2, y)
+  , line (x + 2, y) (x + 3, y)
+  , line (x, y - 3) (x, y - 2)
+  , line (x, y + 2) (x, y + 3)
+  ]
 
 
 -- | Converts Drawing to an SVG file.
