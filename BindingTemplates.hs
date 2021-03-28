@@ -212,7 +212,7 @@ tyroliaHeel = HeelBinding
 
 -- | Generate a template for a set of binding placements.
 template :: [Placement] -> Drawing
-template placements = centerLines <> mconcat (placement <$> placements)
+template placements = centerLines <> scalingRulers <> mconcat (placement <$> placements)
 
 
 -- | Draw the holes for a binding placement.
@@ -256,9 +256,31 @@ centerLines = mconcat $
   ] <>
 
   -- Center mount lines.
-  [ line (pageCenter, baseToe) (rightMargin, baseToe)
-  , line (leftMargin, baseHeel) (pageCenter, baseHeel)
+  [ line (pageCenter2 - 40, baseToe) (pageCenter2 + 40, baseToe)
+  , line (pageCenter1 - 40, baseHeel) (pageCenter1 + 40, baseHeel)
   ]
+
+
+-- | Draws some rulers to check for scaling.
+scalingRulers :: Drawing
+scalingRulers = mconcat $ concat
+  [ line' <$> [baseHeel .. baseToe]
+  , line'' <$> m
+  ]
+
+  where
+
+  m = reverse [pageCenter1, pageCenter1 - 1 .. pageCenter1 - 40] <>
+    [pageCenter1, pageCenter1 + 1 .. pageCenter1 + 40]
+
+  line' y = line (0, y) (width $ y - 5, y)
+  line'' x = line (x, baseToe) (x, baseToe - width (x - pageCenter1))
+
+  width :: Double -> Double
+  width n
+    | (round n :: Int) `mod` 10 == 0 = 3
+    | (round n :: Int) `mod` 5 == 0 = 2
+    | otherwise = 1
 
 
 -- | Page dimensions and parameters.
@@ -283,12 +305,6 @@ baseToe = 255
 
 baseHeel :: Double
 baseHeel = 5
-
-leftMargin :: Double
-leftMargin = 10
-
-rightMargin :: Double
-rightMargin = pageWidth - 10
 
 
 -- | A drawing is collection of SVG elements.
@@ -319,7 +335,7 @@ dashedLine (x1, y1) (x2, y2) = Drawing
     , ("y2", showT y2)
     , ("stroke", "black")
     , ("stroke-width", "0.1")
-    , ("stroke-dasharray", "4 4")
+    , ("stroke-dasharray", "2 2")
     ]
   ]
 
