@@ -32,7 +32,7 @@ customExample = writeFile "custom-example.svg" $ unpack $ svg $ template
 -- | Generate all templates over a range of BSLs with a mount point of 0.
 generateTemplateLibrary :: IO ()
 generateTemplateLibrary = do
-  forM_ [270 .. 340 :: Int] $ \ bsl ->
+  forM_ [250 .. 340 :: Int] $ \ bsl ->
     forM_ templateLibrary $ \ (name, toe, heel) -> do
       createDirectoryIfMissing False $ unpack name
       writeFile (unpack name <> "/" <> unpack name <> "-bsl-" <> show bsl <> ".svg") $
