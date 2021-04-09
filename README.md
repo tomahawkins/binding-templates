@@ -12,25 +12,7 @@ point for correctness before drilling into skis.
 
 # Recommended Instructions
 
-1. Print the template that matches your BSL.
-   Verify the correct print scaling.
-   From crosshair to crosshair on the mid sole mark is 190 mm.
-2. Join the two template sheets together by aligning the
-   mid sole marks of each page.  It helps to cut out the center of
-   the two crosshairs on one page.
-3. Using masking tape, mark the desired mid sole locations
-   on both skis.  Put the skis together to verify 
-   the mid sole mark is the same.
-4. Place two pieces of masking tape on the middle of each ski
-   at the approximate locations of the paper edge of the template.
-   Using a marking gauge or calipers, mark the centerline
-   of the ski on the masking tape.
-5. Place the template on the ski, aligning the mid sole marks
-   and the centerline.
-   It helps to cut a hole on the mid sole line so you can 
-   see the mid sole line on the ski through the template.
-6. With the template aligned and taped to the ski, mark the
-   holes for drilling with a center punch.
+- [SkiTalk tutorial on mounting bindings with paper templates](https://www.skitalk.com/threads/mounting-bindings-with-paper-templates.23069/).
 
 
 # Recommended Tools
@@ -48,7 +30,6 @@ point for correctness before drilling into skis.
 
 # Links
 
-- [SkiTalk tutorial on mounting bindings with paper templates](https://www.skitalk.com/threads/mounting-bindings-with-paper-templates.23069/).
 - [SkiTalk thread on binding templates](https://www.skitalk.com/threads/alpine-binding-mounting-template-sources.22959/).
 - [TGR thread on binding templates](https://www.tetongravity.com/forums/showthread.php/153971-Binding-Mount-Paper-Templates).
 - https://www.bindingfreedom.com/ for mounting tools and other binding templates.
