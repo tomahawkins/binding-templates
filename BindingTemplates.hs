@@ -32,6 +32,8 @@ customExample = writeFile "custom-example.svg" $ unpack $ svg $ template
 -- | Generate all templates over a range of BSLs with a mount point of 0.
 generateTemplateLibrary :: IO ()
 generateTemplateLibrary = do
+
+  -- Alpine bindings.
   forM_ [250 .. 340 :: Int] $ \ bsl ->
     forM_ templateLibrary $ \ (name, toe, heel) -> do
       createDirectoryIfMissing False $ unpack name
@@ -40,10 +42,18 @@ generateTemplateLibrary = do
           [ PlaceToe toe (fromIntegral bsl) 0
           , PlaceHeel heel (fromIntegral bsl) 0
           ]
+
+  -- Alpine plate bindings.
   writeFile "look-r22.svg" $ unpack $ svg $ template [PlacePlate r22 0]
 
+  -- Nordic bindings.
+  forM_ [36 .. 50] $ \ euroSize -> do
+      createDirectoryIfMissing False "rossignol-ifp"
+      writeFile ("rossignol-ifp/rossignol-ifp-euro-" <> show euroSize <> ".svg") $
+        unpack $ svg $ template [PlacePlate (rossignolIFP euroSize) 0]
 
--- | Library of all the templates.
+
+-- | Library of all alpine templates.
 templateLibrary :: [(Text, ToeBinding, HeelBinding)]
 templateLibrary = 
   [ ("look-pivot-plastic-toe", lookPlasticToe, pivotHeel)
@@ -145,6 +155,28 @@ r22 = Plate
   , Pair 35 (- (52 + 120))
   ]
 
+
+-- | Rossignol nordic IFP.
+rossignolIFP :: Int -> Plate
+rossignolIFP euroSize = Plate
+  [ Center 37
+  , Pair 26 (- 10)
+  , Center (- 132)
+  , Center (- 200   - offset * 13)
+  , Center (- 235.5 - offset * 13)
+  ]
+
+  where
+
+  offset :: Double
+  offset
+    | euroSize >= 36 && euroSize <= 38 = 0
+    | euroSize >= 39 && euroSize <= 41 = 1
+    | euroSize >= 42 && euroSize <= 44 = 2
+    | euroSize >= 45 && euroSize <= 47 = 3
+    | euroSize >= 48 && euroSize <= 50 = 4
+    | otherwise = error $ "Unsupported euro size: " <> show euroSize
+    
 
 -- | Salomon Shift.
 shiftToe :: ToeBinding
