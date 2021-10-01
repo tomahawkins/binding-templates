@@ -158,7 +158,7 @@ lookR20Toe = ToeBinding
 lookR20Heel :: HeelBinding
 lookR20Heel = HeelBinding
   [ Pair 34 (47.5 + 26)
-  , Pair 36 (47.5 + 26 - 120)
+  , Pair 36 (47.5 + 26 - 119)
   ]
 
 
