@@ -22,10 +22,9 @@ main = do
 -- | An example of a custom placement for a remount.
 customExample :: IO ()
 customExample = writeFile "custom-example.svg" $ unpack $ svg $ template
-  [ PlaceToe  royalToe      334 0      -- Marker Griffons mounted at 334 BSL with the toe
-  , PlaceHeel royalHeel     334 (- 3)  -- on the line line and the heel 3 mm back.
-  , PlaceToe  lookMetalToe  334 (- 4)  -- Remounted with Look Rockerace 15 back 4 mm
-  , PlaceHeel rockeraceHeel 334 (- 4)  -- to maximize hole separation.
+  [ PlaceToe  lookMetalToe  334 0  -- Remounted with Look Rockerace 15 back 4 mm
+  , PlaceHeel rockeraceHeel 334 0  -- to maximize hole separation.
+  , PlaceHeel pivotHeel     334 0  -- to maximize hole separation.
   ]
 
 
@@ -59,6 +58,7 @@ templateLibrary =
   [ ("look-pivot-plastic-toe", lookPlasticToe, pivotHeel)
   , ("look-pivot-metal-toe", lookMetalToe, pivotHeel)
   , ("look-spx", lookPlasticToe, spxHeel)
+  , ("look-r20", lookR20Toe, lookR20Heel)
   , ("look-rockerace-plastic-toe", lookPlasticToe, rockeraceHeel)
   , ("look-rockerace-metal-toe", lookMetalToe, rockeraceHeel)
   , ("marker-royal", royalToe, royalHeel)
@@ -143,6 +143,22 @@ lookMetalToe :: ToeBinding
 lookMetalToe = ToeBinding
   [ Pair 35 (- 13.5)
   , Pair 42 (- 13.5 + 41.5)
+  ]
+
+
+-- | Look R20 racing plate toe.
+lookR20Toe :: ToeBinding
+lookR20Toe = ToeBinding
+  [ Pair 37 (- (16.5 + 33))
+  , Pair 35 (110 - (16.5 + 33))
+  ]
+
+
+-- | Look R20 racing plate heel.
+lookR20Heel :: HeelBinding
+lookR20Heel = HeelBinding
+  [ Pair 34 (47.5 + 26)
+  , Pair 35.5 (47.5 + 26 - 120)
   ]
 
 
