@@ -52,7 +52,7 @@ generateTemplateLibrary = do
         unpack $ svg $ template [PlacePlate (rossignolIFP euroSize) 0]
 
 
--- | Library of all alpine templates.
+-- | Library of all alpine and telemark templates.
 templateLibrary :: [(Text, ToeBinding, HeelBinding)]
 templateLibrary = 
   [ ("look-pivot-plastic-toe", lookPlasticToe, pivotHeel)
@@ -66,6 +66,7 @@ templateLibrary =
   , ("salomon-sth2", sth2Toe, sth2Heel)
   , ("salomon-warden", wardenToe, sth2Heel)
   , ("tyrolia", tyroliaToe, tyroliaHeel)
+  , ("bishop-bmf", bmfToe, noHeel)
   ]
 
 
@@ -256,6 +257,22 @@ tyroliaHeel = HeelBinding
     [ Pair 20 17
     , Pair 42.5 (17 - 95)
     ]
+
+
+-- | Bishop BMF.
+bmfToe :: ToeBinding
+bmfToe = ToeBinding
+  [ Pair 38 25
+  , Pair 38 (25 + 38)
+  , Pair 38 (25 + 38 + 38)
+  , Pair 38 (25 + 38 + 38)
+  , Center (25 + 38 + 38)
+  , Center 244
+  , Center (244 + 38)
+  ]
+
+noHeel :: HeelBinding
+noHeel = HeelBinding []
 
 
 -- | Generate a template for a set of binding placements.
