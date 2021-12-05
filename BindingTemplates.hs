@@ -262,13 +262,13 @@ tyroliaHeel = HeelBinding
 -- | Bishop BMF.
 bmfToe :: ToeBinding
 bmfToe = ToeBinding
-  [ Pair 38 25
-  , Pair 38 (25 + 38)
-  , Pair 38 (25 + 38 + 38)
-  , Pair 38 (25 + 38 + 38)
-  , Center (25 + 38 + 38)
-  , Center 244
-  , Center (244 + 38)
+  [ Pair 38 (- 25)
+  , Pair 38 (- (25 + 38))
+  , Pair 38 (- (25 + 38 + 38))
+  , Pair 38 (- (25 + 38 + 38))
+  , Center (- (25 + 38 + 38))
+  , Center (- 244)
+  , Center (- (244 + 38))
   ]
 
 noHeel :: HeelBinding
