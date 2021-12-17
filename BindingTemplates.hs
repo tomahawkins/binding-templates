@@ -22,7 +22,7 @@ main = do
 -- | An example of a custom placement for a remount.
 customExample :: IO ()
 customExample = writeFile "custom-example.svg" $ unpack $ svg $ template
-  [ PlaceToe  lookMetalToe  334 0  -- Remounted with Look Rockerace 15 back 4 mm
+  [ PlaceToe  lookToe       334 0  -- Remounted with Look Rockerace 15 back 4 mm
   , PlaceHeel rockeraceHeel 334 0  -- to maximize hole separation.
   , PlaceHeel pivotHeel     334 0  -- to maximize hole separation.
   ]
@@ -55,18 +55,16 @@ generateTemplateLibrary = do
 -- | Library of all alpine and telemark templates.
 templateLibrary :: [(Text, ToeBinding, HeelBinding)]
 templateLibrary = 
-  [ ("look-pivot-plastic-toe", lookPlasticToe, pivotHeel)
-  , ("look-pivot-metal-toe", lookMetalToe, pivotHeel)
-  , ("look-spx", lookPlasticToe, spxHeel)
+  [ ("look-pivot", lookToe, pivotHeel)
+  , ("look-spx", lookToe, spxHeel)
   , ("look-r20", lookR20Toe, lookR20Heel)
-  , ("look-rockerace-plastic-toe", lookPlasticToe, rockeraceHeel)
-  , ("look-rockerace-metal-toe", lookMetalToe, rockeraceHeel)
+  , ("look-rockerace", lookToe, rockeraceHeel)
   , ("marker-royal", royalToe, royalHeel)
   , ("salomon-shift", shiftToe, shiftHeel)
   , ("salomon-sth2", sth2Toe, sth2Heel)
   , ("salomon-warden", wardenToe, sth2Heel)
   , ("tyrolia", tyroliaToe, tyroliaHeel)
-  , ("bishop-bmf", bmfToe, noHeel)
+  , ("bishop-bmf-ntn", bmfNtnToe, noHeel)
   ]
 
 
@@ -131,19 +129,11 @@ rockeraceHeel = HeelBinding
   ]
 
 
--- | Look plastic toe.
-lookPlasticToe :: ToeBinding
-lookPlasticToe = ToeBinding
+-- | Look toe.
+lookToe :: ToeBinding
+lookToe = ToeBinding
   [ Pair 35 (- 16.5)
   , Pair 42 (- 16.5 + 41.5)
-  ]
-
-
--- | Look metal toe.
-lookMetalToe :: ToeBinding
-lookMetalToe = ToeBinding
-  [ Pair 35 (- 13.5)
-  , Pair 42 (- 13.5 + 41.5)
   ]
 
 
@@ -259,9 +249,9 @@ tyroliaHeel = HeelBinding
     ]
 
 
--- | Bishop BMF.
-bmfToe :: ToeBinding
-bmfToe = ToeBinding
+-- | Bishop BMF for NTN.
+bmfNtnToe :: ToeBinding
+bmfNtnToe = ToeBinding
   [ Pair 38 (- 25)
   , Pair 38 (- (25 + 38))
   , Pair 38 (- (25 + 38 + 38))
