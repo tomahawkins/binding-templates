@@ -147,7 +147,7 @@ lookR20Heel = HeelBinding [Pair 34 (47.5 + 26), Pair 36 (47.5 + 26 - 119)]
 
 -- | Look R22 racing plate.
 r22 :: Plate
-r22 = Plate [Pair 12 163, Pair 35 98, Pair 35 (-52), Pair 35 (-(52 + 120))]
+r22 = Plate [Pair 12 164, Pair 35 99, Pair 35 (-52), Pair 35 (-171)]
 
 
 -- | Rossignol nordic IFP.
