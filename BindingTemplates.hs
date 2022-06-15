@@ -12,6 +12,7 @@ import           Data.Text                      ( Text
                                                 , pack
                                                 , unpack
                                                 )
+import Data.List (sortOn)
 import qualified Data.Text                     as T
 import           System.Directory               ( createDirectoryIfMissing )
 
@@ -314,6 +315,21 @@ tyrolia = placeToeHeel (Template [Pair 40 (-15 + 55), Pair 40 (-15)])
                        (Template [Pair 20 17, Pair 42.5 (17 - 95)])
 
 
+-- | Head Tyrolia FreeFlex.
+tyroliaFreeflex :: Bsl -> Template
+tyroliaFreeflex bsl = shift (bsl / 2) $ Template
+  [ Pair 40 (innerToeHoles + 55)
+  , Pair 40 innerToeHoles
+  , Pair 20 innerHeelHoles
+  , Pair 43.25 $ innerHeelHoles - 95
+  ]
+ where
+  innerToeHoles  = -12
+  innerHeelHoles = innerToeHoles + 2 - 137 - (195 - (360 - nearest))
+  nearest  = snd $ head $ sortOn fst [ (abs $ bsl - opt, opt) | opt <- options ]
+  options  = [270, 280 .. 360]
+
+
 -- | Bishop BMF for NTN.
 bmfNtn :: Bsl -> Template
 bmfNtn bsl = shift (bsl / 2) $ Template
@@ -330,15 +346,16 @@ bmfNtn bsl = shift (bsl / 2) $ Template
 -- | Library of all alpine and telemark templates.
 templateLibrary :: [(Text, Bsl -> Template)]
 templateLibrary =
-  [ ("look-pivot"    , pivot)
-  , ("look-spx"      , spx)
-  , ("look-rockerace", rockerace)
-  , ("salomon-shift" , shift')
-  , ("salomon-sth2"  , sth2)
-  , ("salomon-warden", warden)
-  , ("marker-royal"  , royal)
-  , ("tyrolia"       , tyrolia)
-  , ("bishop-bmf-ntn", bmfNtn)
+  [ ("look-pivot"      , pivot)
+  , ("look-spx"        , spx)
+  , ("look-rockerace"  , rockerace)
+  , ("salomon-shift"   , shift')
+  , ("salomon-sth2"    , sth2)
+  , ("salomon-warden"  , warden)
+  , ("marker-royal"    , royal)
+  , ("tyrolia"         , tyrolia)
+  , ("tyrolia-freeflex", tyroliaFreeflex)
+  , ("bishop-bmf-ntn"  , bmfNtn)
   ]
 
 
