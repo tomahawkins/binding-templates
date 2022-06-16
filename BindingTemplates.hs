@@ -8,11 +8,11 @@ module Main
 
 
 import           Control.Monad                  ( forM_ )
+import           Data.List                      ( sortOn )
 import           Data.Text                      ( Text
                                                 , pack
                                                 , unpack
                                                 )
-import Data.List (sortOn)
 import qualified Data.Text                     as T
 import           System.Directory               ( createDirectoryIfMissing )
 
@@ -324,10 +324,10 @@ tyroliaFreeflex bsl = shift (bsl / 2) $ Template
   , Pair 43.25 $ innerHeelHoles - 95
   ]
  where
-  innerToeHoles  = -12
-  innerHeelHoles = innerToeHoles + 2 - 137 - (195 - (360 - nearest))
-  nearest  = snd $ head $ sortOn fst [ (abs $ bsl - opt, opt) | opt <- options ]
-  options  = [270, 280 .. 360]
+  innerToeHoles  = -15
+  innerHeelHoles = innerToeHoles - 137 - (195 - (360 - nearest))
+  nearest = snd $ head $ sortOn fst [ (abs $ bsl - opt, opt) | opt <- options ]
+  options        = [270, 280 .. 360]
 
 
 -- | Bishop BMF for NTN.
