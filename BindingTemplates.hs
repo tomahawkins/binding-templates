@@ -325,7 +325,7 @@ tyroliaFreeflex bsl = shift (bsl / 2) $ Template
   ]
  where
   innerToeHoles  = -15
-  innerHeelHoles = innerToeHoles - 137 - (195 - (360 - nearest))
+  innerHeelHoles = innerToeHoles + 4 - 137 - (195 - (360 - nearest))
   nearest = snd $ head $ sortOn fst [ (abs $ bsl - opt, opt) | opt <- options ]
   options        = [270, 280 .. 360]
 
