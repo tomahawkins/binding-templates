@@ -312,7 +312,7 @@ royal = placeToeHeel (Template [Pair 36 (-12 + 31), Pair 36 (-12)])
 -- | Head Tyrolia.
 tyrolia :: Bsl -> Template
 tyrolia = placeToeHeel (Template [Pair 40 (-15 + 55), Pair 40 (-15)])
-                       (Template [Pair 20 17, Pair 42.5 (17 - 95)])
+                       (Template [Pair 20 17, Pair 43.5 (17 - 95)])
 
 
 -- | Head Tyrolia FreeFlex.
@@ -321,13 +321,14 @@ tyroliaFreeflex bsl = shift (bsl / 2) $ Template
   [ Pair 40 (innerToeHoles + 55)
   , Pair 40 innerToeHoles
   , Pair 20 innerHeelHoles
-  , Pair 43.25 $ innerHeelHoles - 95
+  , Pair 43.5 $ innerHeelHoles - 95
   ]
  where
   innerToeHoles  = -15
-  innerHeelHoles = innerToeHoles + 3 - 137 - (195 - (360 - nearest))
-  nearest = snd $ head $ sortOn fst [ (abs $ bsl - opt, opt) | opt <- options ]
-  options        = [270, 280 .. 360]
+  innerHeelHoles = innerToeHoles + 31 - nearest
+  nearest        = snd $ head $ sortOn
+    fst
+    [ (abs $ bsl - opt, opt) | opt <- [270, 280 .. 360] ]
 
 
 -- | Bishop BMF for NTN.
