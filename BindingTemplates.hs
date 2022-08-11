@@ -262,6 +262,25 @@ r22 :: Template
 r22 = Template [Pair 12 164, Pair 35 99, Pair 35 (-52), Pair 35 (-171)]
 
 
+-- | Salomon/Atomic Strive Demo.
+striveDemo :: Template
+striveDemo = Template
+  [ pair toeBase
+  , pair $ toeBase + toeLength
+  , pair (-heelBase)
+  , pair (-heelBase - heelLength)
+  ]
+
+ where
+
+  toeLength  = 75
+  heelLength = 80.5
+  toeBase    = 136
+  heelBase   = 140.5
+
+  pair p = Pair 29.5 p
+
+
 -- | Rossignol nordic IFP.
 rossignolIFP :: Int -> Template
 rossignolIFP euroSize = Template
@@ -375,8 +394,9 @@ main = do
       $ t
       $ fromIntegral bsl
 
-  -- Alpine plate bindings.
+  -- Alpine plate and demo bindings.
   writeFile "look-r22.svg" $ unpack $ svg $ template r22
+  writeFile "salomon-strive-demo.svg" $ unpack $ svg $ template striveDemo
 
   -- Nordic bindings.
   forM_ [36 .. 50] $ \euroSize -> do
