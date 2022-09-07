@@ -276,7 +276,7 @@ striveDemo = Template
   toeLength  = 75
   heelLength = 80.5
   toeBase    = 136
-  heelBase   = 140.5
+  heelBase   = 144
 
   pair p = Pair 29.5 p
 
