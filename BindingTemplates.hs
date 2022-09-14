@@ -7,7 +7,9 @@ module Main
   ) where
 
 
-import           Control.Monad                  ( forM_ )
+import           Control.Monad                  ( forM_
+                                                , when
+                                                )
 import           Data.List                      ( sortOn )
 import           Data.Text                      ( Text
                                                 , pack
@@ -60,8 +62,27 @@ placeToeHeel toe heel bsl = shift (bsl / 2) toe <> shift (-bsl / 2) heel
 
 
 -- | Draw a template.
-template :: Template -> Drawing
-template t = centerLines <> scalingRulers <> mconcat (hole <$> holes t)
+template :: Text -> Template -> Drawing
+template msg t =
+  centerLines
+    <> scalingRulers
+    <> mconcat (hole <$> holes t)
+    <> text (pageCenter1 + 35, baseHeel + 5) (msg <> ", Heel")
+    <> text (pageCenter2 + 35, baseHeel + 5) (msg <> ", Toe")
+
+
+text :: Point -> Text -> Drawing
+text (x, y) msg = Drawing
+  [ tagOpen
+      "text"
+      [ ("x"        , showT x)
+      , ("y"        , showT y)
+      , ("class"    , "small")
+      , ("transform", "rotate(90 " <> showT x <> " " <> showT y <> ")")
+      ]
+    <> msg
+    <> tagClose "text"
+  ]
 
 
 -- | Draw a hole.
@@ -79,20 +100,24 @@ hole h = case h of
 -- | Draws X and Y centerling lines for the template,
 --   which align with the mid sole mark and the mid line on the skis.
 centerLines :: Drawing
-centerLines =
-  mconcat
-    $
+centerLines = mconcat
   -- Center lines.
-       [ dashedLine (pageCenter, 0) (pageCenter, pageHeight)
-       , line (pageCenter1, 0) (pageCenter1, pageHeight)
-       , line (pageCenter2, 0) (pageCenter2, pageHeight)
-       ]
-    <>
-
-  -- Center mount lines.
-       [ line (pageCenter2 - 40, baseToe) (pageCenter2 + 40, baseToe)
-       , line (pageCenter1 - 40, baseHeel) (pageCenter1 + 40, baseHeel)
-       ]
+  [ line (pageCenter1     , 0)        (pageCenter1     , pageHeight)
+  , line (pageCenter2     , 0)        (pageCenter2     , pageHeight)
+  -- Mount point lines.
+  , line (pageCenter2 - 40, baseToe)  (pageCenter2 + 40, baseToe)
+  , line (pageCenter1 - 40, baseHeel) (pageCenter1 + 40, baseHeel)
+  -- Center trim line.
+  , dashedLine (pageCenter , 0)            (pageCenter     , pageHeight)
+  -- End trim lines.
+  , dashedLine (0          , pageHeight)   (pageCenter     , pageHeight)
+  , dashedLine (pageCenter , 0)            (pageWidth      , 0)
+  -- Notch trim lines.
+  , dashedLine (pageCenter1, baseHeel + 2) (pageCenter1 - 7, 0)
+  , dashedLine (pageCenter1, baseHeel + 2) (pageCenter1 + 7, 0)
+  , dashedLine (pageCenter2, baseToe - 2)  (pageCenter2 - 6, pageHeight)
+  , dashedLine (pageCenter2, baseToe - 2)  (pageCenter2 + 6, pageHeight)
+  ]
 
 
 -- | Draws some rulers to check for scaling.
@@ -143,7 +168,6 @@ baseHeel = 5
 line :: Point -> Point -> Drawing
 line (x1, y1) (x2, y2) = Drawing
   [ tag
-      False
       "line"
       [ ("x1"          , showT x1)
       , ("y1"          , showT y1)
@@ -159,7 +183,6 @@ line (x1, y1) (x2, y2) = Drawing
 dashedLine :: Point -> Point -> Drawing
 dashedLine (x1, y1) (x2, y2) = Drawing
   [ tag
-      False
       "line"
       [ ("x1"              , showT x1)
       , ("y1"              , showT y1)
@@ -176,7 +199,6 @@ dashedLine (x1, y1) (x2, y2) = Drawing
 circle :: Point -> Double -> Drawing
 circle (cx, cy) r = Drawing
   [ tag
-      False
       "circle"
       [ ("cx"          , showT cx)
       , ("cy"          , showT cy)
@@ -208,8 +230,7 @@ svg (Drawing elements) =
     $  [ "<?xml version=\"1.0\"?>"
        , "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\""
        , "\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">"
-       , tag
-         True
+       , tagOpen
          "svg"
          [ ("xmlns"  , "http://www.w3.org/2000/svg")
          , ("version", "1.2")
@@ -217,19 +238,34 @@ svg (Drawing elements) =
          , ("height" , showT pageHeight <> "mm")
          , ("viewBox", "0 0 " <> showT pageWidth <> " " <> showT pageHeight)
          ]
+       , tagOpen "style" []
+       , ".small { font: 6px sans-serif; }"
+       , tagClose "style"
        ]
     <> map ("  " <>) elements
-    <> ["</svg>"]
+    <> [tagClose "svg"]
 
 
 -- | Formats an XML tag.
-tag :: Bool -> Text -> [(Text, Text)] -> Text
-tag open element attributes =
+tag' :: Bool -> Text -> [(Text, Text)] -> Text
+tag' open element attributes =
   "<"
     <> element
     <> mconcat
          [ " " <> name <> "=\"" <> value <> "\"" | (name, value) <- attributes ]
     <> (if open then " >" else " />")
+
+
+tag :: Text -> [(Text, Text)] -> Text
+tag = tag' False
+
+
+tagOpen :: Text -> [(Text, Text)] -> Text
+tagOpen = tag' True
+
+
+tagClose :: Text -> Text
+tagClose element = "</" <> element <> ">"
 
 
 -- | Show for Text.
@@ -364,18 +400,18 @@ bmfNtn bsl = shift (bsl / 2) $ Template
 
 
 -- | Library of all alpine and telemark templates.
-templateLibrary :: [(Text, Bsl -> Template)]
+templateLibrary :: [(Text, Text, Bsl -> Template)]
 templateLibrary =
-  [ ("look-pivot"      , pivot)
-  , ("look-spx"        , spx)
-  , ("look-rockerace"  , rockerace)
-  , ("salomon-shift"   , shift')
-  , ("salomon-sth2"    , sth2)
-  , ("salomon-warden"  , warden)
-  , ("marker-royal"    , royal)
-  , ("tyrolia"         , tyrolia)
-  , ("tyrolia-freeflex", tyroliaFreeflex)
-  , ("bishop-bmf-ntn"  , bmfNtn)
+  [ ("look-pivot"      , "Look Pivot"                         , pivot)
+  , ("look-spx"        , "Looks SPX"                          , spx)
+  , ("look-rockerace"  , "Look Rockerace"                     , rockerace)
+  , ("salomon-shift"   , "Salomon Shift"                      , shift')
+  , ("salomon-sth2"    , "Salomon STH2"                       , sth2)
+  , ("salomon-warden"  , "Salomon Warden"                     , warden)
+  , ("marker-royal"    , "Marker Royal (Jester, Griffon, etc)", royal)
+  , ("tyrolia"         , "Tyrolia"                            , tyrolia)
+  , ("tyrolia-freeflex", "Tyrolia FreeFlex ST"                , tyroliaFreeflex)
+  , ("bishop-bmf-ntn"  , "Bishop"                             , bmfNtn)
   ]
 
 
@@ -384,27 +420,34 @@ main :: IO ()
 main = do
 
   -- Alpine bindings.
-  forM_ [250 .. 340 :: Int] $ \bsl -> forM_ templateLibrary $ \(name, t) -> do
-    createDirectoryIfMissing False $ unpack name
-    writeFile
-        (unpack name <> "/" <> unpack name <> "-bsl-" <> show bsl <> ".svg")
-      $ unpack
-      $ svg
-      $ template
-      $ t
-      $ fromIntegral bsl
+  when (not test) $ forM_ [250 .. 340 :: Int] $ \bsl ->
+    forM_ templateLibrary $ \(name, desc, t) -> do
+      createDirectoryIfMissing False $ unpack name
+      writeFile
+          (unpack name <> "/" <> unpack name <> "-bsl-" <> show bsl <> ".svg")
+        $ unpack
+        $ svg
+        $ template (desc <> ", BSL: " <> showT bsl <> " mm")
+        $ t
+        $ fromIntegral bsl
 
   -- Alpine plate and demo bindings.
-  writeFile "look-r22.svg" $ unpack $ svg $ template r22
-  writeFile "salomon-strive-demo.svg" $ unpack $ svg $ template striveDemo
+  writeFile "look-r22.svg" $ unpack $ svg $ template "Look R22 Plate" r22
+  writeFile "salomon-strive-demo.svg" $ unpack $ svg $ template
+    "Salomon Strive Demo"
+    striveDemo
 
   -- Nordic bindings.
-  forM_ [36 .. 50] $ \euroSize -> do
+  when (not test) $ forM_ [36 .. 50] $ \euroSize -> do
     createDirectoryIfMissing False "rossignol-ifp"
     writeFile ("rossignol-ifp/rossignol-ifp-euro-" <> show euroSize <> ".svg")
       $ unpack
       $ svg
-      $ template
+      $ template ("Rossignol IFP, Euro Size: " <> showT euroSize)
       $ rossignolIFP euroSize
+
+
+test :: Bool
+test = False
 
 

@@ -2,11 +2,20 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
 "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.2" width="190.0mm" height="259.0mm" viewBox="0 0 190.0 259.0" >
-  <line x1="95.0" y1="0.0" x2="95.0" y2="259.0" stroke="black" stroke-width="0.1" stroke-dasharray="2 2" />
+<style >
+.small { font: 6px sans-serif; }
+</style>
   <line x1="47.5" y1="0.0" x2="47.5" y2="259.0" stroke="black" stroke-width="0.1" />
   <line x1="142.5" y1="0.0" x2="142.5" y2="259.0" stroke="black" stroke-width="0.1" />
   <line x1="102.5" y1="255.0" x2="182.5" y2="255.0" stroke="black" stroke-width="0.1" />
   <line x1="7.5" y1="5.0" x2="87.5" y2="5.0" stroke="black" stroke-width="0.1" />
+  <line x1="95.0" y1="0.0" x2="95.0" y2="259.0" stroke="black" stroke-width="0.1" stroke-dasharray="2 2" />
+  <line x1="0.0" y1="259.0" x2="95.0" y2="259.0" stroke="black" stroke-width="0.1" stroke-dasharray="2 2" />
+  <line x1="95.0" y1="0.0" x2="190.0" y2="0.0" stroke="black" stroke-width="0.1" stroke-dasharray="2 2" />
+  <line x1="47.5" y1="7.0" x2="40.5" y2="0.0" stroke="black" stroke-width="0.1" stroke-dasharray="2 2" />
+  <line x1="47.5" y1="7.0" x2="54.5" y2="0.0" stroke="black" stroke-width="0.1" stroke-dasharray="2 2" />
+  <line x1="142.5" y1="253.0" x2="136.5" y2="259.0" stroke="black" stroke-width="0.1" stroke-dasharray="2 2" />
+  <line x1="142.5" y1="253.0" x2="148.5" y2="259.0" stroke="black" stroke-width="0.1" stroke-dasharray="2 2" />
   <line x1="0.0" y1="5.0" x2="3.0" y2="5.0" stroke="black" stroke-width="0.1" />
   <line x1="0.0" y1="6.0" x2="1.0" y2="6.0" stroke="black" stroke-width="0.1" />
   <line x1="0.0" y1="7.0" x2="1.0" y2="7.0" stroke="black" stroke-width="0.1" />
@@ -396,4 +405,6 @@
   <line x1="28.5" y1="220.5" x2="29.5" y2="220.5" stroke="black" stroke-width="0.1" />
   <line x1="26.5" y1="217.5" x2="26.5" y2="218.5" stroke="black" stroke-width="0.1" />
   <line x1="26.5" y1="222.5" x2="26.5" y2="223.5" stroke="black" stroke-width="0.1" />
+  <text x="82.5" y="10.0" class="small" transform="rotate(90 82.5 10.0)" >Looks SPX, BSL: 273 mm, Heel</text>
+  <text x="177.5" y="10.0" class="small" transform="rotate(90 177.5 10.0)" >Looks SPX, BSL: 273 mm, Toe</text>
 </svg>
