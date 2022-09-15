@@ -364,6 +364,12 @@ royal = placeToeHeel (Template [Pair 36 (-12 + 31), Pair 36 (-12)])
                      (Template [Pair 32 25, Pair 32 (25 - 80)])
 
 
+-- | Marker XComp.
+xcomp :: Bsl -> Template
+xcomp = placeToeHeel (Template [Pair 36 (-12), Center (-12 - 55)])
+                     (Template [Pair 20 12, Pair 40.5 (12 - 80)])
+
+
 -- | Head Tyrolia.
 tyrolia :: Bsl -> Template
 tyrolia = placeToeHeel (Template [Pair 40 (-15 + 55), Pair 40 (-15)])
@@ -409,6 +415,7 @@ templateLibrary =
   , ("salomon-sth2"    , "Salomon STH2"                       , sth2)
   , ("salomon-warden"  , "Salomon Warden"                     , warden)
   , ("marker-royal"    , "Marker Royal (Jester, Griffon, etc)", royal)
+  , ("marker-xcomp"    , "Marker XComp"                       , xcomp)
   , ("tyrolia"         , "Tyrolia"                            , tyrolia)
   , ("tyrolia-freeflex", "Tyrolia FreeFlex ST"                , tyroliaFreeflex)
   , ("bishop-bmf-ntn"  , "Bishop"                             , bmfNtn)
