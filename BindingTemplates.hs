@@ -319,21 +319,7 @@ striveDemo = Template
 
 -- | Tyrolia PowerRail (PRD, Protector).
 tyroliaPowerRail :: Template
-tyroliaPowerRail = Template
-  [ pair toeBase
-  , pair $ toeBase + toeLength
-  , pair (-heelBase)
-  , pair (-heelBase - heelLength)
-  ]
-
- where
-
-  toeLength  = 100
-  heelLength = 100
-  toeBase    = 100
-  heelBase   = 100
-
-  pair p = Pair 30 p
+tyroliaPowerRail = Template $ Pair 30 <$> [100, 200, -100, -200]
 
 
 -- | Rossignol nordic IFP.
