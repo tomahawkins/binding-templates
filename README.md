@@ -25,7 +25,7 @@ point for correctness before drilling into skis.
   for straight, accurate holes.
 - A [tap](https://www.bindingfreedom.com/12ab3-alpine-tap-tin-coated/) for standard alpine binding screws.
 - A nice long [tap wrench](https://www.starrett.com/metrology/product-detail/93E) to ensure good tap alignment.
-- A comfy [Pozi #3 screwdriver](https://www.hazet.de/en/products/hand-tools/screwdrivers/multi-component-handle/1426/hexanamic-screwdriver).
+- A comfy [Pozidriv #3 (PZ3) screwdriver](https://www.hazet.de/en/products/hand-tools/screwdrivers/multi-component-handle/1426/hexanamic-screwdriver).
 
 
 # Links
