@@ -19,13 +19,13 @@ point for correctness before drilling into skis.
 
 - An [optical center punch](https://www.fowlerprecision.com/Products/Scribers/525000750.html)
   for precision drilling.
-- A [marking guage](https://www.leevalley.com/en-us/shop/tools/hand-tools/marking-and-measuring/marking-gauges/75849-veritas-micro-adjust-wheel-marking-gauge)
+- A micro adjust [marking guage](https://www.leevalley.com/en-us/shop/tools/hand-tools/marking-and-measuring/marking-gauges/75849-veritas-micro-adjust-wheel-marking-gauge)
   for finding the ski's centerline.
 - A high quality [mini drill press](https://www.grizzly.com/products/grizzly-variable-speed-mini-benchtop-drill-press/t32006)
   for straight, accurate holes.
 - A [tap](https://www.bindingfreedom.com/12ab3-alpine-tap-tin-coated/) for standard alpine binding screws.
 - A nice long [tap wrench](https://www.starrett.com/metrology/product-detail/93E) to ensure good tap alignment.
-- A comfy [Pozi #3 screwdriver](https://www.bindingfreedom.com/screw-drivers/).
+- A comfy [Pozi #3 screwdriver](https://www.hazet.de/en/products/hand-tools/screwdrivers/multi-component-handle/1426/hexanamic-screwdriver).
 
 
 # Links
