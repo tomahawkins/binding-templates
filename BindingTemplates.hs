@@ -317,6 +317,25 @@ striveDemo = Template
   pair p = Pair 29.5 p
 
 
+-- | Tyrolia PowerRail (PRD, Protector).
+tyroliaPowerRail :: Template
+tyroliaPowerRail = Template
+  [ pair toeBase
+  , pair $ toeBase + toeLength
+  , pair (-heelBase)
+  , pair (-heelBase - heelLength)
+  ]
+
+ where
+
+  toeLength  = 100
+  heelLength = 100
+  toeBase    = 100
+  heelBase   = 100
+
+  pair p = Pair 30 p
+
+
 -- | Rossignol nordic IFP.
 rossignolIFP :: Int -> Template
 rossignolIFP euroSize = Template
@@ -443,6 +462,9 @@ main = do
   writeFile "salomon-strive-demo.svg" $ unpack $ svg $ template
     "Salomon Strive Demo"
     striveDemo
+  writeFile "tyrolia-power-rail.svg" $ unpack $ svg $ template
+    "Tyrolia PowerRail"
+    tyroliaPowerRail
 
   -- Nordic bindings.
   when (not test) $ forM_ [36 .. 50] $ \euroSize -> do
