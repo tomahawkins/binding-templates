@@ -365,20 +365,35 @@ warden = placeToeHeel (Template [Pair 40 (-15 + 65), Pair 40 (-15)]) sth2Heel
 
 -- | Marker Royal family (Jester, Griffon, Squire).
 royal :: Bsl -> Template
-royal = placeToeHeel (Template [Pair 36 (-12 + 31), Pair 36 (-12)])
+royal = placeToeHeel royalToe
                      (Template [Pair 32 25, Pair 32 (25 - 80)])
+
+
+royalToe :: Template
+royalToe = Template [Pair 36 (-12 + 31), Pair 36 (-12)]
+
+
+xcompHeel :: Template
+xcompHeel = Template [Pair 20 12, Pair 40.5 (12 - 80)]
 
 
 -- | Marker XComp.
 xcomp :: Bsl -> Template
-xcomp = placeToeHeel (Template [Pair 36 (-12), Center (-12 - 55)])
-                     (Template [Pair 20 12, Pair 40.5 (12 - 80)])
+xcomp = placeToeHeel (Template [Pair 36 (-12), Center (-12 - 55)]) xcompHeel
+
+
+-- | Marker XCell.
+xcell :: Bsl -> Template
+xcell = placeToeHeel royalToe xcompHeel
 
 
 -- | Head Tyrolia.
 tyrolia :: Bsl -> Template
 tyrolia = placeToeHeel (Template [Pair 40 (-15 + 55), Pair 40 (-15)])
                        (Template [Pair 20 17, Pair 43.25 (17 - 95)])
+
+
+
 
 
 -- | Head Tyrolia FreeFlex.
@@ -421,6 +436,7 @@ templateLibrary =
   , ("salomon-warden"  , "Salomon Warden"                     , warden)
   , ("marker-royal"    , "Marker Royal (Jester, Griffon, etc)", royal)
   , ("marker-xcomp"    , "Marker XComp"                       , xcomp)
+  , ("marker-xcell"    , "Marker XCell"                       , xcell)
   , ("tyrolia"         , "Tyrolia"                            , tyrolia)
   , ("tyrolia-freeflex", "Tyrolia FreeFlex ST"                , tyroliaFreeflex)
   , ("bishop-bmf-ntn"  , "Bishop"                             , bmfNtn)
@@ -432,7 +448,7 @@ main :: IO ()
 main = do
 
   -- Alpine bindings.
-  when (not test) $ forM_ [250 .. 340 :: Int] $ \bsl ->
+  when (not test) $ forM_ [250 .. 350 :: Int] $ \bsl ->
     forM_ templateLibrary $ \(name, desc, t) -> do
       createDirectoryIfMissing False $ unpack name
       writeFile
