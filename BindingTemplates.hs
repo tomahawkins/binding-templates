@@ -237,6 +237,7 @@ svg (Drawing elements) =
          , ("width"  , showT pageWidth <> "mm")
          , ("height" , showT pageHeight <> "mm")
          , ("viewBox", "0 0 " <> showT pageWidth <> " " <> showT pageHeight)
+         , ("style", "background-color:white")
          ]
        , tagOpen "style" []
        , ".small { font: 6px sans-serif; }"
