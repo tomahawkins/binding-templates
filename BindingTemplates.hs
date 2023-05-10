@@ -323,6 +323,16 @@ tyroliaPowerRail :: Template
 tyroliaPowerRail = Template $ Pair 30 <$> [100, 200, -100, -200]
 
 
+-- | Tyrolia Twin PR Base, set with specific BSL for maximum adjustability.
+tyroliaTwinPrBase :: Bsl -> Template
+tyroliaTwinPrBase = placeToeHeel
+  (Template [Pair 30 (200 - bias), Pair 30 (100 - bias)])
+  (Template [Pair 30 (bias - 100), Pair 30 (bias - 200)])
+  where
+  medianBsl = 316.5
+  bias = medianBsl / 2
+
+
 -- | Rossignol nordic IFP.
 rossignolIFP :: Int -> Template
 rossignolIFP euroSize = Template
@@ -440,6 +450,7 @@ templateLibrary =
   , ("marker-xcell"    , "Marker XCell"                       , xcell)
   , ("tyrolia"         , "Tyrolia"                            , tyrolia)
   , ("tyrolia-freeflex", "Tyrolia FreeFlex ST"                , tyroliaFreeflex)
+  , ("tyrolia-twin-pr-base", "Tyrolia Twin PR Base w/ specific BSL for max adjustment", tyroliaTwinPrBase)
   , ("bishop-bmf-ntn"  , "Bishop"                             , bmfNtn)
   ]
 
