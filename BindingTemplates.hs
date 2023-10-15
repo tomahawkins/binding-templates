@@ -296,6 +296,15 @@ striveDemo =
 tyroliaPowerRail :: Template
 tyroliaPowerRail = Template $ Pair 30 <$> [100, 200, -100, -200]
 
+tyroliaAttackDemo :: Template
+tyroliaAttackDemo =
+  Template
+    [ Pair 34 190,
+      Pair 34 90,
+      Pair 20 (-130),
+      Pair 43 (-130 - 95)
+    ]
+
 -- | Tyrolia Twin PR Base, set with specific BSL for maximum adjustability.
 tyroliaTwinPrBase :: Bsl -> Template
 tyroliaTwinPrBase =
@@ -424,6 +433,9 @@ templateLibrary =
     ("bishop-bmf-ntn", "Bishop", bmfNtn)
   ]
 
+demoTemplate :: FilePath -> Text -> Template -> IO ()
+demoTemplate file name t = writeFile file $ unpack $ svg $ template name t
+
 -- | Generate binding templates.
 main :: IO ()
 main = do
@@ -440,19 +452,10 @@ main = do
         $ fromIntegral bsl
 
   -- Alpine plate and demo bindings.
-  writeFile "look-r22.svg" $ unpack $ svg $ template "Look R22 Plate" r22
-  writeFile "salomon-strive-demo.svg" $
-    unpack $
-      svg $
-        template
-          "Salomon Strive Demo"
-          striveDemo
-  writeFile "tyrolia-power-rail.svg" $
-    unpack $
-      svg $
-        template
-          "Tyrolia PowerRail"
-          tyroliaPowerRail
+  demoTemplate "look-r22.svg" "Look R22 Plate" r22
+  demoTemplate "salomon-strive-demo.svg" "Salomon Strive Demo" striveDemo
+  demoTemplate "tyrolia-power-rail.svg" "Tyrolia PowerRail" tyroliaPowerRail
+  demoTemplate "tyrolia-attack-demo.svg" "Tyrolia Attack Demo" tyroliaAttackDemo
 
   -- Nordic bindings.
   when (not test) $ forM_ [36 .. 50] $ \euroSize -> do
