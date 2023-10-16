@@ -114,15 +114,15 @@ centerLines =
 scalingRulers :: Drawing
 scalingRulers =
   mconcat $
-    concat [line' <$> [baseHeel .. baseToe], line'' <$> m]
+    concat [rulerVertical, rulerHorizontal]
   where
-    m =
-      reverse [pageCenter1, pageCenter1 - 1 .. pageCenter1 - 40]
-        <> [pageCenter1, pageCenter1 + 1 .. pageCenter1 + 40]
-
-    line' y = line (0, y) (width $ y - 5, y)
-    line'' x = line (x, baseToe) (x, baseToe - width (x - pageCenter1))
-
+    rulerLineVertical y = line (0, y) (width $ y - 5, y)
+    rulerVertical = rulerLineVertical <$> [baseHeel .. baseToe]
+    rulerLineHorizontal x = line (x, baseToe) (x, baseToe - width (x - pageCenter1))
+    rulerHorizontal =
+      rulerLineHorizontal
+        <$> reverse [pageCenter1, pageCenter1 - 1 .. pageCenter1 - 40]
+          <> [pageCenter1, pageCenter1 + 1 .. pageCenter1 + 40]
     width :: Double -> Double
     width n
       | (round n :: Int) `mod` 10 == 0 = 3
@@ -433,8 +433,8 @@ templateLibrary =
     ("bishop-bmf-ntn", "Bishop", bmfNtn)
   ]
 
-demoTemplate :: FilePath -> Text -> Template -> IO ()
-demoTemplate file name t = writeFile file $ unpack $ svg $ template name t
+writeTemplate :: FilePath -> Text -> Template -> IO ()
+writeTemplate file name t = writeFile file $ unpack $ svg $ template name t
 
 -- | Generate binding templates.
 main :: IO ()
@@ -443,19 +443,16 @@ main = do
   when (not test) $ forM_ [250 .. 350 :: Int] $ \bsl ->
     forM_ templateLibrary $ \(name, desc, t) -> do
       createDirectoryIfMissing False $ unpack name
-      writeFile
+      writeTemplate
         (unpack name <> "/" <> unpack name <> "-bsl-" <> show bsl <> ".svg")
-        $ unpack
-        $ svg
-        $ template (desc <> ", BSL: " <> showT bsl <> " mm")
-        $ t
-        $ fromIntegral bsl
+        (desc <> ", BSL: " <> showT bsl <> " mm")
+        (t $ fromIntegral bsl)
 
   -- Alpine plate and demo bindings.
-  demoTemplate "look-r22.svg" "Look R22 Plate" r22
-  demoTemplate "salomon-strive-demo.svg" "Salomon Strive Demo" striveDemo
-  demoTemplate "tyrolia-power-rail.svg" "Tyrolia PowerRail" tyroliaPowerRail
-  demoTemplate "tyrolia-attack-demo.svg" "Tyrolia Attack Demo" tyroliaAttackDemo
+  writeTemplate "look-r22.svg" "Look R22 Plate" r22
+  writeTemplate "salomon-strive-demo.svg" "Salomon Strive Demo" striveDemo
+  writeTemplate "tyrolia-power-rail.svg" "Tyrolia PowerRail" tyroliaPowerRail
+  writeTemplate "tyrolia-attack-demo.svg" "Tyrolia Attack Demo" tyroliaAttackDemo
 
   -- Nordic bindings.
   when (not test) $ forM_ [36 .. 50] $ \euroSize -> do
