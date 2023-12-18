@@ -350,8 +350,14 @@ sth2 :: Bsl -> Template
 sth2 = placeToeHeel (Template [Pair 42 (-15 + 30), Pair 40 (-15)]) sth2Heel
 
 -- | Salomon Warden.
-warden :: Bsl -> Template
-warden = placeToeHeel (Template [Pair 40 (-15 + 65), Pair 40 (-15)]) sth2Heel
+wardenToe :: Template
+wardenToe = Template [Pair 40 (-15 + 65), Pair 40 (-15)]
+
+warden11 :: Bsl -> Template
+warden11 = placeToeHeel wardenToe (Template [Pair 30 28, Pair 30 (28 - 80)])
+
+warden13 :: Bsl -> Template
+warden13 = placeToeHeel wardenToe sth2Heel
 
 -- | Marker Royal family (Jester, Griffon, Squire).
 royal :: Bsl -> Template
@@ -423,7 +429,8 @@ templateLibrary =
     ("look-rockerace", "Look Rockerace", rockerace),
     ("salomon-shift", "Salomon Shift", shift'),
     ("salomon-sth2", "Salomon STH2", sth2),
-    ("salomon-warden", "Salomon Warden", warden),
+    ("salomon-warden-11", "Salomon Warden 11, Strive 12/14", warden11),
+    ("salomon-warden-13", "Salomon Warden 13, Strive 16", warden13),
     ("marker-royal", "Marker Royal (Jester, Griffon, etc)", royal),
     ("marker-xcomp", "Marker XComp", xcomp),
     ("marker-xcell", "Marker XCell", xcell),
