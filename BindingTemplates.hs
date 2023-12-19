@@ -298,7 +298,7 @@ tyroliaPowerRail = Template $ Pair 30 <$> [100, 200, -100, -200]
 
 -- | Tyrolia SuperLiteRail (SLR, Protector).
 tyroliaSuperLiteRail :: Template
-tyroliaSuperLiteRail = Template $ Pair 30 <$> [125, 250, -125, -250]
+tyroliaSuperLiteRail = Template $ Pair 25 <$> [100, 185, -100, -185]
 
 tyroliaAttackDemo :: Template
 tyroliaAttackDemo =
