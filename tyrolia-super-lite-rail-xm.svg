@@ -405,6 +405,6 @@
   <line x1="37.0" y1="215.0" x2="38.0" y2="215.0" stroke="black" stroke-width="0.1" />
   <line x1="35.0" y1="212.0" x2="35.0" y2="213.0" stroke="black" stroke-width="0.1" />
   <line x1="35.0" y1="217.0" x2="35.0" y2="218.0" stroke="black" stroke-width="0.1" />
-  <text x="82.5" y="10.0" class="small" transform="rotate(90 82.5 10.0)" >Tyrolia SuperLiteRail (SLR) Medium, Heel</text>
-  <text x="177.5" y="10.0" class="small" transform="rotate(90 177.5 10.0)" >Tyrolia SuperLiteRail (SLR) Medium, Toe</text>
+  <text x="82.5" y="10.0" class="small" transform="rotate(90 82.5 10.0)" >Tyrolia SuperLiteRail XM (SLR), Heel</text>
+  <text x="177.5" y="10.0" class="small" transform="rotate(90 177.5 10.0)" >Tyrolia SuperLiteRail XM (SLR), Toe</text>
 </svg>

@@ -296,9 +296,13 @@ striveDemo =
 tyroliaPowerRail :: Template
 tyroliaPowerRail = Template $ Pair 30 <$> [100, 200, -100, -200]
 
--- | Tyrolia SuperLiteRail (SLR Medium, Protector).
-tyroliaSuperLiteRail :: Template
-tyroliaSuperLiteRail = Template $ Pair 25 <$> [90, 190, -110, -210]
+-- | Tyrolia SuperLiteRail XM (SLR, Protector).
+tyroliaSuperLiteRailXm :: Template
+tyroliaSuperLiteRailXm = Template $ Pair 25 <$> [90, 190, -110, -210]
+
+-- | Tyrolia SuperLiteRail XL (SLR, Protector).
+tyroliaSuperLiteRailXl :: Template
+tyroliaSuperLiteRailXl = Template $ Pair 25 <$> [115, 200, -125, -210]
 
 tyroliaAttackDemo :: Template
 tyroliaAttackDemo =
@@ -463,7 +467,8 @@ main = do
   writeTemplate "look-r22.svg" "Look R22 Plate" r22
   writeTemplate "salomon-strive-demo.svg" "Salomon Strive Demo" striveDemo
   writeTemplate "tyrolia-power-rail.svg" "Tyrolia PowerRail (PR)" tyroliaPowerRail
-  writeTemplate "tyrolia-super-lite-rail-med.svg" "Tyrolia SuperLiteRail (SLR) Medium" tyroliaSuperLiteRail
+  writeTemplate "tyrolia-super-lite-rail-xm.svg" "Tyrolia SuperLiteRail XM (SLR)" tyroliaSuperLiteRailXm
+  writeTemplate "tyrolia-super-lite-rail-xl.svg" "Tyrolia SuperLiteRail XL (SLR)" tyroliaSuperLiteRailXl
   writeTemplate "tyrolia-attack-demo.svg" "Tyrolia Attack Demo" tyroliaAttackDemo
 
   -- Nordic bindings.
