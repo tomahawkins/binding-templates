@@ -455,7 +455,7 @@ writeTemplate file name t = writeFile file $ unpack $ svg $ template name t
 main :: IO ()
 main = do
   -- Alpine bindings.
-  when (not test) $ forM_ [250 .. 350 :: Int] $ \bsl ->
+  when (not test) $ forM_ [240 .. 350 :: Int] $ \bsl ->
     forM_ templateLibrary $ \(name, desc, t) -> do
       createDirectoryIfMissing False $ unpack name
       writeTemplate
