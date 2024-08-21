@@ -1,15 +1,13 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Main
-  ( main,
+module BindingTemplates
+  ( allTemplates,
+    checkRemount,
   )
 where
 
-import Control.Monad
-  ( forM_,
-    when,
-  )
+import Control.Monad (forM_)
 import Data.List (sortOn)
 import Data.Text
   ( Text,
@@ -25,6 +23,7 @@ data Hole
     Pair Double Double
   | -- | A single hole in the center with position.
     Center Double
+  deriving (Eq)
 
 -- | A template is a list of hole positions.
 newtype Template = Template {holes :: [Hole]} deriving (Semigroup)
@@ -452,10 +451,10 @@ writeTemplate :: FilePath -> Text -> Template -> IO ()
 writeTemplate file name t = writeFile file $ unpack $ svg $ template name t
 
 -- | Generate binding templates.
-main :: IO ()
-main = do
+allTemplates :: IO ()
+allTemplates = do
   -- Alpine bindings.
-  when (not test) $ forM_ [240 .. 350 :: Int] $ \bsl ->
+  forM_ [240 .. 350 :: Int] $ \bsl ->
     forM_ templateLibrary $ \(name, desc, t) -> do
       createDirectoryIfMissing False $ unpack name
       writeTemplate
@@ -472,7 +471,7 @@ main = do
   writeTemplate "tyrolia-attack-demo.svg" "Tyrolia Attack Demo" tyroliaAttackDemo
 
   -- Nordic bindings.
-  when (not test) $ forM_ [36 .. 50] $ \euroSize -> do
+  forM_ [36 .. 50] $ \euroSize -> do
     createDirectoryIfMissing False "rossignol-ifp"
     writeFile ("rossignol-ifp/rossignol-ifp-euro-" <> show euroSize <> ".svg") $
       unpack $
@@ -480,5 +479,20 @@ main = do
           template ("Rossignol IFP, Euro Size: " <> showT euroSize) $
             rossignolIFP euroSize
 
-test :: Bool
-test = False
+-- | Returns the minimum distance between holes in a template, or multiple templates.
+minimumHoleSpacing :: Template -> Double
+minimumHoleSpacing (Template holes) = minimum [holeDistance a b | a <- holes, b <- holes, a /= b]
+
+-- | Compute the distance between two sets of holes.  Ignores distance of a pair of holes.
+holeDistance :: Hole -> Hole -> Double
+holeDistance a b = case (a, b) of
+  (Center a', Center b') -> abs $ a' - b'
+  (Pair aW aP, Pair bW bP) -> sqrt $ (aW / 2 - bW / 2) ** 2 + (aP - bP) ** 2
+  (Center aP, Pair bW bP) -> sqrt $ (bW / 2) ** 2 + (aP - bP) ** 2
+  (a'@(Pair _ _), b'@(Center _)) -> holeDistance b' a'
+
+-- | Checks if a binding remount will have enough clearance.
+checkRemount :: IO ()
+checkRemount = do
+  putStrLn $ "Minimum hold distance: " <> show (minimumHoleSpacing $ r22 <> tyroliaSuperLiteRailXl)
+  writeTemplate "r22-to-slr.svg" "R22 to SLR" $ r22 <> tyroliaSuperLiteRailXl
