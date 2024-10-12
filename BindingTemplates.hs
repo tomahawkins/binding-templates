@@ -406,7 +406,7 @@ tyroliaFreeflex bsl =
       ]
   where
     innerToeHoles = -15
-    innerHeelHoles = innerToeHoles + 31.5 - nearest
+    innerHeelHoles = innerToeHoles + 31.5 - 2.5 - nearest
     nearest =
       snd $
         head $
