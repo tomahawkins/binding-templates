@@ -350,78 +350,111 @@
   <line x1="86.5" y1="255.0" x2="86.5" y2="254.0" stroke="black" stroke-width="0.1" />
   <line x1="87.5" y1="255.0" x2="87.5" y2="252.0" stroke="black" stroke-width="0.1" />
   <circle cx="161.5" cy="134.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="161.0" y1="134.0" x2="162.0" y2="134.0" stroke="black" stroke-width="0.1" />
-  <line x1="161.5" y1="133.5" x2="161.5" y2="134.5" stroke="black" stroke-width="0.1" />
+  <circle cx="161.5" cy="134.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="161.25" y1="134.0" x2="161.0" y2="134.0" stroke="black" stroke-width="0.1" />
+  <line x1="161.75" y1="134.0" x2="162.0" y2="134.0" stroke="black" stroke-width="0.1" />
+  <line x1="161.5" y1="133.75" x2="161.5" y2="133.5" stroke="black" stroke-width="0.1" />
+  <line x1="161.5" y1="134.25" x2="161.5" y2="134.5" stroke="black" stroke-width="0.1" />
   <line x1="158.5" y1="134.0" x2="159.5" y2="134.0" stroke="black" stroke-width="0.1" />
   <line x1="163.5" y1="134.0" x2="164.5" y2="134.0" stroke="black" stroke-width="0.1" />
   <line x1="161.5" y1="131.0" x2="161.5" y2="132.0" stroke="black" stroke-width="0.1" />
   <line x1="161.5" y1="136.0" x2="161.5" y2="137.0" stroke="black" stroke-width="0.1" />
   <circle cx="123.5" cy="134.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="123.0" y1="134.0" x2="124.0" y2="134.0" stroke="black" stroke-width="0.1" />
-  <line x1="123.5" y1="133.5" x2="123.5" y2="134.5" stroke="black" stroke-width="0.1" />
+  <circle cx="123.5" cy="134.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="123.25" y1="134.0" x2="123.0" y2="134.0" stroke="black" stroke-width="0.1" />
+  <line x1="123.75" y1="134.0" x2="124.0" y2="134.0" stroke="black" stroke-width="0.1" />
+  <line x1="123.5" y1="133.75" x2="123.5" y2="133.5" stroke="black" stroke-width="0.1" />
+  <line x1="123.5" y1="134.25" x2="123.5" y2="134.5" stroke="black" stroke-width="0.1" />
   <line x1="120.5" y1="134.0" x2="121.5" y2="134.0" stroke="black" stroke-width="0.1" />
   <line x1="125.5" y1="134.0" x2="126.5" y2="134.0" stroke="black" stroke-width="0.1" />
   <line x1="123.5" y1="131.0" x2="123.5" y2="132.0" stroke="black" stroke-width="0.1" />
   <line x1="123.5" y1="136.0" x2="123.5" y2="137.0" stroke="black" stroke-width="0.1" />
   <circle cx="161.5" cy="172.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="161.0" y1="172.0" x2="162.0" y2="172.0" stroke="black" stroke-width="0.1" />
-  <line x1="161.5" y1="171.5" x2="161.5" y2="172.5" stroke="black" stroke-width="0.1" />
+  <circle cx="161.5" cy="172.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="161.25" y1="172.0" x2="161.0" y2="172.0" stroke="black" stroke-width="0.1" />
+  <line x1="161.75" y1="172.0" x2="162.0" y2="172.0" stroke="black" stroke-width="0.1" />
+  <line x1="161.5" y1="171.75" x2="161.5" y2="171.5" stroke="black" stroke-width="0.1" />
+  <line x1="161.5" y1="172.25" x2="161.5" y2="172.5" stroke="black" stroke-width="0.1" />
   <line x1="158.5" y1="172.0" x2="159.5" y2="172.0" stroke="black" stroke-width="0.1" />
   <line x1="163.5" y1="172.0" x2="164.5" y2="172.0" stroke="black" stroke-width="0.1" />
   <line x1="161.5" y1="169.0" x2="161.5" y2="170.0" stroke="black" stroke-width="0.1" />
   <line x1="161.5" y1="174.0" x2="161.5" y2="175.0" stroke="black" stroke-width="0.1" />
   <circle cx="123.5" cy="172.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="123.0" y1="172.0" x2="124.0" y2="172.0" stroke="black" stroke-width="0.1" />
-  <line x1="123.5" y1="171.5" x2="123.5" y2="172.5" stroke="black" stroke-width="0.1" />
+  <circle cx="123.5" cy="172.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="123.25" y1="172.0" x2="123.0" y2="172.0" stroke="black" stroke-width="0.1" />
+  <line x1="123.75" y1="172.0" x2="124.0" y2="172.0" stroke="black" stroke-width="0.1" />
+  <line x1="123.5" y1="171.75" x2="123.5" y2="171.5" stroke="black" stroke-width="0.1" />
+  <line x1="123.5" y1="172.25" x2="123.5" y2="172.5" stroke="black" stroke-width="0.1" />
   <line x1="120.5" y1="172.0" x2="121.5" y2="172.0" stroke="black" stroke-width="0.1" />
   <line x1="125.5" y1="172.0" x2="126.5" y2="172.0" stroke="black" stroke-width="0.1" />
   <line x1="123.5" y1="169.0" x2="123.5" y2="170.0" stroke="black" stroke-width="0.1" />
   <line x1="123.5" y1="174.0" x2="123.5" y2="175.0" stroke="black" stroke-width="0.1" />
   <circle cx="161.5" cy="210.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="161.0" y1="210.0" x2="162.0" y2="210.0" stroke="black" stroke-width="0.1" />
-  <line x1="161.5" y1="209.5" x2="161.5" y2="210.5" stroke="black" stroke-width="0.1" />
+  <circle cx="161.5" cy="210.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="161.25" y1="210.0" x2="161.0" y2="210.0" stroke="black" stroke-width="0.1" />
+  <line x1="161.75" y1="210.0" x2="162.0" y2="210.0" stroke="black" stroke-width="0.1" />
+  <line x1="161.5" y1="209.75" x2="161.5" y2="209.5" stroke="black" stroke-width="0.1" />
+  <line x1="161.5" y1="210.25" x2="161.5" y2="210.5" stroke="black" stroke-width="0.1" />
   <line x1="158.5" y1="210.0" x2="159.5" y2="210.0" stroke="black" stroke-width="0.1" />
   <line x1="163.5" y1="210.0" x2="164.5" y2="210.0" stroke="black" stroke-width="0.1" />
   <line x1="161.5" y1="207.0" x2="161.5" y2="208.0" stroke="black" stroke-width="0.1" />
   <line x1="161.5" y1="212.0" x2="161.5" y2="213.0" stroke="black" stroke-width="0.1" />
   <circle cx="123.5" cy="210.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="123.0" y1="210.0" x2="124.0" y2="210.0" stroke="black" stroke-width="0.1" />
-  <line x1="123.5" y1="209.5" x2="123.5" y2="210.5" stroke="black" stroke-width="0.1" />
+  <circle cx="123.5" cy="210.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="123.25" y1="210.0" x2="123.0" y2="210.0" stroke="black" stroke-width="0.1" />
+  <line x1="123.75" y1="210.0" x2="124.0" y2="210.0" stroke="black" stroke-width="0.1" />
+  <line x1="123.5" y1="209.75" x2="123.5" y2="209.5" stroke="black" stroke-width="0.1" />
+  <line x1="123.5" y1="210.25" x2="123.5" y2="210.5" stroke="black" stroke-width="0.1" />
   <line x1="120.5" y1="210.0" x2="121.5" y2="210.0" stroke="black" stroke-width="0.1" />
   <line x1="125.5" y1="210.0" x2="126.5" y2="210.0" stroke="black" stroke-width="0.1" />
   <line x1="123.5" y1="207.0" x2="123.5" y2="208.0" stroke="black" stroke-width="0.1" />
   <line x1="123.5" y1="212.0" x2="123.5" y2="213.0" stroke="black" stroke-width="0.1" />
   <circle cx="161.5" cy="210.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="161.0" y1="210.0" x2="162.0" y2="210.0" stroke="black" stroke-width="0.1" />
-  <line x1="161.5" y1="209.5" x2="161.5" y2="210.5" stroke="black" stroke-width="0.1" />
+  <circle cx="161.5" cy="210.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="161.25" y1="210.0" x2="161.0" y2="210.0" stroke="black" stroke-width="0.1" />
+  <line x1="161.75" y1="210.0" x2="162.0" y2="210.0" stroke="black" stroke-width="0.1" />
+  <line x1="161.5" y1="209.75" x2="161.5" y2="209.5" stroke="black" stroke-width="0.1" />
+  <line x1="161.5" y1="210.25" x2="161.5" y2="210.5" stroke="black" stroke-width="0.1" />
   <line x1="158.5" y1="210.0" x2="159.5" y2="210.0" stroke="black" stroke-width="0.1" />
   <line x1="163.5" y1="210.0" x2="164.5" y2="210.0" stroke="black" stroke-width="0.1" />
   <line x1="161.5" y1="207.0" x2="161.5" y2="208.0" stroke="black" stroke-width="0.1" />
   <line x1="161.5" y1="212.0" x2="161.5" y2="213.0" stroke="black" stroke-width="0.1" />
   <circle cx="123.5" cy="210.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="123.0" y1="210.0" x2="124.0" y2="210.0" stroke="black" stroke-width="0.1" />
-  <line x1="123.5" y1="209.5" x2="123.5" y2="210.5" stroke="black" stroke-width="0.1" />
+  <circle cx="123.5" cy="210.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="123.25" y1="210.0" x2="123.0" y2="210.0" stroke="black" stroke-width="0.1" />
+  <line x1="123.75" y1="210.0" x2="124.0" y2="210.0" stroke="black" stroke-width="0.1" />
+  <line x1="123.5" y1="209.75" x2="123.5" y2="209.5" stroke="black" stroke-width="0.1" />
+  <line x1="123.5" y1="210.25" x2="123.5" y2="210.5" stroke="black" stroke-width="0.1" />
   <line x1="120.5" y1="210.0" x2="121.5" y2="210.0" stroke="black" stroke-width="0.1" />
   <line x1="125.5" y1="210.0" x2="126.5" y2="210.0" stroke="black" stroke-width="0.1" />
   <line x1="123.5" y1="207.0" x2="123.5" y2="208.0" stroke="black" stroke-width="0.1" />
   <line x1="123.5" y1="212.0" x2="123.5" y2="213.0" stroke="black" stroke-width="0.1" />
   <circle cx="142.5" cy="210.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="142.0" y1="210.0" x2="143.0" y2="210.0" stroke="black" stroke-width="0.1" />
-  <line x1="142.5" y1="209.5" x2="142.5" y2="210.5" stroke="black" stroke-width="0.1" />
+  <circle cx="142.5" cy="210.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="142.25" y1="210.0" x2="142.0" y2="210.0" stroke="black" stroke-width="0.1" />
+  <line x1="142.75" y1="210.0" x2="143.0" y2="210.0" stroke="black" stroke-width="0.1" />
+  <line x1="142.5" y1="209.75" x2="142.5" y2="209.5" stroke="black" stroke-width="0.1" />
+  <line x1="142.5" y1="210.25" x2="142.5" y2="210.5" stroke="black" stroke-width="0.1" />
   <line x1="139.5" y1="210.0" x2="140.5" y2="210.0" stroke="black" stroke-width="0.1" />
   <line x1="144.5" y1="210.0" x2="145.5" y2="210.0" stroke="black" stroke-width="0.1" />
   <line x1="142.5" y1="207.0" x2="142.5" y2="208.0" stroke="black" stroke-width="0.1" />
   <line x1="142.5" y1="212.0" x2="142.5" y2="213.0" stroke="black" stroke-width="0.1" />
   <circle cx="47.5" cy="103.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="47.0" y1="103.0" x2="48.0" y2="103.0" stroke="black" stroke-width="0.1" />
-  <line x1="47.5" y1="102.5" x2="47.5" y2="103.5" stroke="black" stroke-width="0.1" />
+  <circle cx="47.5" cy="103.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="47.25" y1="103.0" x2="47.0" y2="103.0" stroke="black" stroke-width="0.1" />
+  <line x1="47.75" y1="103.0" x2="48.0" y2="103.0" stroke="black" stroke-width="0.1" />
+  <line x1="47.5" y1="102.75" x2="47.5" y2="102.5" stroke="black" stroke-width="0.1" />
+  <line x1="47.5" y1="103.25" x2="47.5" y2="103.5" stroke="black" stroke-width="0.1" />
   <line x1="44.5" y1="103.0" x2="45.5" y2="103.0" stroke="black" stroke-width="0.1" />
   <line x1="49.5" y1="103.0" x2="50.5" y2="103.0" stroke="black" stroke-width="0.1" />
   <line x1="47.5" y1="100.0" x2="47.5" y2="101.0" stroke="black" stroke-width="0.1" />
   <line x1="47.5" y1="105.0" x2="47.5" y2="106.0" stroke="black" stroke-width="0.1" />
   <circle cx="47.5" cy="141.0" r="2.5" fill="none" stroke="black" stroke-width="0.1" />
-  <line x1="47.0" y1="141.0" x2="48.0" y2="141.0" stroke="black" stroke-width="0.1" />
-  <line x1="47.5" y1="140.5" x2="47.5" y2="141.5" stroke="black" stroke-width="0.1" />
+  <circle cx="47.5" cy="141.0" r="0.25" fill="none" stroke="black" stroke-width="0.1" />
+  <line x1="47.25" y1="141.0" x2="47.0" y2="141.0" stroke="black" stroke-width="0.1" />
+  <line x1="47.75" y1="141.0" x2="48.0" y2="141.0" stroke="black" stroke-width="0.1" />
+  <line x1="47.5" y1="140.75" x2="47.5" y2="140.5" stroke="black" stroke-width="0.1" />
+  <line x1="47.5" y1="141.25" x2="47.5" y2="141.5" stroke="black" stroke-width="0.1" />
   <line x1="44.5" y1="141.0" x2="45.5" y2="141.0" stroke="black" stroke-width="0.1" />
   <line x1="49.5" y1="141.0" x2="50.5" y2="141.0" stroke="black" stroke-width="0.1" />
   <line x1="47.5" y1="138.0" x2="47.5" y2="139.0" stroke="black" stroke-width="0.1" />

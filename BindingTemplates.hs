@@ -201,8 +201,11 @@ target :: Point -> Drawing
 target (x, y) =
   mconcat
     [ circle (x, y) 2.5,
-      line (x - 0.5, y) (x + 0.5, y),
-      line (x, y - 0.5) (x, y + 0.5),
+      circle (x, y) 0.25,
+      line (x - 0.25, y) (x - 0.5, y),
+      line (x + 0.25, y) (x + 0.5, y),
+      line (x, y - 0.25) (x, y - 0.5),
+      line (x, y + 0.25) (x, y + 0.5),
       line (x - 3, y) (x - 2, y),
       line (x + 2, y) (x + 3, y),
       line (x, y - 3) (x, y - 2),
@@ -494,5 +497,5 @@ holeDistance a b = case (a, b) of
 -- | Checks if a binding remount will have enough clearance.
 checkRemount :: IO ()
 checkRemount = do
-  putStrLn $ "Minimum hold distance: " <> show (minimumHoleSpacing $ r22 <> tyroliaSuperLiteRailXl)
-  writeTemplate "r22-to-slr.svg" "R22 to SLR" $ r22 <> tyroliaSuperLiteRailXl
+  putStrLn $ "Minimum hold distance: " <> show (minimumHoleSpacing $ tyroliaPowerRail <> striveDemo)
+  writeTemplate "pr-to-strive-demo.svg" "PR to Strive Demo" $ tyroliaPowerRail <> striveDemo
