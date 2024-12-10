@@ -390,6 +390,20 @@ xcomp = placeToeHeel (Template [Pair 36 (-12), Center (-12 - 55)]) xcompHeel
 xcell :: Bsl -> Template
 xcell = placeToeHeel royalToe xcompHeel
 
+-- | Marker Piston Plate.
+pistonPlate :: Template
+pistonPlate =
+  Template
+    [ Pair 36 $ origin + 65,
+      Pair 36 $ origin + 46,
+      Pair 36 origin,
+      Pair 34.5 $ origin - 244 + 101,
+      Pair 42 $ origin - 244,
+      Pair 42 $ origin - 244 - 51
+    ]
+  where
+    origin = 136
+
 -- | Head Tyrolia.
 tyrolia :: Bsl -> Template
 tyrolia =
@@ -467,6 +481,7 @@ allTemplates = do
 
   -- Alpine plate and demo bindings.
   writeTemplate "look-r22.svg" "Look R22 Plate" r22
+  writeTemplate "marker-piston-plate.svg" "Marker Piston Plate" pistonPlate
   writeTemplate "salomon-strive-demo.svg" "Salomon Strive Demo" striveDemo
   writeTemplate "tyrolia-power-rail.svg" "Tyrolia PowerRail (PR)" tyroliaPowerRail
   writeTemplate "tyrolia-super-lite-rail-xm.svg" "Tyrolia SuperLiteRail XM (SLR)" tyroliaSuperLiteRailXm
