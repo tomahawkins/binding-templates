@@ -399,10 +399,11 @@ pistonPlate =
       Pair 36 origin,
       Pair 34.5 $ origin - 244 + 101,
       Pair 42 $ origin - 244,
-      Pair 42 $ origin - 244 - 51
+      Pair 42 $ origin - 244 - 51,
+      Center $ origin - 244 - 51 - 46
     ]
   where
-    origin = 136
+    origin = 118
 
 -- | Head Tyrolia.
 tyrolia :: Bsl -> Template
