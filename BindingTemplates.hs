@@ -384,16 +384,13 @@ xcell = placeToeHeel royalToe xcompHeel
 pistonPlate :: Template
 pistonPlate =
   Template
-    [ Pair 36 $ origin + 65,
-      Pair 36 $ origin + 46,
-      Pair 36 origin,
-      Pair 34.5 $ origin - 244 + 101,
-      Pair 42 $ origin - 244,
-      Pair 42 $ origin - 244 - 51,
-      Center $ origin - 244 - 51 - 46
+    [ Pair 36 $ 122 + 66,
+      Pair 36 $ 122 + 46,
+      Pair 36 $ 122,
+      Pair 42 $ -122,
+      Pair 42 $ -122 - 20,
+      Pair 42 $ -122 - 51
     ]
-  where
-    origin = 118
 
 -- | Head Tyrolia.
 tyrolia :: Bsl -> Template
@@ -502,5 +499,5 @@ holeDistance a b = case (a, b) of
 -- | Checks if a binding remount will have enough clearance.
 checkRemount :: IO ()
 checkRemount = do
-  putStrLn $ "Minimum hold distance: " <> show (minimumHoleSpacing $ tyroliaPowerRail <> striveDemo)
-  writeTemplate "pr-to-strive-demo.svg" "PR to Strive Demo" $ tyroliaPowerRail <> striveDemo
+  putStrLn $ "Minimum hold distance: " <> show (minimumHoleSpacing $ tyroliaPowerRail <> tyroliaSuperLiteRailXl)
+  writeTemplate "pr-to-slr.svg" "PR to SLR XL" $ tyroliaPowerRail <> tyroliaSuperLiteRailXl
