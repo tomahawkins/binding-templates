@@ -499,5 +499,4 @@ holeDistance a b = case (a, b) of
 -- | Checks if a binding remount will have enough clearance.
 checkRemount :: IO ()
 checkRemount = do
-  putStrLn $ "Minimum hold distance: " <> show (minimumHoleSpacing $ tyroliaPowerRail <> tyroliaSuperLiteRailXl)
-  writeTemplate "pr-to-slr.svg" "PR to SLR XL" $ tyroliaPowerRail <> tyroliaSuperLiteRailXl
+  putStrLn $ "Minimum hole distance: " <> show (minimumHoleSpacing $ tyroliaPowerRail <> pistonPlate)
