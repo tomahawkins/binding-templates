@@ -1,0 +1,10 @@
+name = "lean-src"
+version = "0.1.0"
+defaultTargets = ["lean-src"]
+
+[[lean_lib]]
+name = "LeanSrc"
+
+[[lean_exe]]
+name = "lean-src"
+root = "Main"
