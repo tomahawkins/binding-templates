@@ -1,0 +1,10 @@
+name = "BindingTemplates"
+version = "0.1.0"
+defaultTargets = ["bindingtemplates"]
+
+[[lean_lib]]
+name = "BindingTemplates"
+
+[[lean_exe]]
+name = "bindingtemplates"
+root = "Main"
