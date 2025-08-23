@@ -20,6 +20,7 @@ def writePlateTemplate : (String × String × String × Template) → IO Unit
 def plateTemplates : List (String × String × String × Template) :=
   [ ("Look",    "R22",             "R22",                    Look.r22),
     ("Marker",  "PistonPlate",     "Piston Plate",           Marker.pistonPlate),
+    ("Marker",  "System",          "System: TPX, Comp 12, Xcell 14, etc.", Marker.system),
     ("Salomon", "StriveDemo",      "Strive Demo",            Salomon.striveDemo),
     ("Tyrolia", "PowerRail",       "PowerRail (PR)",         Tyrolia.powerRail),
     ("Tyrolia", "SuperLiteRailXM", "SuperLiteRail XM (SLR)", Tyrolia.superLiteRailXm),

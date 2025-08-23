@@ -192,6 +192,13 @@ namespace Marker
       pair 42 (-122 - 20) ++
       pair 42 (-122 - 51)
 
+  def system : Template :=
+    let pair' p := pair 36 p
+    pair' (75 + 110) ++
+    pair' 110 ++
+    pair' (-140) ++
+    pair' (-140 - 80)
+
 end Marker
 
 namespace Bishop
