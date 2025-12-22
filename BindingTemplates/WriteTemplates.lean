@@ -23,6 +23,7 @@ def plateTemplates : List (String × String × String × Template) :=
     ("Marker",  "System",          "System: TPX, Comp 12, Xcell 14, etc.", Marker.system),
     ("Salomon", "StriveDemo",      "Strive Demo",            Salomon.striveDemo),
     ("Tyrolia", "PowerRail",       "PowerRail (PR)",         Tyrolia.powerRail),
+    ("Tyrolia", "SuperLiteRailXS", "SuperLiteRail XS (SLR)", Tyrolia.superLiteRailXs),
     ("Tyrolia", "SuperLiteRailXM", "SuperLiteRail XM (SLR)", Tyrolia.superLiteRailXm),
     ("Tyrolia", "SuperLiteRailXL", "SuperLiteRail XL (SLR)", Tyrolia.superLiteRailXl),
     ("Tyrolia", "AttackDemo",      "Attack Demo",            Tyrolia.attackDemo)

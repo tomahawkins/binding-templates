@@ -100,11 +100,17 @@ namespace Tyrolia
   def powerRail : Template :=
     concatTemplates (pair 30 <$> [100, 200, -100, -200])
 
+  def superLiteRail (front : Float) (back : Float) : Template :=
+    concatTemplates (pair 25 <$> [front, front + 85, -back, -back - 85])
+
+  def superLiteRailXs : Template :=
+    superLiteRail 82 102
+
   def superLiteRailXm : Template :=
-    concatTemplates (pair 25 <$> [90, 190, -110, -210])
+    superLiteRail 100 120
 
   def superLiteRailXl : Template :=
-    concatTemplates (pair 25 <$> [115, 200, -125, -210])
+    superLiteRail 110 130
 
   def attackDemo : Template :=
     pair 34 190 ++
