@@ -18,7 +18,8 @@ def writePlateTemplate : (String × String × String × Template) → IO Unit
     IO.FS.writeFile file (svg (company ++ " " ++ description) t)
 
 def plateTemplates : List (String × String × String × Template) :=
-  [ ("Look",    "R22",             "R22",                    Look.r22),
+  [ ("Atomic",  "Icon",            "Icon",                   Atomic.icon),
+    ("Look",    "R22",             "R22",                    Look.r22),
     ("Marker",  "PistonPlate",     "Piston Plate",           Marker.pistonPlate),
     ("Marker",  "System",          "System: TPX, Comp 12, Xcell 14, etc.", Marker.system),
     ("Salomon", "StriveDemo",      "Strive Demo",            Salomon.striveDemo),

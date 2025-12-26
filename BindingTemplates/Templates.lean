@@ -36,6 +36,16 @@ def concatTemplates : (t : List Template) → Template
 
 -- Templates.
 
+namespace Atomic
+
+  def icon : Template :=
+    pair 35 100 ++
+    pair 35 (100 + 76) ++
+    pair 42 (-118) ++
+    pair 42 (-118 - 60)
+
+end Atomic
+
 namespace Look
 
   def toe : Template :=
