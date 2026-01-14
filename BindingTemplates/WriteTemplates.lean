@@ -10,6 +10,7 @@ def createDir (d : System.FilePath) : IO Unit := do
 
 def writePlateTemplate : (String × String × String × Template) → IO Unit
   | (company, product, description, t) => do
+    IO.println ("    Writing " ++ company ++ " " ++ product ++ ".")
     let d1 := "generated-templates"
     let d2 := d1 ++ "/" ++ company
     let file := d2 ++ "/" ++ product ++ ".svg"
@@ -18,10 +19,10 @@ def writePlateTemplate : (String × String × String × Template) → IO Unit
     IO.FS.writeFile file (svg (company ++ " " ++ description) t)
 
 def plateTemplates : List (String × String × String × Template) :=
-  [ ("Atomic",  "Icon",            "Icon",                   Atomic.icon),
-    ("Look",    "R22",             "R22",                    Look.r22),
+  [ ("Atomic",  "Icon",            "Icon Plate",             Atomic.icon),
+    ("Look",    "R22",             "R22 Plate",              Look.r22),
     ("Marker",  "PistonPlate",     "Piston Plate",           Marker.pistonPlate),
-    ("Marker",  "System",          "System: TPX, Comp 12, Xcell 14, etc.", Marker.system),
+    ("Marker",  "FdtPlate",        "FDT Plate",              Marker.fdt),
     ("Salomon", "StriveDemo",      "Strive Demo",            Salomon.striveDemo),
     ("Tyrolia", "PowerRail",       "PowerRail (PR)",         Tyrolia.powerRail),
     ("Tyrolia", "SuperLiteRailXS", "SuperLiteRail XS (SLR)", Tyrolia.superLiteRailXs),
@@ -67,9 +68,11 @@ def bslRange : List Nat :=
 
 def writeBslTemplates : (String × String × String × BslTemplate) → IO Unit
   | (company, product, description, t) => do
+    IO.println ("    Writing " ++ company ++ " " ++ product ++ ".")
     let _ ← List.mapM (writeBslTemplate (company, product, description, t)) bslRange
 
 def writeTemplates : IO Unit := do
-  IO.println "Writing templates..."
+  IO.println "Writing plate templates..."
   let _ ← List.mapM writePlateTemplate plateTemplates
+  IO.println "Writing bsl templates..."
   let _ ← List.mapM writeBslTemplates bslTemplates

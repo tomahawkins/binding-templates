@@ -1,22 +1,25 @@
 -- A template is a tree of holes.
 inductive Template where
-  | hole : Float -> Float -> Template
+  -- A hole at the center of the ski.
+  | center : Float -> Template
+  -- A pair of holes symmetric about the center of the ski.
+  | pair : Float -> Float -> Template
+  -- Two templates combined.
   | holes : Template -> Template -> Template
 
 instance : Append Template where
   append := Template.holes
 
--- Create a hole on the center line.
 def center (y : Float) : Template :=
-  Template.hole 0 y
+  Template.center y
 
--- Create a pair of holes.
 def pair (width y : Float) : Template :=
-  Template.holes (Template.hole (-width / 2) y) (Template.hole (width / 2) y)
+  Template.pair width y
 
 -- Shift a template vertically by a given distance.
 def shift (dy : Float) : Template → Template
-  | Template.hole x y =>  Template.hole x (y + dy)
+  | Template.center y =>  Template.center (y + dy)
+  | Template.pair w y => Template.pair w (y + dy)
   | Template.holes t1 t2 => Template.holes (shift dy t1) (shift dy t2)
 
 -- Place toe and heel pieces into one template based on Bsl.
@@ -31,7 +34,6 @@ def concatTemplates : (t : List Template) → Template
   | [] => center 0 -- Error case, should not happen.
   | a :: [] => a
   | a :: rest => a ++ concatTemplates rest
-
 
 
 -- Templates.
@@ -208,7 +210,7 @@ namespace Marker
       pair 42 (-122 - 20) ++
       pair 42 (-122 - 51)
 
-  def system : Template :=
+  def fdt : Template :=
     let pair' p := pair 36 p
     pair' (75 + 110) ++
     pair' 110 ++
