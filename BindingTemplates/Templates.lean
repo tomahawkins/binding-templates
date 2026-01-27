@@ -1,39 +1,42 @@
--- A template is a tree of holes.
-inductive Template where
-  -- A hole at the center of the ski.
-  | center : Float -> Template
-  -- A pair of holes symmetric about the center of the ski.
-  | pair : Float -> Float -> Template
-  -- Two templates combined.
-  | holes : Template -> Template -> Template
+inductive Holes where
+  | center : Float → Holes        -- Y position.
+  | pair : Float → Float → Holes  -- Width, Y position.
+  | triple : Float → Float → Holes
 
-instance : Append Template where
-  append := Template.holes
+def center := Holes.center
+def pair := Holes.pair
+def triple := Holes.triple
 
-def center (y : Float) : Template :=
-  Template.center y
+def shiftHoles (offset : Float) (h : Holes) : Holes :=
+  match h with
+  | Holes.center y => center (y + offset)
+  | Holes.pair w y => pair w (y + offset)
+  | Holes.triple w y => triple w (y + offset)
 
-def pair (width y : Float) : Template :=
-  Template.pair width y
+def holeInFront : Holes → Bool
+  | Holes.center y => y >= 0
+  | Holes.pair _w y => y >= 0
+  | Holes.triple _w y => y >= 0
 
--- Shift a template vertically by a given distance.
-def shift (dy : Float) : Template → Template
-  | Template.center y =>  Template.center (y + dy)
-  | Template.pair w y => Template.pair w (y + dy)
-  | Template.holes t1 t2 => Template.holes (shift dy t1) (shift dy t2)
+-- Split holes from front (positive) and back (negative) of mount line.
+def partitionHoles (h : List Holes) : List Holes × List Holes :=
+  List.partition holeInFront h
 
--- Place toe and heel pieces into one template based on Bsl.
-def placeToeHeel (toe heel : Template) (bsl : Float) : Template :=
-  shift (bsl / 2) toe ++ shift (-bsl / 2) heel
+-- A template is either for a plate or system binding or for a regular separate toe-heal binding pair.
+inductive TemplateType where
+  | plate : List Holes → TemplateType  -- Holes are specified relative to mount line.
+  | regular : List Holes → List Holes → TemplateType  -- Toe holes and heel holes are specified relative to edge of boot.
+  | custom : (Float → List Holes) → TemplateType
 
--- A template parameterized for BSL.
-def BslTemplate := Float → Template
+def plate := TemplateType.plate
+def regular := TemplateType.regular
+def custom := TemplateType.custom
 
--- Concats a list of Templates into one.
-def concatTemplates : (t : List Template) → Template
-  | [] => center 0 -- Error case, should not happen.
-  | a :: [] => a
-  | a :: rest => a ++ concatTemplates rest
+structure Template where
+  company : String
+  file : String
+  description : String
+  template : TemplateType
 
 
 -- Templates.
@@ -41,32 +44,60 @@ def concatTemplates : (t : List Template) → Template
 namespace Atomic
 
   def icon : Template :=
-    pair 35 100 ++
-    pair 35 (100 + 76) ++
-    pair 42 (-118) ++
-    pair 42 (-118 - 60)
+    { company := "Atomic",
+      file := "Icon",
+      description := "Icon Plate",
+      template := plate
+        [ pair 35 100,
+          pair 35 (100 + 76),
+          pair 42 (-118),
+          pair 42 (-118 - 60)
+        ]
+    }
+
+  def templates : List Template := [icon]
 
 end Atomic
 
 namespace Look
 
-  def toe : Template :=
-     pair 35 (-16.5) ++ pair 42 (-16.5 + 41.5)
+  def toe : List Holes :=
+    [pair 35 (-16.5), pair 42 (-16.5 + 41.5)]
 
-  def pivot : BslTemplate :=
-    placeToeHeel toe (pair 21 82 ++ pair 29 (82 - 32))
+  def pivot : Template :=
+    { company := "Look",
+      file := "Pivot",
+      description := "Pivot",
+      template := regular toe [pair 21 82, pair 29 (82 - 32)]
+    }
 
-  def spx : BslTemplate :=
-    placeToeHeel toe (pair 42 26 ++ pair 42 (26 - 105))
+  def spx : Template :=
+    { company := "Look",
+      file := "SPX",
+      description := "SPX",
+      template := regular toe [pair 42 26, pair 42 (26 - 105)]
+    }
 
-  def rockerace : BslTemplate :=
-    placeToeHeel toe (pair 42 59 ++ pair 42 (59 - 39))
+  def rockerace : Template :=
+    { company := "Look",
+      file := "Rockerace",
+      description := "Rockerace",
+      template := regular toe [pair 42 59, pair 42 (59 - 39)]
+    }
 
   def r22 : Template :=
-    pair 12 164 ++
-    pair 35 99 ++
-    pair 35 (-52) ++
-    pair 35 (-171)
+    { company := "Look",
+      file := "R22",
+      description := "R22 Plate",
+      template := plate
+        [ pair 12 164,
+          pair 35 99,
+          pair 35 (-52),
+          pair 35 (-171)
+        ]
+    }
+
+  def templates : List Template := [pivot, spx, rockerace, r22]
 
 end Look
 
@@ -74,35 +105,60 @@ end Look
 namespace Salomon
 
   def striveDemo : Template :=
-    let toeLength := 75
-    let heelLength := 80.5
-    let toeBase := 136
-    let heelBase := 144
-    let pair' p := pair 29.5 p
-    pair' toeBase ++
-    pair' (toeBase + toeLength) ++
-    pair' (-heelBase) ++
-    pair' (-heelBase - heelLength)
+    { company := "Salomon",
+      file := "StriveDemo",
+      description := "Strive Demo",
+      template :=
+        let toeLength := 75
+        let heelLength := 80.5
+        let toeBase := 136
+        let heelBase := 144
+        let pair' p := pair 29.5 p
+        plate
+          [ pair' toeBase,
+            pair' (toeBase + toeLength),
+            pair' (-heelBase),
+            pair' (-heelBase - heelLength)
+          ]
+    }
 
-  def shift : BslTemplate :=
-    placeToeHeel
-      (center (-20 + 65) ++ pair 30 (-20 - 70))
-      (pair 36 15 ++ pair 36 (15 - 68))
+  def shift : Template :=
+    { company := "Salomon",
+      file := "Shift",
+      description := "Shift",
+      template := regular
+        [center (-20 + 65), pair 30 (-20 - 70)]
+        [pair 36 15, pair 36 (15 - 68)]
+    }
 
-  def sth2Heel : Template :=
-    pair 32 28 ++ pair 32 (28 - 75)
+  def sth2Heel : List Holes :=
+    [pair 32 28, pair 32 (28 - 75)]
 
-  def sth2 : BslTemplate :=
-    placeToeHeel (pair 42 (-15 + 30) ++ pair 40 (-15)) sth2Heel
+  def sth2 : Template :=
+    { company := "Salomon",
+      file := "STH2",
+      description := "STH2",
+      template := regular [pair 42 (-15 + 30), pair 40 (-15)] sth2Heel
+    }
 
-  def wardenToe : Template :=
-    pair 40 (-15 + 65) ++ pair 40 (-15)
+  def wardenToe : List Holes :=
+    [pair 40 (-15 + 65), pair 40 (-15)]
 
-  def warden11 : BslTemplate :=
-    placeToeHeel wardenToe (pair 30 28 ++ pair 30 (28 - 80))
+  def warden11 : Template :=
+    { company := "Salomon",
+      file := "Warden-11",
+      description := "Warden 11, Strive 12/14",
+      template := regular wardenToe [pair 30 28, pair 30 (28 - 80)]
+    }
 
-  def warden13 : BslTemplate :=
-    placeToeHeel wardenToe sth2Heel
+  def warden13 : Template :=
+    { company := "Salomon",
+      file := "Warden-13",
+      description := "Warden 13, Strive 16",
+      template := regular wardenToe sth2Heel
+    }
+
+  def templates : List Template := [striveDemo, shift, sth2, warden11, warden13]
 
 end Salomon
 
@@ -110,30 +166,59 @@ end Salomon
 namespace Tyrolia
 
   def powerRail : Template :=
-    concatTemplates (pair 30 <$> [100, 200, -100, -200])
+    { company := "Tyrolia",
+      file := "PowerRail",
+      description := "PowerRail (PR)",
+      template := plate
+        [ pair 30 200,
+          pair 30 100,
+          pair 30 (-100),
+          pair 30 (-200)
+        ]
+      }
 
-  def superLiteRail (front : Float) (back : Float) : Template :=
-    concatTemplates (pair 25 <$> [front, front + 85, -back, -back - 85])
+  def superLiteRail (front : Float) (back : Float) : TemplateType :=
+    plate [pair 25 front, pair 25 (front + 85), pair 25 (-back), pair 25 (-back - 85)]
 
   def superLiteRailXs : Template :=
-    superLiteRail 82 102
+    { company := "Tyrolia",
+      file := "SuperLiteRailXS",
+      description := "SuperLiteRail XS (SLR)",
+      template := superLiteRail 82 102
+    }
 
   def superLiteRailXm : Template :=
-    superLiteRail 100 120
+    { company := "Tyrolia",
+      file := "SuperLiteRailXM",
+      description := "SuperLiteRail XM (SLR)",
+      template := superLiteRail 90 110
+    }
 
   def superLiteRailXl : Template :=
-    superLiteRail 110 130
+    { company := "Tyrolia",
+      file := "SuperLiteRailXL",
+      description := "SuperLiteRail XL (SLR)",
+      template := superLiteRail 110 130
+    }
 
   def attackDemo : Template :=
-    pair 34 190 ++
-    pair 34 90 ++
-    pair 20 (-130) ++
-    pair 43 (-130 - 95)
+    { company := "Tyrolia",
+      file := "AttackDemo",
+      description := "Attack Demo",
+      template := plate
+        [ pair 34 190,
+          pair 34 90,
+          pair 20 (-130),
+          pair 43 (-130 - 95)
+        ]
+    }
 
-  def tyrolia : BslTemplate :=
-    placeToeHeel
-      (pair 40 (-15 + 55) ++ pair 40 (-15))
-      (pair 20 17 ++ pair 43.25 (17 - 95))
+  def tyrolia : Template :=
+    { company := "Tyrolia",
+      file := "Common",
+      description := "Tyrolia Common",
+      template := regular [pair 40 (-15 + 55), pair 40 (-15)] [pair 20 17, pair 43.25 (17 - 95)]
+    }
 
   def freeflexFind (bsl : Float) (diffSofar : Float) (optSofar : Float) (rest : List Float) : Float :=
     match rest with
@@ -144,17 +229,25 @@ namespace Tyrolia
       let diff' := if diff < diffSofar then diff else diffSofar
       freeflexFind bsl diff' opt' opts
 
-  def freeflex (bsl : Float) : Template :=
-    let innerToeHoles := -15
-    let opts := [270, 280, 290, 300, 310, 320, 330, 340, 350, 360]
-    let nearest := freeflexFind bsl 100 100 opts
-    let innerHeelHoles := innerToeHoles + 31.5 - 2.5 - nearest
-    shift (bsl / 2) (
-      pair 40 (innerToeHoles + 55) ++
-      pair 40 innerToeHoles ++
-      pair 20 innerHeelHoles ++
-      pair 43.25 (innerHeelHoles - 95)
-    )
+  def freeflex : Template :=
+    { company := "Tyrolia",
+      file := "FreeFlexST",
+      description := "FreeFlex ST",
+      template := custom (λ bsl =>
+        let innerToeHoles := -15
+        let opts := [270, 280, 290, 300, 310, 320, 330, 340, 350, 360]
+        let nearest := freeflexFind bsl 100 100 opts
+        let innerHeelHoles := innerToeHoles + 31.5 - 2.5 - nearest
+        List.map (shiftHoles (bsl / 2))
+          [ pair 40 (innerToeHoles + 55),
+            pair 40 innerToeHoles,
+            pair 20 innerHeelHoles,
+            pair 43.25 (innerHeelHoles - 95)
+          ])
+    }
+
+    def templates : List Template :=
+      [powerRail, superLiteRailXs, superLiteRailXm, superLiteRailXl, attackDemo, tyrolia, freeflex]
 
 end Tyrolia
 
@@ -183,81 +276,90 @@ rossignolIFP euroSize =
 
 namespace Marker
 
-  def royalToe : Template :=
-    pair 36 (-12 + 31) ++ pair 36 (-12)
+  def royalToe : List Holes :=
+    [pair 36 (-12 + 31), pair 36 (-12)]
 
-  def royal : BslTemplate :=
-    placeToeHeel
-      royalToe
-      (pair 32 25 ++ pair 32 (25 - 80))
+  def royal : Template :=
+    { company := "Marker",
+      file := "Royal",
+      description := "Royal (Jester, Griffon, etc)",
+      template := regular royalToe [pair 32 25, pair 32 (25 - 80)]
+    }
 
-  def xcompHeel : Template :=
-    pair 20 12 ++ pair 40.5 (12 - 80)
+  def xcompHeel : List Holes :=
+    [pair 20 12, pair 40.5 (12 - 80)]
 
-  def xcomp : BslTemplate :=
-    placeToeHeel
-      (pair 36 (-12) ++ center (-12 - 55))
-       xcompHeel
+  def xcomp : Template :=
+    { company := "Marker",
+      file := "XComp",
+      description := "XComp",
+      template := regular
+        [pair 36 (-12), center (-12 - 55)]
+        xcompHeel
+    }
 
-  def xcell : BslTemplate :=
-    placeToeHeel royalToe xcompHeel
+  def xcell : Template :=
+    { company := "Marker",
+      file := "XCell",
+      description := "XCell",
+      template := regular royalToe xcompHeel
+    }
 
   def pistonPlate : Template :=
-      pair 36 (122 + 66) ++
-      pair 36 (122 + 46) ++
-      pair 36 (122) ++
-      pair 42 (-122) ++
-      pair 42 (-122 - 20) ++
-      pair 42 (-122 - 51)
+    { company := "Marker",
+      file := "PistonPlate",
+      description := "Piston Plate",
+      template := plate
+        [ pair 36 (122 + 66),
+          pair 36 (122 + 46) ,
+          pair 36 (122),
+          pair 42 (-122),
+          pair 42 (-122 - 20),
+          pair 42 (-122 - 51)
+        ]
+    }
 
   def fdt : Template :=
-    let pair' p := pair 36 p
-    pair' (75 + 110) ++
-    pair' 110 ++
-    pair' (-140) ++
-    pair' (-140 - 80)
+    { company := "Marker",
+      file := "FdtPlate",
+      description := "FDT Plate",
+      template :=
+        let pair' p := pair 36 p
+        plate
+          [ pair' (75 + 110),
+            pair' 110,
+            pair' (-140),
+            pair' (-140 - 80)
+          ]
+    }
+
+  def templates : List Template := [royal, xcomp, xcell, pistonPlate, fdt]
 
 end Marker
 
 namespace Bishop
 
-  def bmfNtn (bsl : Float) : Template :=
-    shift (bsl / 2) (
-      pair 38 (-25) ++
-      pair 38 (-(25 + 38)) ++
-      pair 38 (-(25 + 38 + 38)) ++
-      pair 38 (-(25 + 38 + 38)) ++
-      center (-(25 + 38 + 38)) ++
-      center (-244) ++
-      center (-(244 + 38))
-    )
+  def bmfNtn : Template :=
+    { company := "Bishop",
+      file := "BMF-NTN",
+      description := "BMF NTN",
+      template := custom (λ bsl => List.map (shiftHoles (bsl / 2))
+        [ pair 38 (-25),
+          pair 38 (-(25 + 38)),
+          triple 38 (-(25 + 38 + 38)),
+          center (-244),
+          center (-(244 + 38))
+        ])
+    }
+
+  def templates : List Template := [bmfNtn]
 
 end Bishop
 
-/-
-  -- Nordic bindings.
-  forM_ [36 .. 50] $ \euroSize -> do
-    createDirectoryIfMissing False "rossignol-ifp"
-    writeFile ("rossignol-ifp/rossignol-ifp-euro-" <> show euroSize <> ".svg") $
-      unpack $
-        svg $
-          template ("Rossignol IFP, Euro Size: " <> showT euroSize) $
-            rossignolIFP euroSize
-
--- | Returns the minimum distance between holes in a template, or multiple templates.
-def minimumHoleSpacing : Template -> Double :=
-minimumHoleSpacing (Template holes) = minimum [holeDistance a b | a <- holes, b <- holes, a /= b]
-
--- | Compute the distance between two sets of holes.  Ignores distance of a pair of holes.
-holeDistance :: Hole -> Hole -> Double
-holeDistance a b = case (a, b) of
-  (Center a', Center b') -> abs $ a' - b'
-  (Pair aW aP, Pair bW bP) -> sqrt $ (aW / 2 - bW / 2) ** 2 + (aP - bP) ** 2
-  (Center aP, Pair bW bP) -> sqrt $ (bW / 2) ** 2 + (aP - bP) ** 2
-  (a'@(Pair _ _), b'@(Center _)) -> holeDistance b' a'
-
--- | Checks if a binding remount will have enough clearance.
-checkRemount :: IO ()
-checkRemount = do
-  putStrLn $ "Minimum hole distance: " <> show (minimumHoleSpacing $ tyroliaPowerRail <> pistonPlate)
--/
+def templates : List Template :=
+  Atomic.templates ++
+  Look.templates ++
+  Salomon.templates ++
+  Tyrolia.templates ++
+  Marker.templates ++
+  Bishop.templates
