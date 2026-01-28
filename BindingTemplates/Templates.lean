@@ -28,10 +28,6 @@ inductive TemplateType where
   | regular : List Holes → List Holes → TemplateType  -- Toe holes and heel holes are specified relative to edge of boot.
   | custom : (Float → List Holes) → TemplateType
 
-def plate := TemplateType.plate
-def regular := TemplateType.regular
-def custom := TemplateType.custom
-
 structure Template where
   company : String
   file : String
@@ -47,7 +43,7 @@ namespace Atomic
     { company := "Atomic",
       file := "Icon",
       description := "Icon Plate",
-      template := plate
+      template := TemplateType.plate
         [ pair 35 100,
           pair 35 (100 + 76),
           pair 42 (-118),
@@ -68,28 +64,28 @@ namespace Look
     { company := "Look",
       file := "Pivot",
       description := "Pivot",
-      template := regular toe [pair 21 82, pair 29 (82 - 32)]
+      template := TemplateType.regular toe [pair 21 82, pair 29 (82 - 32)]
     }
 
   def spx : Template :=
     { company := "Look",
       file := "SPX",
       description := "SPX",
-      template := regular toe [pair 42 26, pair 42 (26 - 105)]
+      template := TemplateType.regular toe [pair 42 26, pair 42 (26 - 105)]
     }
 
   def rockerace : Template :=
     { company := "Look",
       file := "Rockerace",
       description := "Rockerace",
-      template := regular toe [pair 42 59, pair 42 (59 - 39)]
+      template := TemplateType.regular toe [pair 42 59, pair 42 (59 - 39)]
     }
 
   def r22 : Template :=
     { company := "Look",
       file := "R22",
       description := "R22 Plate",
-      template := plate
+      template := TemplateType.plate
         [ pair 12 164,
           pair 35 99,
           pair 35 (-52),
@@ -114,7 +110,7 @@ namespace Salomon
         let toeBase := 136
         let heelBase := 144
         let pair' p := pair 29.5 p
-        plate
+        TemplateType.plate
           [ pair' toeBase,
             pair' (toeBase + toeLength),
             pair' (-heelBase),
@@ -126,7 +122,7 @@ namespace Salomon
     { company := "Salomon",
       file := "Shift",
       description := "Shift",
-      template := regular
+      template := TemplateType.regular
         [center (-20 + 65), pair 30 (-20 - 70)]
         [pair 36 15, pair 36 (15 - 68)]
     }
@@ -138,7 +134,7 @@ namespace Salomon
     { company := "Salomon",
       file := "STH2",
       description := "STH2",
-      template := regular [pair 42 (-15 + 30), pair 40 (-15)] sth2Heel
+      template := TemplateType.regular [pair 42 (-15 + 30), pair 40 (-15)] sth2Heel
     }
 
   def wardenToe : List Holes :=
@@ -148,14 +144,14 @@ namespace Salomon
     { company := "Salomon",
       file := "Warden-11",
       description := "Warden 11, Strive 12/14",
-      template := regular wardenToe [pair 30 28, pair 30 (28 - 80)]
+      template := TemplateType.regular wardenToe [pair 30 28, pair 30 (28 - 80)]
     }
 
   def warden13 : Template :=
     { company := "Salomon",
       file := "Warden-13",
       description := "Warden 13, Strive 16",
-      template := regular wardenToe sth2Heel
+      template := TemplateType.regular wardenToe sth2Heel
     }
 
   def templates : List Template := [striveDemo, shift, sth2, warden11, warden13]
@@ -169,7 +165,7 @@ namespace Tyrolia
     { company := "Tyrolia",
       file := "PowerRail",
       description := "PowerRail (PR)",
-      template := plate
+      template := TemplateType.plate
         [ pair 30 200,
           pair 30 100,
           pair 30 (-100),
@@ -178,7 +174,7 @@ namespace Tyrolia
       }
 
   def superLiteRail (front : Float) (back : Float) : TemplateType :=
-    plate [pair 25 front, pair 25 (front + 85), pair 25 (-back), pair 25 (-back - 85)]
+    TemplateType.plate [pair 25 front, pair 25 (front + 85), pair 25 (-back), pair 25 (-back - 85)]
 
   def superLiteRailXs : Template :=
     { company := "Tyrolia",
@@ -205,7 +201,7 @@ namespace Tyrolia
     { company := "Tyrolia",
       file := "AttackDemo",
       description := "Attack Demo",
-      template := plate
+      template := TemplateType.plate
         [ pair 34 190,
           pair 34 90,
           pair 20 (-130),
@@ -217,7 +213,7 @@ namespace Tyrolia
     { company := "Tyrolia",
       file := "Common",
       description := "Tyrolia Common",
-      template := regular [pair 40 (-15 + 55), pair 40 (-15)] [pair 20 17, pair 43.25 (17 - 95)]
+      template := TemplateType.regular [pair 40 (-15 + 55), pair 40 (-15)] [pair 20 17, pair 43.25 (17 - 95)]
     }
 
   def freeflexFind (bsl : Float) (diffSofar : Float) (optSofar : Float) (rest : List Float) : Float :=
@@ -233,7 +229,7 @@ namespace Tyrolia
     { company := "Tyrolia",
       file := "FreeFlexST",
       description := "FreeFlex ST",
-      template := custom (λ bsl =>
+      template := TemplateType.custom (λ bsl =>
         let innerToeHoles := -15
         let opts := [270, 280, 290, 300, 310, 320, 330, 340, 350, 360]
         let nearest := freeflexFind bsl 100 100 opts
@@ -283,7 +279,7 @@ namespace Marker
     { company := "Marker",
       file := "Royal",
       description := "Royal (Jester, Griffon, etc)",
-      template := regular royalToe [pair 32 25, pair 32 (25 - 80)]
+      template := TemplateType.regular royalToe [pair 32 25, pair 32 (25 - 80)]
     }
 
   def xcompHeel : List Holes :=
@@ -293,7 +289,7 @@ namespace Marker
     { company := "Marker",
       file := "XComp",
       description := "XComp",
-      template := regular
+      template := TemplateType.regular
         [pair 36 (-12), center (-12 - 55)]
         xcompHeel
     }
@@ -302,14 +298,14 @@ namespace Marker
     { company := "Marker",
       file := "XCell",
       description := "XCell",
-      template := regular royalToe xcompHeel
+      template := TemplateType.regular royalToe xcompHeel
     }
 
   def pistonPlate : Template :=
     { company := "Marker",
       file := "PistonPlate",
       description := "Piston Plate",
-      template := plate
+      template := TemplateType.plate
         [ pair 36 (122 + 66),
           pair 36 (122 + 46) ,
           pair 36 (122),
@@ -325,7 +321,7 @@ namespace Marker
       description := "FDT Plate",
       template :=
         let pair' p := pair 36 p
-        plate
+        TemplateType.plate
           [ pair' (75 + 110),
             pair' 110,
             pair' (-140),
@@ -343,7 +339,7 @@ namespace Bishop
     { company := "Bishop",
       file := "BMF-NTN",
       description := "BMF NTN",
-      template := custom (λ bsl => List.map (shiftHoles (bsl / 2))
+      template := TemplateType.custom (λ bsl => List.map (shiftHoles (bsl / 2))
         [ pair 38 (-25),
           pair 38 (-(25 + 38)),
           triple 38 (-(25 + 38 + 38)),
