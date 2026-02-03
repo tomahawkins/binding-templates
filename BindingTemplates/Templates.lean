@@ -187,7 +187,7 @@ namespace Tyrolia
     { company := "Tyrolia",
       file := "SuperLiteRailXM",
       description := "SuperLiteRail XM (SLR)",
-      template := superLiteRail 90 110
+      template := superLiteRail 98 118
     }
 
   def superLiteRailXl : Template :=
