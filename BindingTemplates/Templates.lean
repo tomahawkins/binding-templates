@@ -242,8 +242,22 @@ namespace Tyrolia
           ])
     }
 
+  def rpWcr14 : Template :=
+    { company := "Tyrolia",
+      file := "RpWcr14",
+      description := "RP WCR 14",
+      template := TemplateType.plate
+        [ pair 38.25 (144 + 16),
+          pair 38.25 (144),
+          pair 40 (95),
+          pair 40 (-140 + 40),
+          pair 42.5 (-140),
+          pair 40 (-140 - 56),
+        ]
+    }
+
     def templates : List Template :=
-      [powerRail, superLiteRailXs, superLiteRailXm, superLiteRailXl, attackDemo, tyrolia, freeflex]
+      [powerRail, superLiteRailXs, superLiteRailXm, superLiteRailXl, attackDemo, tyrolia, freeflex, rpWcr14]
 
 end Tyrolia
 
