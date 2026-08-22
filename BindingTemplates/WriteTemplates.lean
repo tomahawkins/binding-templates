@@ -54,10 +54,10 @@ def skiCenterLine : Binding → Drawing
       translate (20, -250) (text 4 "Ski Center Line") ++
       line (0, 0) (0, -300)
 
-def drawTemplateRegularToe (descr : String) (holes : List Holes) (bsl : Option Nat) : Drawing :=
+def drawTemplateRegularToe (desc : String) (holes : List Holes) (bsl : Option Nat) : Drawing :=
   -- Toe binding.
   translate (0, - Page.height / 2 + 10) (
-    translate (-80, 250) (text 8 descr) ++
+    translate (-80, 250) (text 8 desc) ++
     translate (-80, 240) (text 8 "Toe") ++
     (match bsl with
      | none => Drawing.empty
@@ -72,10 +72,15 @@ def drawTemplateRegularToe (descr : String) (holes : List Holes) (bsl : Option N
     | some bsl => translate (0, bsl.toFloat / 2) (bootLine Binding.toe ++ concatMap drawHoles holes)
   )
 
-def drawTemplateRegularHeel (holes : List Holes) (bsl : Option Nat) : Drawing :=
+def drawTemplateRegularHeel (desc : String) (holes : List Holes) (bsl : Option Nat) : Drawing :=
   -- Heel binding.
   translate (0, Page.height / 2 - 10) (
+    translate (-80, -230) (text 8 desc) ++
     translate (-80, -240) (text 8 "Heel") ++
+    (match bsl with
+     | none => Drawing.empty
+     | some n => translate (-80, -250) (text 8 ("BSL: " ++ toString n))
+    ) ++
     mountLine Binding.heel ++
     -- Ski center line.
     skiCenterLine Binding.heel ++
@@ -88,8 +93,8 @@ def drawTemplateRegularHeel (holes : List Holes) (bsl : Option Nat) : Drawing :=
 def coordinatesSvg (d : Drawing) : Drawing :=
   translate (Page.width / 2, Page.height / 2) (scale (1, -1) d)
 
-def writeTemplateRegular (company name descr : String) (toeHoles heelHoles : List Holes) (bsl : Nat) : IO Unit := do
-  IO.println ("  Writing " ++ company ++ " " ++ descr ++ " " ++ toString bsl ++ "...")
+def writeTemplateRegular (company name desc : String) (toeHoles heelHoles : List Holes) (bsl : Nat) : IO Unit := do
+  IO.println ("  Writing " ++ company ++ " " ++ desc ++ " " ++ toString bsl ++ "...")
   let d1 := "generated-templates"
   let d2 := d1 ++ "/" ++ company
   let d3 := d2 ++ "/" ++ name
@@ -98,12 +103,12 @@ def writeTemplateRegular (company name descr : String) (toeHoles heelHoles : Lis
   createDir d2
   createDir d3
   pdf f
-    [ coordinatesSvg (drawTemplateRegularToe  descr toeHoles (Option.some bsl)),
-      coordinatesSvg (drawTemplateRegularHeel heelHoles (Option.some bsl)),
+    [ coordinatesSvg (drawTemplateRegularToe  desc toeHoles (Option.some bsl)),
+      coordinatesSvg (drawTemplateRegularHeel desc heelHoles (Option.some bsl)),
     ]
 
-def writeTemplateCustom (company name descr : String) (holes : Float → List Holes) (bsl : Nat) : IO Unit := do
-  IO.println ("  Writing " ++ company ++ " " ++ descr ++ " " ++ toString bsl ++ "...")
+def writeTemplateCustom (company name desc : String) (holes : Float → List Holes) (bsl : Nat) : IO Unit := do
+  IO.println ("  Writing " ++ company ++ " " ++ desc ++ " " ++ toString bsl ++ "...")
   let d1 := "generated-templates"
   let d2 := d1 ++ "/" ++ company
   let d3 := d2 ++ "/" ++ name
@@ -115,12 +120,12 @@ def writeTemplateCustom (company name descr : String) (holes : Float → List Ho
   let frontHolesShifted := frontHoles.map (shiftHoles (- bsl.toFloat / 2))
   let backHolesShifted := backHoles.map (shiftHoles (bsl.toFloat / 2))
   pdf f
-    [ coordinatesSvg (drawTemplateRegularToe  descr frontHolesShifted (Option.some bsl)),
-      coordinatesSvg (drawTemplateRegularHeel backHolesShifted (Option.some bsl)),
+    [ coordinatesSvg (drawTemplateRegularToe  desc frontHolesShifted (Option.some bsl)),
+      coordinatesSvg (drawTemplateRegularHeel desc backHolesShifted (Option.some bsl)),
     ]
 
-def writeTemplatePlate (company name descr : String) (holes : List Holes) : IO Unit := do
-  IO.println ("  Writing " ++ company ++ " " ++ descr ++ " " ++ "...")
+def writeTemplatePlate (company name desc : String) (holes : List Holes) : IO Unit := do
+  IO.println ("  Writing " ++ company ++ " " ++ desc ++ " " ++ "...")
   let d1 := "generated-templates"
   let d2 := d1 ++ "/" ++ company
   let f := d2 ++ "/" ++ name
@@ -128,8 +133,8 @@ def writeTemplatePlate (company name descr : String) (holes : List Holes) : IO U
   createDir d2
   let (frontHoles, backHoles) := partitionHoles holes
   pdf f
-    [ coordinatesSvg (drawTemplateRegularToe descr frontHoles Option.none),
-      coordinatesSvg (drawTemplateRegularHeel backHoles Option.none)
+    [ coordinatesSvg (drawTemplateRegularToe desc frontHoles Option.none),
+      coordinatesSvg (drawTemplateRegularHeel desc backHoles Option.none)
     ]
 
 def bslRange : List Nat :=
